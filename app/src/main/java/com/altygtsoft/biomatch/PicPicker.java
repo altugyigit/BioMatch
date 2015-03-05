@@ -1,6 +1,8 @@
 package com.altygtsoft.biomatch;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -167,10 +169,55 @@ public class PicPicker extends ActionBarActivity {
                     double compare3 = Imgproc.compareHist(hist1, hist2, Imgproc.CV_COMP_INTERSECT);
                     double compare4 = Imgproc.compareHist(hist1, hist2, Imgproc.CV_COMP_BHATTACHARYYA);
 
-                    Toast.makeText(getApplicationContext(), "Chi-square Normal Değeri 0.000000 \n"+compare, Toast.LENGTH_LONG).show();
-                    Toast.makeText(getApplicationContext(), "Correl Normal Değeri 1.000000 \n"+compare2, Toast.LENGTH_LONG).show();
-                    Toast.makeText(getApplicationContext(), "Intersect Normal Değeri 24.391548 \n"+compare3, Toast.LENGTH_LONG).show();
-                    Toast.makeText(getApplicationContext(), "BHATTACHARYYA Normal Değeri 0.000000 \n"+compare4, Toast.LENGTH_LONG).show();
+                        AlertDialog adialog = new AlertDialog.Builder(PicPicker.this).create();
+                        adialog.setTitle("Chi-square Eşik Değeri 0.000000 FARKLILIK ORANI");
+                        adialog.setMessage("" + compare);
+                        adialog.setButton("Devam", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                            }
+                        });
+                        adialog.show();
+                        AlertDialog adialog2 = new AlertDialog.Builder(PicPicker.this).create();
+                        adialog2.setTitle("Correl Normal Değeri 1.000000 BENZERLİK");
+                        adialog2.setMessage("" + compare2);
+                        adialog2.setButton("Devam", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                            }
+                        });
+                        adialog2.show();
+                        AlertDialog adialog3 = new AlertDialog.Builder(PicPicker.this).create();
+                        adialog3.setTitle("Intersect Normal Değeri 24.391548 BENZERLİK");
+                        adialog3.setMessage("" + compare3);
+                        adialog3.setButton("Devam", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                            }
+                        });
+                        adialog3.show();
+                        AlertDialog adialog4 = new AlertDialog.Builder(PicPicker.this).create();
+                        adialog4.setTitle("BHATTACHARYYA Normal Değeri 0.000000 FARKLILIK");
+                        adialog4.setMessage("" + compare4);
+                        adialog4.setButton("Devam", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                            }
+                        });
+                        adialog4.show();
+
+                    /*Toast.makeText(getApplicationContext(), "Chi-square Normal Değeri 0.000000 FARKLILIK\n\n"+compare, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Correl Normal Değeri 1.000000 BENZERLİK\n\n"+compare2, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Intersect Normal Değeri 24.391548 BENZERLİK\n\n"+compare3, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "BHATTACHARYYA Normal Değeri 0.000000 FARKLILIK\n\n"+compare4, Toast.LENGTH_LONG).show();*/
 
                     if(compare>0 && compare<2000) {
                         Toast.makeText(getApplicationContext(), "Türler Benzer Olabilir, İkinci Aşamaya Geçiliyor...", Toast.LENGTH_LONG).show();
