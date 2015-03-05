@@ -203,6 +203,7 @@ public class TakePic3Activity extends ActionBarActivity {
 
 
         Toast.makeText(getApplicationContext(),"RESİMLER AYNI !",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "ILK COMMIT !", Toast.LENGTH_LONG).show();
 
 
 
