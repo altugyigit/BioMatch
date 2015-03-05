@@ -128,8 +128,8 @@ public class PicPicker extends ActionBarActivity {
                 }
                 else
                 {
-                    Bitmap bmpImg1 = Bitmap.createScaledBitmap(((BitmapDrawable) imgSelected1.getDrawable()).getBitmap(), 200, 200, true);
-                    Bitmap bmpImg2 = Bitmap.createScaledBitmap(((BitmapDrawable)imgSelected2.getDrawable()).getBitmap(),200,200,true);
+                    Bitmap bmpImg1 = Bitmap.createScaledBitmap(((BitmapDrawable) imgSelected1.getDrawable()).getBitmap(), 400, 400, true);
+                    Bitmap bmpImg2 = Bitmap.createScaledBitmap(((BitmapDrawable)imgSelected2.getDrawable()).getBitmap(),400,400,true);
 
                     Mat img1 = new Mat();
                     Utils.bitmapToMat(bmpImg1, img1);
@@ -163,10 +163,16 @@ public class PicPicker extends ActionBarActivity {
                     hist2.convertTo(hist2, CvType.CV_32F);
 
                     double compare = Imgproc.compareHist(hist1, hist2, Imgproc.CV_COMP_CHISQR);
+                    double compare2 = Imgproc.compareHist(hist1, hist2, Imgproc.CV_COMP_CORREL);
+                    double compare3 = Imgproc.compareHist(hist1, hist2, Imgproc.CV_COMP_INTERSECT);
+                    double compare4 = Imgproc.compareHist(hist1, hist2, Imgproc.CV_COMP_BHATTACHARYYA);
 
-                    Toast.makeText(getApplicationContext(), ""+compare, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Chi-square Normal Değeri 0.000000 \n"+compare, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Correl Normal Değeri 1.000000 \n"+compare2, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Intersect Normal Değeri 24.391548 \n"+compare3, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "BHATTACHARYYA Normal Değeri 0.000000 \n"+compare4, Toast.LENGTH_LONG).show();
 
-                    if(compare>0 && compare<1500) {
+                    if(compare>0 && compare<2000) {
                         Toast.makeText(getApplicationContext(), "Türler Benzer Olabilir, İkinci Aşamaya Geçiliyor...", Toast.LENGTH_LONG).show();
                         //new asyncTask(MainActivity.this).execute();
                     }
