@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.altygtsoft.biomatch" >
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+//Resimlerin taglarına GPS bilgisini yazacağız Gerekli !
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.front.autofocus"
+        android:required="false" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".WelcomeActivity"
+            android:label="@string/title_activity_welcome" >
+        </activity>
+        <activity
+            android:name=".PreviousAnalyzeActivity"
+            android:label="@string/title_activity_previous_analyze" >
+        </activity>
+        <activity
+            android:name=".TypesActivity"
+            android:label="@string/title_activity_types" >
+        </activity>
+        <activity
+            android:name=".MapActivty"
+            android:label="@string/title_activity_map_activty" >
+        </activity>
+        <activity
+            android:name=".ImageManipulationsActivity"
+            android:label="@string/title_activity_image_manipulations"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".TakePic1Activity"
+            android:label="@string/title_activity_take_pic1"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".TakePic2Activity"
+            android:label="@string/title_activity_take_pic2" >
+        </activity>
+        <activity
+            android:name=".TakePic3Activity"
+            android:label="@string/title_activity_take_pic3"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".PicPicker"
+            android:label="@string/title_activity_pic_picker" >
+        </activity>
+    </application>
+
+</manifest>

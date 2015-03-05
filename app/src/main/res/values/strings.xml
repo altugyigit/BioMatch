@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BioMatch</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="giris">Sisteme Giriş</string>
+    <string name="kullaniciadi">Kullanıcı Adı:</string>
+    <string name="sifre">Şifre:</string>
+    <string name="btngiris">GİRİŞ</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
+    <string name="hosgeldiniz">Hoşgeldiniz ...</string>
+    <string name="btnAnaliz">Analize Başla</string>
+    <string name="btnOncekiAnaliz">Önceki Analizlerim</string>
+    <string name="btnTurler">Tür İsimleri</string>
+    <string name="btnHarita">Harita</string>
+    <string name="title_activity_previous_analyze">PreviousAnalyzeActivity</string>
+    <string name="twTur1">Tür 1</string>
+    <string name="twTur2">Tür 2</string>
+    <string name="twNot">Not</string>
+    <string name="twOran">Oran(%)</string>
+    <string name="title_activity_types">TypesActivity</string>
+    <string name="twLatince">Latince</string>
+    <string name="twTurkce">Türkçe</string>
+    <string name="twArama">Tür ismi giriniz...</string>
+    <string name="btnAra">Ara</string>
+    <string name="title_activity_map_activty">MapActivty</string>
+    <string name="title_activity_tutorial2">Tutorial2Activity</string>
+    <string name="title_activity_image_manipulations">ImageManipulationsActivity</string>
+    <string name="title_activity_take_pic1">TakePic1Activity</string>
+    <string name="openCamera">Kamerayı Başlat</string>
+    <string name="title_activity_take_pic2">TakePic2Activity</string>
+    <string name="btnAnaliz2">Analiz 2</string>
+    <string name="title_activity_take_pic3">TakePic3Activity</string>
+    <string name="title_activity_pic_picker">PicPicker</string>
+    <string name="select1">1. Fotoğrafı Seç</string>
+    <string name="select2">2. Fotoğrafı Seç</string>
+    <string name="analyze">Analiz</string>
+
+</resources>
