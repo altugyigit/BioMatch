@@ -1,5 +1,7 @@
 package com.altygtsoft.biomatch;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -44,7 +46,7 @@ public class TakePic3Activity extends ActionBarActivity {
     private ParseFile photoFile;
     private ImageButton photoButton;
     private Pictures pictures;
-
+    public PictureCache pictureCache;
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
@@ -152,7 +154,7 @@ public class TakePic3Activity extends ActionBarActivity {
         // Resize photo from camera byte array
         Bitmap mealImage = BitmapFactory.decodeByteArray(data, 0, data.length);
         Bitmap mealImageScaled = Bitmap.createScaledBitmap(mealImage, 1600, 900, false);
-
+        pictureCache = new PictureCache();
         // Override Android default landscape orientation and save portrait
         Matrix matrix = new Matrix();
         matrix.postRotate(90);
@@ -163,7 +165,26 @@ public class TakePic3Activity extends ActionBarActivity {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         rotatedScaledMealImage.compress(Bitmap.CompressFormat.JPEG, 100, bos);
 
-        byte[] scaledData = bos.toByteArray();
+        final byte[] scaledData = bos.toByteArray();
+
+        AlertDialog.Builder aDB = new AlertDialog.Builder(this);
+        aDB.setTitle("Emin misiniz ?");
+        aDB.setMessage("Çektiğiniz resim analizde kullanılacaktır. Devam etmek istiyor musunuz ?");
+        aDB.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+               pictureCache.setByteArray(scaledData);
+            }
+        });
+        aDB.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog alertDialog = aDB.create();
+        alertDialog.show();
+
         /****************************************************************************************************************************************/
         // Save the scaled image to Parse
         photoFile = new ParseFile("photo1.jpg", scaledData);
@@ -203,7 +224,7 @@ public class TakePic3Activity extends ActionBarActivity {
 
 
         Toast.makeText(getApplicationContext(),"RESİMLER AYNI !",Toast.LENGTH_LONG).show();
-        Toast.makeText(getApplicationContext(), "ILK COMMIT !", Toast.LENGTH_LONG).show();
+
 
 
 
