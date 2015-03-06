@@ -1,41 +1,35 @@
 package com.altygtsoft.biomatch;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
-/**
- * Created by Kerem on 6.3.2015.
- */
-public class PictureCache extends TakePic3Activity {
+public class PictureCache extends TakePictureActivity {
 
         private byte[] byteArrayTac;
         private byte[] byteArrayCanak;
         private byte[] byteArrayYaprak;
 
-        public TakePic3Activity takePic3Activity = new TakePic3Activity();
+        public TakePictureActivity takePictureActivity = new TakePictureActivity();
 
 
-    public byte[] getByteArrayTac() {
+        public byte[] getByteArrayTac() {
         return byteArrayTac;
     }
 
-    public void setByteArrayTac(byte[] byteArrayTac) {
+        public void setByteArrayTac(byte[] byteArrayTac) {
         this.byteArrayTac = byteArrayTac;
     }
 
-    public byte[] getByteArrayCanak() {
+        public byte[] getByteArrayCanak() {
         return byteArrayCanak;
     }
 
-    public void setByteArrayCanak(byte[] byteArrayCanak) {
+        public void setByteArrayCanak(byte[] byteArrayCanak) {
         this.byteArrayCanak = byteArrayCanak;
     }
 
-    public byte[] getByteArrayYaprak() {
+        public byte[] getByteArrayYaprak() {
         return byteArrayYaprak;
     }
 
-    public void setByteArrayYaprak(byte[] byteArrayYaprak) {
+        public void setByteArrayYaprak(byte[] byteArrayYaprak) {
         this.byteArrayYaprak = byteArrayYaprak;
     }
 }

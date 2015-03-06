@@ -67,7 +67,7 @@
             android:label="@string/title_activity_take_pic2" >
         </activity>
         <activity
-            android:name=".TakePic3Activity"
+            android:name=".TakePictureActivity"
             android:label="@string/title_activity_take_pic3"
             android:screenOrientation="portrait" >
         </activity>

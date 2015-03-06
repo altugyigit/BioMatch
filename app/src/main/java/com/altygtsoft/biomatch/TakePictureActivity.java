@@ -2,12 +2,10 @@ package com.altygtsoft.biomatch;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.hardware.Camera;
-import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,28 +16,17 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.SaveCallback;
 
 import org.opencv.android.BaseLoaderCallback;
-import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfDouble;
-import org.opencv.core.MatOfFloat;
-import org.opencv.core.MatOfInt;
-import org.opencv.highgui.Highgui;
-import org.opencv.imgproc.Imgproc;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 
 
-public class TakePic3Activity extends ActionBarActivity {
+public class TakePictureActivity extends ActionBarActivity {
 
     private Camera camera;
     private SurfaceView surfaceView;
@@ -47,6 +34,11 @@ public class TakePic3Activity extends ActionBarActivity {
     private ImageButton photoButton;
     private Pictures pictures;
     public PictureCache pictureCache;
+
+    public boolean isTac = true;
+    public boolean isCanak = false;
+    public boolean isYaprak = false;
+
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
@@ -65,13 +57,12 @@ public class TakePic3Activity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        pictures = new Pictures();
         super.onCreate(savedInstanceState);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setContentView(R.layout.activity_take_pic3);
+        setContentView(R.layout.activity_take_picture);
 
-
-        pictures = new Pictures();
         startCast();
     }
 
@@ -168,12 +159,36 @@ public class TakePic3Activity extends ActionBarActivity {
         final byte[] scaledData = bos.toByteArray();
 
         AlertDialog.Builder aDB = new AlertDialog.Builder(this);
+        aDB.setCancelable(false);
         aDB.setTitle("Emin misiniz ?");
         aDB.setMessage("Çektiğiniz resim analizde kullanılacaktır. Devam etmek istiyor musunuz ?");
         aDB.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-               pictureCache.setByteArray(scaledData);
+
+                if(isTac)
+                {
+                    pictureCache.setByteArrayTac(scaledData);
+                    isTac = false;
+                    isCanak = true;
+                }
+                else if(isCanak)
+                {
+                    pictureCache.setByteArrayTac(scaledData);
+                    isCanak = false;
+                    isYaprak = true;
+                }
+                else if(isYaprak)
+                {
+                    pictureCache.setByteArrayTac(scaledData);
+                    isYaprak = false;
+                }
+
+                if(!isTac && !isCanak && !isYaprak)
+                {
+                    finish();
+                }
+
             }
         });
         aDB.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {

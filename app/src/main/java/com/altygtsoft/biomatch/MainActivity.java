@@ -54,6 +54,7 @@ public class MainActivity extends ActionBarActivity {
         else
         {
             AlertDialog adialog = new AlertDialog.Builder(this).create();
+            adialog.setCancelable(false);
             adialog.setTitle("Bağlantı Hatası");
             adialog.setMessage("Bağlantı bulunamadı !");
             adialog.setButton("Tamam",new DialogInterface.OnClickListener() {

@@ -50,7 +50,7 @@ public class WelcomeActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 //Intent intent = new Intent(WelcomeActivity.this.getApplicationContext() ,ImageManipulationsActivity.class);
-                Intent intent = new Intent(WelcomeActivity.this.getApplicationContext() ,TakePic3Activity.class);
+                Intent intent = new Intent(WelcomeActivity.this.getApplicationContext() ,TakePictureActivity.class);
                 startActivity(intent);
 
             }
