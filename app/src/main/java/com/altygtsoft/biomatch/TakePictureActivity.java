@@ -1,5 +1,6 @@
 package com.altygtsoft.biomatch;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -171,17 +172,20 @@ public class TakePictureActivity extends ActionBarActivity {
                     pictureCache.setByteArrayTac(scaledData);
                     isTac = false;
                     isCanak = true;
+                    Toast.makeText(getApplicationContext(), "Taç yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
                 }
                 else if(isCanak)
                 {
                     pictureCache.setByteArrayCanak(scaledData);
                     isCanak = false;
                     isYaprak = true;
+                    Toast.makeText(getApplicationContext(), "Çanak yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
                 }
                 else if(isYaprak)
                 {
                     pictureCache.setByteArrayYaprak(scaledData);
                     isYaprak = false;
+                    Toast.makeText(getApplicationContext(), "Ağaç yaprağı görüntüsü alındı.", Toast.LENGTH_LONG).show();
                 }
 
                 if(!isTac && !isCanak && !isYaprak)
@@ -208,7 +212,7 @@ public class TakePictureActivity extends ActionBarActivity {
         try
         {
             pictures.saveInBackground();
-            Toast.makeText(getApplicationContext(),"Başarılı ",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Buluta yükleme başarılı. ",Toast.LENGTH_LONG).show();
         }
         catch (Exception ex)
         {
@@ -238,7 +242,7 @@ public class TakePictureActivity extends ActionBarActivity {
          Toast.makeText(getApplicationContext()," CANNY = " + Imgproc.compareHist(img1 , img2, Imgproc.CV_CANNY_L2_GRADIENT),Toast.LENGTH_LONG).show();*/
 
 
-        Toast.makeText(getApplicationContext(),"RESİMLER AYNI !",Toast.LENGTH_LONG).show();
+       // Toast.makeText(getApplicationContext(),"RESİMLER AYNI !",Toast.LENGTH_LONG).show();
 
 
 
