@@ -174,13 +174,13 @@ public class TakePictureActivity extends ActionBarActivity {
                 }
                 else if(isCanak)
                 {
-                    pictureCache.setByteArrayTac(scaledData);
+                    pictureCache.setByteArrayCanak(scaledData);
                     isCanak = false;
                     isYaprak = true;
                 }
                 else if(isYaprak)
                 {
-                    pictureCache.setByteArrayTac(scaledData);
+                    pictureCache.setByteArrayYaprak(scaledData);
                     isYaprak = false;
                 }
 
