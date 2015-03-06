@@ -130,6 +130,8 @@ public class PicPicker extends ActionBarActivity {
                 }
                 else
                 {
+                    /*****************      TAÇ YAPRAK         ****************************************************************************/
+                    /****************   HİSTOGRAM VE 4 METHODU          *********************************************************************************************/
                     Bitmap bmpImg1 = Bitmap.createScaledBitmap(((BitmapDrawable) imgSelected1.getDrawable()).getBitmap(), 400, 400, true);
                     Bitmap bmpImg2 = Bitmap.createScaledBitmap(((BitmapDrawable)imgSelected2.getDrawable()).getBitmap(),400,400,true);
 
@@ -167,7 +169,7 @@ public class PicPicker extends ActionBarActivity {
                     double compare = Imgproc.compareHist(hist1, hist2, Imgproc.CV_COMP_CHISQR);
                     double compare2 = Imgproc.compareHist(hist1, hist2, Imgproc.CV_COMP_CORREL);
                     double compare3 = Imgproc.compareHist(hist1, hist2, Imgproc.CV_COMP_INTERSECT);
-                    double compare4 = Imgproc.compareHist(hist1, hist2, Imgproc.CV_COMP_BHATTACHARYYA);
+                    double compare_bhat = Imgproc.compareHist(hist1, hist2, Imgproc.CV_COMP_BHATTACHARYYA);
 
                         AlertDialog adialog = new AlertDialog.Builder(PicPicker.this).create();
                         adialog.setTitle("Chi-square Eşik Değeri 0.000000 FARKLILIK ORANI");
@@ -204,7 +206,7 @@ public class PicPicker extends ActionBarActivity {
                         adialog3.show();
                         AlertDialog adialog4 = new AlertDialog.Builder(PicPicker.this).create();
                         adialog4.setTitle("BHATTACHARYYA Normal Değeri 0.000000 FARKLILIK");
-                        adialog4.setMessage("" + compare4);
+                        adialog4.setMessage("" + compare_bhat);
                         adialog4.setButton("Devam", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -214,19 +216,56 @@ public class PicPicker extends ActionBarActivity {
                         });
                         adialog4.show();
 
-                    /*Toast.makeText(getApplicationContext(), "Chi-square Normal Değeri 0.000000 FARKLILIK\n\n"+compare, Toast.LENGTH_LONG).show();
-                    Toast.makeText(getApplicationContext(), "Correl Normal Değeri 1.000000 BENZERLİK\n\n"+compare2, Toast.LENGTH_LONG).show();
-                    Toast.makeText(getApplicationContext(), "Intersect Normal Değeri 24.391548 BENZERLİK\n\n"+compare3, Toast.LENGTH_LONG).show();
-                    Toast.makeText(getApplicationContext(), "BHATTACHARYYA Normal Değeri 0.000000 FARKLILIK\n\n"+compare4, Toast.LENGTH_LONG).show();*/
-
-                    if(compare>0 && compare<2000) {
-                        Toast.makeText(getApplicationContext(), "Türler Benzer Olabilir, İkinci Aşamaya Geçiliyor...", Toast.LENGTH_LONG).show();
+                    if(compare_bhat < 0.40) {
+                        Toast.makeText(getApplicationContext(), "Türler Benzer Olabilir", Toast.LENGTH_LONG).show();
                         //new asyncTask(MainActivity.this).execute();
                     }
                     else if(compare==0)
                         Toast.makeText(getApplicationContext(), "Türler Kesin Benzer !", Toast.LENGTH_LONG).show();
                     else
                         Toast.makeText(getApplicationContext(), "Türler Farklı Olabilir", Toast.LENGTH_LONG).show();
+
+                    /*************************************************************************************************************/
+                    /************************** ÇANAK YAPRAK FEATURE  ************************************************************/
+
+                    /*Mat descriptors, dupDescriptors;
+                    FeatureDetector detector;
+                    DescriptorExtractor DescExtractor;
+                    DescriptorMatcher matcher;
+                    MatOfKeyPoint keypoints = null, dupKeypoints = null;
+                    MatOfDMatch matches, matches_final_mat  = null;
+                    boolean isDuplicate = false;
+                    MainActivity asyncTaskContext=null;
+                    Scalar RED = new Scalar(255,0,0);
+                    Scalar GREEN = new Scalar(0,255,0);
+
+
+                    Mat img3 = new Mat();
+                    MatOfByte drawnMatches = new MatOfByte();
+                    Features2d.drawMatches(img1, keypoints, img2, dupKeypoints,
+                            matches_final_mat, img3, GREEN, RED, drawnMatches, Features2d.NOT_DRAW_SINGLE_POINTS);
+                    Bitmap bmp = Bitmap.createBitmap(img3.cols(), img3.rows(),
+                            Bitmap.Config.ARGB_8888);
+                    Imgproc.cvtColor(img3, img3, Imgproc.COLOR_BGR2RGB);
+                    Utils.matToBitmap(img3, bmp);
+                    List<DMatch> finalMatchesList = matches_final_mat.toList();
+                    final int matchesFound=finalMatchesList.size();
+
+                    Toast.makeText(getApplicationContext(), "ÇANAK = " + matchesFound, Toast.LENGTH_LONG).show();*/
+
+                    /*Toast.makeText(getApplicationContext(), "Chi-square Normal Değeri 0.000000 FARKLILIK\n\n"+compare, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Correl Normal Değeri 1.000000 BENZERLİK\n\n"+compare2, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Intersect Normal Değeri 24.391548 BENZERLİK\n\n"+compare3, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "BHATTACHARYYA Normal Değeri 0.000000 FARKLILIK\n\n"+compare4, Toast.LENGTH_LONG).show();*/
+
+                    /*if(compare>0 && compare<2000) {
+                        Toast.makeText(getApplicationContext(), "Türler Benzer Olabilir, İkinci Aşamaya Geçiliyor...", Toast.LENGTH_LONG).show();
+                        //new asyncTask(MainActivity.this).execute();
+                    }
+                    else if(compare==0)
+                        Toast.makeText(getApplicationContext(), "Türler Kesin Benzer !", Toast.LENGTH_LONG).show();
+                    else
+                        Toast.makeText(getApplicationContext(), "Türler Farklı Olabilir", Toast.LENGTH_LONG).show();*/
 
 
                      /*Mat descriptors, dupDescriptors;
