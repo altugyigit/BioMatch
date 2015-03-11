@@ -173,6 +173,7 @@ public class TakePictureActivity extends ActionBarActivity {
                     isTac = false;
                     isCanak = true;
                     Toast.makeText(getApplicationContext(), "Taç yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "ubuntu ilk commit", Toast.LENGTH_SHORT).show();
                 }
                 else if(isCanak)
                 {
