@@ -8,12 +8,14 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,8 @@ public class MainActivity extends ActionBarActivity {
     public Button btnLogin;
     public TextView txtUserName;
     public TextView txtPassword;
+    public RadioButton cobanRadio;
+    public RadioButton biyologRadio;
 
 
 
@@ -85,6 +89,8 @@ public class MainActivity extends ActionBarActivity {
         btnLogin = (Button)findViewById(R.id.btnLogin);
         txtUserName = (TextView)findViewById(R.id.txtUserName);
         txtPassword = (TextView)findViewById(R.id.txtPassword);
+        cobanRadio = (RadioButton)findViewById(R.id.cobanButton);
+        biyologRadio = (RadioButton)findViewById(R.id.biyologButton);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,10 +102,16 @@ public class MainActivity extends ActionBarActivity {
                     {
                         if (txtPassword.getText().toString().equals("123"))
                         {
-                            Toast.makeText(getApplicationContext(), "Giriş Başarılı", Toast.LENGTH_LONG).show();
-
-                            Intent intent = new Intent(MainActivity.this.getApplicationContext() ,WelcomeActivity.class);
-                            startActivity(intent);
+                            if(cobanRadio.isChecked()) {
+                                Toast.makeText(getApplicationContext(), "Hoşgeldin", Toast.LENGTH_LONG).show();
+                                Intent intentCoban = new Intent(MainActivity.this.getApplicationContext(), CobanActivity.class);
+                                startActivity(intentCoban);
+                            }
+                            else {
+                                Toast.makeText(getApplicationContext(), "Hoşgeldiniz", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(MainActivity.this.getApplicationContext(), WelcomeActivity.class);
+                                startActivity(intent);
+                            }
                         }
                     }
                     else

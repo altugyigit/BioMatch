@@ -57,15 +57,7 @@
             android:label="@string/title_activity_image_manipulations"
             android:screenOrientation="landscape" >
         </activity>
-        <activity
-            android:name=".TakePic1Activity"
-            android:label="@string/title_activity_take_pic1"
-            android:screenOrientation="landscape" >
-        </activity>
-        <activity
-            android:name=".TakePic2Activity"
-            android:label="@string/title_activity_take_pic2" >
-        </activity>
+
         <activity
             android:name=".TakePictureActivity"
             android:label="@string/title_activity_take_pic3"
@@ -74,6 +66,10 @@
         <activity
             android:name=".PicPicker"
             android:label="@string/title_activity_pic_picker" >
+        </activity>
+        <activity
+            android:name=".CobanActivity"
+            android:label="@string/title_activity_coban" >
         </activity>
     </application>
 

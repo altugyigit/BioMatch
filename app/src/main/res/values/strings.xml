@@ -36,5 +36,6 @@
     <string name="select1">1. Fotoğrafı Seç</string>
     <string name="select2">2. Fotoğrafı Seç</string>
     <string name="analyze">Analiz</string>
+    <string name="title_activity_coban">CobanActivity</string>
 
 </resources>
