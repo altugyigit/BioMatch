@@ -22,24 +22,54 @@
         android:textColor="#292e2e"
         android:paddingBottom="30dp"/>
 
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Çoban"
+            android:id="@+id/cobanButton"
+            android:textSize="20sp"
+
+            />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Biyolog"
+            android:id="@+id/biyologButton"
+            android:textSize="20sp"
+            android:gravity="center"
+             />
+
+    </RadioGroup>
+
+
     <TextView
+        android:paddingTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/kullaniciadi"
         android:textSize="25sp"
         android:textColor="#292e2e"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:id="@+id/txtUserName"
         android:textColor="#292e2e"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/sifre"
         android:textSize="25sp"
         android:textColor="#292e2e"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,15 +77,6 @@
         android:id="@+id/txtPassword"
         android:password="true"
         android:textColor="#292e2e"
-        />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         />
 
     <Button
@@ -66,14 +87,5 @@
         android:text="@string/btngiris"
         android:background="#ff474c4c"
         android:textColor="#fff"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
 </LinearLayout>
 </ScrollView>
