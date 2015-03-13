@@ -33,6 +33,7 @@
             android:text="Çoban"
             android:id="@+id/cobanButton"
             android:textSize="20sp"
+            android:checked="true"
 
             />
 
