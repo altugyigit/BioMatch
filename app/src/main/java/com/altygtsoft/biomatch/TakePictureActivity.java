@@ -162,7 +162,7 @@ public class TakePictureActivity extends ActionBarActivity {
         AlertDialog.Builder aDB = new AlertDialog.Builder(this);
         aDB.setCancelable(false);
         aDB.setTitle("Emin misiniz ?");
-        aDB.setMessage("Çektiğiniz resim analizde kullanılacaktır. Devam etmek istiyor musunuz ?");
+        aDB.setMessage("Çektiğiniz resim analizde kullanılacaktır. Devam etmek istiyor musunuz ?..");
         aDB.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
