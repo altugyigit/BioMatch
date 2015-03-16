@@ -25,6 +25,9 @@ import org.opencv.android.OpenCVLoader;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class TakePictureActivity extends ActionBarActivity {
@@ -35,6 +38,7 @@ public class TakePictureActivity extends ActionBarActivity {
     private ImageButton photoButton;
     private Pictures pictures;
     public PictureCache pictureCache;
+    public Calendar c;
 
     public boolean isTac = true;
     public boolean isCanak = false;
@@ -169,24 +173,34 @@ public class TakePictureActivity extends ActionBarActivity {
 
                 if(isTac)
                 {
+                    String plantTag = "TAC";
                     pictureCache.setByteArrayTac(scaledData);
                     isTac = false;
                     isCanak = true;
                     Toast.makeText(getApplicationContext(), "Taç yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
-                    Toast.makeText(getApplicationContext(), "ubuntu ilk commit", Toast.LENGTH_SHORT).show();
+                    String currentTimeStamp = getCurrentTimeStamp();
+                    startUpload(plantTag+"_"+currentTimeStamp);
+
                 }
                 else if(isCanak)
                 {
+                    String plantTag = "CANAK";
                     pictureCache.setByteArrayCanak(scaledData);
                     isCanak = false;
                     isYaprak = true;
                     Toast.makeText(getApplicationContext(), "Çanak yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
+                    String currentTimeStamp = getCurrentTimeStamp();
+                    startUpload(plantTag+"_"+currentTimeStamp);
                 }
                 else if(isYaprak)
                 {
+                    String plantTag = "A_Y";
                     pictureCache.setByteArrayYaprak(scaledData);
                     isYaprak = false;
                     Toast.makeText(getApplicationContext(), "Ağaç yaprağı görüntüsü alındı.", Toast.LENGTH_LONG).show();
+                    String currentTimeStamp = getCurrentTimeStamp();
+
+                    startUpload(plantTag+"_"+currentTimeStamp);
                 }
 
                 if(!isTac && !isCanak && !isYaprak)
@@ -194,6 +208,21 @@ public class TakePictureActivity extends ActionBarActivity {
                     finish();
                 }
 
+            }
+
+            private void startUpload(String fileName) {
+                photoFile = new ParseFile(fileName, scaledData);
+
+                pictures.setPhotoFile12(photoFile);
+                try
+                {
+                    pictures.saveInBackground();
+                    Toast.makeText(getApplicationContext(),"Buluta yükleme başarılı. " + fileName, Toast.LENGTH_LONG).show();
+                }
+                catch (Exception ex)
+                {
+                    Toast.makeText(getApplicationContext(),"Bağlantı Hatası !",Toast.LENGTH_LONG).show();
+                }
             }
         });
         aDB.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
@@ -206,19 +235,8 @@ public class TakePictureActivity extends ActionBarActivity {
         alertDialog.show();
 
         /****************************************************************************************************************************************/
-        // Save the scaled image to Parse
-        photoFile = new ParseFile("photo1.jpg", scaledData);
 
-        pictures.setPhotoFile12(photoFile);
-        try
-        {
-            pictures.saveInBackground();
-            Toast.makeText(getApplicationContext(),"Buluta yükleme başarılı. ",Toast.LENGTH_LONG).show();
-        }
-        catch (Exception ex)
-        {
-            Toast.makeText(getApplicationContext(),"Bağlantı Hatası !",Toast.LENGTH_LONG).show();
-        }
+
 
         /*************************************************************************************************************************************/
 
@@ -252,7 +270,19 @@ public class TakePictureActivity extends ActionBarActivity {
         /*************************************************************************************************************************************/
     }
 
+    public static String getCurrentTimeStamp(){
+        try {
 
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+            String currentTimeStamp = dateFormat.format(new Date());
+
+            return currentTimeStamp;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
 
     @Override
     public void onResume() {
