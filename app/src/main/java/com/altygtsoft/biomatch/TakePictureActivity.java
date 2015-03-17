@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -105,6 +106,10 @@ public class TakePictureActivity extends ActionBarActivity {
                     @Override
                     public void onPictureTaken(byte[] data, Camera camera) {
                         saveScaledPhoto(data);
+                        if (camera != null)
+                        {
+                            camera.startPreview();
+                        }
                     }
 
                 });
@@ -130,11 +135,17 @@ public class TakePictureActivity extends ActionBarActivity {
 
             public void surfaceChanged(SurfaceHolder holder, int format,
                                        int width, int height) {
-                // nothing to do here
+
+                Camera.Parameters params = camera.getParameters();
+                params.setPictureFormat(PixelFormat.JPEG);
+                camera.setParameters(params);
+                camera.startPreview();
             }
 
             public void surfaceDestroyed(SurfaceHolder holder) {
-                // nothing here
+
+                camera.stopPreview();
+                camera.release();
             }
 
         });
@@ -305,10 +316,6 @@ public class TakePictureActivity extends ActionBarActivity {
     @Override
     public void onPause() {
 
-        if (camera != null) {
-            camera.stopPreview();
-            camera.release();
-        }
         super.onPause();
     }
 
