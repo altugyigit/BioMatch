@@ -41,8 +41,9 @@ public class MainActivity extends ActionBarActivity {
             isConnected();
 
             Parse.enableLocalDatastore(this);
-            Parse.initialize(this, "NJatHHRn60LHWQGuhgdqPpk3bCTlglQVJkYx5dmG", "7o2tdVTybQF66WXnyqgwg6FcCUQEam4cQ63528qw");
+            Parse.initialize(this, "HgrrtDO2dnazkQCPY59MR82ERhiamS5b1LTXBit8", "FS2hiyTi5uYVqz392tA39aXHYxubPdsGv28IiJ5Y");
             ParseObject.registerSubclass(Pictures.class);
+
 
             startCast();
     }

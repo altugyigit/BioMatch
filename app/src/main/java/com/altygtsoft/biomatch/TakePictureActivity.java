@@ -18,7 +18,9 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.SaveCallback;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
@@ -184,34 +186,40 @@ public class TakePictureActivity extends ActionBarActivity {
 
                 if(isTac)
                 {
-                    String plantTag = "TAC";
+                    String fileName;
                     pictureCache.setByteArrayTac(scaledData);
                     isTac = false;
                     isCanak = true;
                     Toast.makeText(getApplicationContext(), "Taç yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
                     String currentTimeStamp = getCurrentTimeStamp();
-                    startUpload(plantTag+"_"+currentTimeStamp);
+                    fileName = "TacYaprak";
+
+                    startUpload(fileName);
 
                 }
                 else if(isCanak)
                 {
-                    String plantTag = "CANAK";
+
+                    String fileName;
                     pictureCache.setByteArrayCanak(scaledData);
                     isCanak = false;
                     isYaprak = true;
                     Toast.makeText(getApplicationContext(), "Çanak yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
                     String currentTimeStamp = getCurrentTimeStamp();
-                    startUpload(plantTag+"_"+currentTimeStamp);
+                    fileName = "CanakYaprak";
+
+                    startUpload(fileName);
                 }
                 else if(isYaprak)
                 {
+                    String fileName;
                     String plantTag = "A_Y";
                     pictureCache.setByteArrayYaprak(scaledData);
                     isYaprak = false;
                     Toast.makeText(getApplicationContext(), "Ağaç yaprağı görüntüsü alındı.", Toast.LENGTH_LONG).show();
                     String currentTimeStamp = getCurrentTimeStamp();
-
-                    startUpload(plantTag+"_"+currentTimeStamp);
+                    fileName = "AgacYapragi";
+                    startUpload(fileName);
                 }
 
                 if(!isTac && !isCanak && !isYaprak)
@@ -222,13 +230,32 @@ public class TakePictureActivity extends ActionBarActivity {
             }
 
             private void startUpload(String fileName) {
-                photoFile = new ParseFile(fileName, scaledData);
 
-                pictures.setPhotoFile12(photoFile);
                 try
                 {
-                    pictures.saveInBackground();
-                    Toast.makeText(getApplicationContext(),"Buluta yükleme başarılı. " + fileName, Toast.LENGTH_LONG).show();
+                    photoFile = new ParseFile(fileName, scaledData);
+                    if (isTac) {
+                        pictures.setPhotoFile12(photoFile);
+                    }
+                    else if (isCanak){
+                        pictures.setPhotoFile22(photoFile);
+                    }
+                    else if (isYaprak){
+                        pictures.setPhotoFile32(photoFile);
+                    }
+
+                    pictures.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e == null){
+                                Toast.makeText(getApplicationContext(),"Buluta yükleme başarılı. " , Toast.LENGTH_LONG).show();
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(),"Hata" +e.toString(),Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+
                 }
                 catch (Exception ex)
                 {

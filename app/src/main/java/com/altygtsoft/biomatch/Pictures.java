@@ -20,6 +20,8 @@ public class Pictures extends ParseObject {
         put("photo", file);
     }
 
+    public ParseFile getPhotoFile12(ParseFile file) { return getParseFile(file.getName()); }
+
     public void setPhotoFile12(ParseFile file) {
         put(file.getName(), file);
     }
@@ -37,7 +39,7 @@ public class Pictures extends ParseObject {
     }
 
     public void setPhotoFile22(ParseFile file) {
-        put("photo", file);
+        put(file.getName(), file);
     }
 
     public ParseFile getPhotoFile31() {
@@ -53,7 +55,7 @@ public class Pictures extends ParseObject {
     }
 
     public void setPhotoFile32(ParseFile file) {
-        put("photo", file);
+        put(file.getName(), file);
     }
 
 }
