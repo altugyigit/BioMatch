@@ -21,7 +21,7 @@ public class Pictures extends ParseObject {
     }
 
     public void setPhotoFile12(ParseFile file) {
-        put("photo", file);
+        put(file.getName(), file);
     }
 
     public ParseFile getPhotoFile21() {
