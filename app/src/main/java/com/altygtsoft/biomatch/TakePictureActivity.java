@@ -2,12 +2,14 @@ package com.altygtsoft.biomatch;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +18,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.parse.ParseException;
@@ -35,17 +38,21 @@ import java.util.Date;
 
 public class TakePictureActivity extends ActionBarActivity {
 
-    private Camera camera;
+    public static Camera camera;
+    public int pictureHeight = 2592;
+    public int pictureWidth = 1944;
     private SurfaceView surfaceView;
-    private ParseFile photoFile;
+    public static ParseFile photoFile;
     private ImageButton photoButton;
-    private Pictures pictures;
+    public static Pictures pictures;
     public PictureCache pictureCache;
     public Calendar c;
+    public static String fileName;
+    public static byte[] scaledData;
 
-    public boolean isTac = true;
-    public boolean isCanak = false;
-    public boolean isYaprak = false;
+    public static boolean isTac = true;
+    public static boolean isCanak = false;
+    public static boolean isYaprak = false;
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -139,7 +146,8 @@ public class TakePictureActivity extends ActionBarActivity {
                                        int width, int height) {
 
                 Camera.Parameters params = camera.getParameters();
-                params.setPictureFormat(PixelFormat.JPEG);
+                //params.setPictureFormat(PixelFormat.JPEG);
+
                 camera.setParameters(params);
                 camera.startPreview();
             }
@@ -161,8 +169,10 @@ public class TakePictureActivity extends ActionBarActivity {
     private void saveScaledPhoto(byte[] data) {
 
         // Resize photo from camera byte array
+        pictureWidth = camera.getParameters().getPictureSize().width;
+        pictureHeight = camera.getParameters().getPictureSize().height;
         Bitmap mealImage = BitmapFactory.decodeByteArray(data, 0, data.length);
-        Bitmap mealImageScaled = Bitmap.createScaledBitmap(mealImage, 1600, 900, false);
+        Bitmap mealImageScaled = Bitmap.createScaledBitmap(mealImage, pictureWidth, pictureHeight, false);
         pictureCache = new PictureCache();
         // Override Android default landscape orientation and save portrait
         Matrix matrix = new Matrix();
@@ -172,9 +182,9 @@ public class TakePictureActivity extends ActionBarActivity {
                 matrix, true);
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        rotatedScaledMealImage.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+        rotatedScaledMealImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
 
-        final byte[] scaledData = bos.toByteArray();
+        scaledData = bos.toByteArray();
 
         AlertDialog.Builder aDB = new AlertDialog.Builder(this);
         aDB.setCancelable(false);
@@ -186,7 +196,7 @@ public class TakePictureActivity extends ActionBarActivity {
 
                 if(isTac)
                 {
-                    String fileName;
+
                     pictureCache.setByteArrayTac(scaledData);
                     isTac = false;
                     isCanak = true;
@@ -194,13 +204,13 @@ public class TakePictureActivity extends ActionBarActivity {
                     String currentTimeStamp = getCurrentTimeStamp();
                     fileName = "TacYaprak";
 
-                    startUpload(fileName);
+                    new AsyncTaskUpload().doInBackground(fileName);
 
                 }
                 else if(isCanak)
                 {
 
-                    String fileName;
+
                     pictureCache.setByteArrayCanak(scaledData);
                     isCanak = false;
                     isYaprak = true;
@@ -208,18 +218,19 @@ public class TakePictureActivity extends ActionBarActivity {
                     String currentTimeStamp = getCurrentTimeStamp();
                     fileName = "CanakYaprak";
 
-                    startUpload(fileName);
+                    new AsyncTaskUpload().execute();
                 }
                 else if(isYaprak)
                 {
-                    String fileName;
+
                     String plantTag = "A_Y";
                     pictureCache.setByteArrayYaprak(scaledData);
                     isYaprak = false;
                     Toast.makeText(getApplicationContext(), "Ağaç yaprağı görüntüsü alındı.", Toast.LENGTH_LONG).show();
                     String currentTimeStamp = getCurrentTimeStamp();
                     fileName = "AgacYapragi";
-                    startUpload(fileName);
+
+                    new AsyncTaskUpload().execute();
                 }
 
                 if(!isTac && !isCanak && !isYaprak)
@@ -229,39 +240,7 @@ public class TakePictureActivity extends ActionBarActivity {
 
             }
 
-            private void startUpload(String fileName) {
 
-                try
-                {
-                    photoFile = new ParseFile(fileName, scaledData);
-                    if (isTac) {
-                        pictures.setPhotoFile12(photoFile);
-                    }
-                    else if (isCanak){
-                        pictures.setPhotoFile22(photoFile);
-                    }
-                    else if (isYaprak){
-                        pictures.setPhotoFile32(photoFile);
-                    }
-
-                    pictures.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if(e == null){
-                                Toast.makeText(getApplicationContext(),"Buluta yükleme başarılı. " , Toast.LENGTH_LONG).show();
-                            }
-                            else{
-                                Toast.makeText(getApplicationContext(),"Hata" +e.toString(),Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-
-                }
-                catch (Exception ex)
-                {
-                    Toast.makeText(getApplicationContext(),"Bağlantı Hatası !",Toast.LENGTH_LONG).show();
-                }
-            }
         });
         aDB.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
             @Override
@@ -271,6 +250,41 @@ public class TakePictureActivity extends ActionBarActivity {
         });
         AlertDialog alertDialog = aDB.create();
         alertDialog.show();
+    }
+
+        public void startUpload(String fileName) {
+
+            try
+            {
+                photoFile = new ParseFile(fileName, scaledData);
+                if (isTac) {
+                    pictures.setPhotoFile12(photoFile);
+                }
+                else if (isCanak){
+                    pictures.setPhotoFile22(photoFile);
+                }
+                else if (isYaprak){
+                    pictures.setPhotoFile32(photoFile);
+                }
+
+                pictures.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e == null){
+                            Toast.makeText(getApplicationContext(),"Buluta yükleme başarılı. " , Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(),"Hata" +e.toString(),Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+            }
+            catch (Exception ex)
+            {
+                Toast.makeText(getApplicationContext(),"Bağlantı Hatası !",Toast.LENGTH_LONG).show();
+            }
+        }
 
         /****************************************************************************************************************************************/
 
@@ -306,7 +320,7 @@ public class TakePictureActivity extends ActionBarActivity {
 
 
         /*************************************************************************************************************************************/
-    }
+
 
     public static String getCurrentTimeStamp(){
         try {
@@ -349,6 +363,39 @@ public class TakePictureActivity extends ActionBarActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    public class AsyncTaskUpload extends AsyncTask<String, String, String>
+    {
+        @Override
+        protected void onPreExecute() {
+
+            ProgressDialog progress = new ProgressDialog(TakePictureActivity.this.getApplicationContext());
+            progress.setMessage("Yükleniyor...PreExec");
+            progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progress.setIndeterminate(true);
+            progress.show();
+
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+
+            ProgressDialog progress = new ProgressDialog(TakePictureActivity.this.getApplicationContext());
+            progress.setMessage("Yükleniyor...");
+            progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progress.setIndeterminate(true);
+            progress.show();
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            startUpload(params[0]);
+            return null;
+        }
     }
 
 }
