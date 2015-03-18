@@ -49,6 +49,7 @@ public class TakePictureActivity extends ActionBarActivity {
     public Calendar c;
     public static String fileName;
     public static byte[] scaledData;
+    public static ProgressDialog pdialog;
 
     public static boolean isTac = true;
     public static boolean isCanak = false;
@@ -204,7 +205,7 @@ public class TakePictureActivity extends ActionBarActivity {
                     String currentTimeStamp = getCurrentTimeStamp();
                     fileName = "TacYaprak";
 
-                    new AsyncTaskUpload().doInBackground(fileName);
+                    new AsyncUpload().execute(fileName);
 
                 }
                 else if(isCanak)
@@ -218,7 +219,7 @@ public class TakePictureActivity extends ActionBarActivity {
                     String currentTimeStamp = getCurrentTimeStamp();
                     fileName = "CanakYaprak";
 
-                    new AsyncTaskUpload().execute();
+                    new AsyncUpload().execute(fileName);
                 }
                 else if(isYaprak)
                 {
@@ -230,7 +231,7 @@ public class TakePictureActivity extends ActionBarActivity {
                     String currentTimeStamp = getCurrentTimeStamp();
                     fileName = "AgacYapragi";
 
-                    new AsyncTaskUpload().execute();
+                    new AsyncUpload().execute(fileName);
                 }
 
                 if(!isTac && !isCanak && !isYaprak)
@@ -272,6 +273,10 @@ public class TakePictureActivity extends ActionBarActivity {
                     public void done(ParseException e) {
                         if(e == null){
                             Toast.makeText(getApplicationContext(),"Buluta yükleme başarılı. " , Toast.LENGTH_LONG).show();
+                            if(pdialog != null)
+                            {
+                                pdialog.dismiss();//Eğer işlem başarılı ise asenkron sınıfta yaratılan progressbar ı kapat.
+                            }
                         }
                         else{
                             Toast.makeText(getApplicationContext(),"Hata" +e.toString(),Toast.LENGTH_LONG).show();
@@ -365,37 +370,34 @@ public class TakePictureActivity extends ActionBarActivity {
         super.onDestroy();
     }
 
-    public class AsyncTaskUpload extends AsyncTask<String, String, String>
-    {
+    public class AsyncUpload extends AsyncTask<String,Void,String> {
+
         @Override
         protected void onPreExecute() {
-
-            ProgressDialog progress = new ProgressDialog(TakePictureActivity.this.getApplicationContext());
-            progress.setMessage("Yükleniyor...PreExec");
-            progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            progress.setIndeterminate(true);
-            progress.show();
-
             super.onPreExecute();
+            pdialog = new ProgressDialog(TakePictureActivity.this);
+            pdialog.setMessage("Yükleniyor...");
+            pdialog.setIndeterminate(false);
+            pdialog.setCancelable(false);
+            pdialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... fileNames) {
+
+            return fileNames[0];
 
         }
 
         @Override
-        protected void onProgressUpdate(String... values) {
+        protected void onPostExecute(String name) {
 
-            ProgressDialog progress = new ProgressDialog(TakePictureActivity.this.getApplicationContext());
-            progress.setMessage("Yükleniyor...");
-            progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            progress.setIndeterminate(true);
-            progress.show();
-            super.onProgressUpdate(values);
+            startUpload(name);
+
+            super.onPostExecute(name);
+
         }
 
-        @Override
-        protected String doInBackground(String... params) {
-            startUpload(params[0]);
-            return null;
-        }
     }
 
 }
