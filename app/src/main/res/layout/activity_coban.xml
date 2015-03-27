@@ -26,48 +26,43 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
         <RadioGroup
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Yerel Kayıt"
-                android:textSize="20sp"/>
+                android:text="@string/yerelKayit"
+                android:id="@+id/yerelkayitButton"
+                android:textSize="20sp"
+                android:checked="true"
+                android:padding="10dp"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Çevrimiçi Kayıt"
-                android:textSize="20sp"/>
+                android:text="@string/cevrimiciKayit"
+                android:id="@+id/cicikayitButton"
+                android:textSize="20sp"
+                android:padding="10dp"/>
             </RadioGroup>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/takePictureCoban"
             android:textSize="25sp"
-            android:text="Görüntü Çek"
+            android:text="@string/cek"
             android:background="#ff474c4c"
             android:textColor="#fff"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:text="Yerel Dosyaları Yükle"
-            android:id="@+id/uploadLocalFiles"
-            android:background="#ff474c4c"
-            android:textColor="#fff"/>
 
 
 

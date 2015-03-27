@@ -104,12 +104,12 @@ public class MainActivity extends ActionBarActivity {
                         if (txtPassword.getText().toString().equals("123"))
                         {
                             if(cobanRadio.isChecked()) {
-                                Toast.makeText(getApplicationContext(), "Hoşgeldin", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "Hoşgeldin ...", Toast.LENGTH_LONG).show();
                                 Intent intentCoban = new Intent(MainActivity.this.getApplicationContext(), CobanActivity.class);
                                 startActivity(intentCoban);
                             }
                             else {
-                                Toast.makeText(getApplicationContext(), "Hoşgeldiniz", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "Hoşgeldiniz ...", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(MainActivity.this.getApplicationContext(), WelcomeActivity.class);
                                 startActivity(intent);
                             }

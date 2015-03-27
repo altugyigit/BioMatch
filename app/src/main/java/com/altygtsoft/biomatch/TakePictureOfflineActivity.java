@@ -39,7 +39,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class TakePictureActivity extends ActionBarActivity {
+public class TakePictureOfflineActivity extends ActionBarActivity {
 
     public static Camera camera;
     public int pictureHeight = 2592;
@@ -80,7 +80,7 @@ public class TakePictureActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setContentView(R.layout.activity_take_picture);
+        setContentView(R.layout.activity_take_picture_offline);
 
         startCast();
     }
@@ -266,56 +266,56 @@ public class TakePictureActivity extends ActionBarActivity {
         alertDialog.show();
     }
 
-        public void startUpload(String fileName) {
+    public void startUpload(String fileName) {
 
-            try
-            {
-                photoFile = new ParseFile(fileName, scaledData);
-                if (isTac) {
-                    pictures.setPhotoFile12(photoFile);
-                }
-                else if (isCanak){
-                    pictures.setPhotoFile22(photoFile);
-                }
-                else if (isYaprak){
-                    pictures.setPhotoFile32(photoFile);
-                }
+        try
+        {
+            photoFile = new ParseFile(fileName, scaledData);
+            if (isTac) {
+                pictures.setPhotoFile12(photoFile);
+            }
+            else if (isCanak){
+                pictures.setPhotoFile22(photoFile);
+            }
+            else if (isYaprak){
+                pictures.setPhotoFile32(photoFile);
+            }
 
 
-                //pictures.save();// Telefon çekirdeğine göre 2 asenkron methodu desteklemiyor o yüzden sadece save yazılabilir fakat başarılı kontolü SaveCallback' te yakalanamaz.
+            //pictures.save();// Telefon çekirdeğine göre 2 asenkron methodu desteklemiyor o yüzden sadece save yazılabilir fakat başarılı kontolü SaveCallback' te yakalanamaz.
 
-                pictures.saveInBackground(new SaveCallback() {
+            pictures.saveInBackground(new SaveCallback() {
 
-                    @Override
-                    public void done(ParseException e) {
-                        if(e == null){
-                            Toast.makeText(getApplicationContext(),"Buluta yükleme başarılı. " , Toast.LENGTH_LONG).show();
-                            if(pdialog != null)
-                            {
-                                pdialog.dismiss();//Eğer işlem başarılı ise asenkron sınıfta yaratılan progressbar ı kapat.
-                            }
-                        }
-                        else{
-                            Toast.makeText(getApplicationContext(),"Hata" +e.toString(),Toast.LENGTH_LONG).show();
+                @Override
+                public void done(ParseException e) {
+                    if(e == null){
+                        Toast.makeText(getApplicationContext(),"Buluta yükleme başarılı. " , Toast.LENGTH_LONG).show();
+                        if(pdialog != null)
+                        {
+                            pdialog.dismiss();//Eğer işlem başarılı ise asenkron sınıfta yaratılan progressbar ı kapat.
                         }
                     }
-                });
+                    else{
+                        Toast.makeText(getApplicationContext(),"Hata" +e.toString(),Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
 
-            }
-            catch (Exception ex)
-            {
-                Toast.makeText(getApplicationContext(),"Bağlantı Hatası !",Toast.LENGTH_LONG).show();
-            }
         }
+        catch (Exception ex)
+        {
+            Toast.makeText(getApplicationContext(),"Bağlantı Hatası !",Toast.LENGTH_LONG).show();
+        }
+    }
 
-        /****************************************************************************************************************************************/
+    /****************************************************************************************************************************************/
 
 
 
-        /*************************************************************************************************************************************/
+    /*************************************************************************************************************************************/
 
 
-        //KARŞILAŞTIRMA İÇİN YAZILACAK KOD
+    //KARŞILAŞTIRMA İÇİN YAZILACAK KOD
 
         /*Mat img1 = Highgui.imread(Environment.getExternalStorageDirectory().getAbsolutePath() + "/1.png");
         Mat img2 = Highgui.imread(Environment.getExternalStorageDirectory().getAbsolutePath() + "/2.png");
@@ -335,13 +335,13 @@ public class TakePictureActivity extends ActionBarActivity {
          Toast.makeText(getApplicationContext()," CANNY = " + Imgproc.compareHist(img1 , img2, Imgproc.CV_CANNY_L2_GRADIENT),Toast.LENGTH_LONG).show();*/
 
 
-       // Toast.makeText(getApplicationContext(),"RESİMLER AYNI !",Toast.LENGTH_LONG).show();
+    // Toast.makeText(getApplicationContext(),"RESİMLER AYNI !",Toast.LENGTH_LONG).show();
 
 
 
 
 
-        /*************************************************************************************************************************************/
+    /*************************************************************************************************************************************/
 
 
     public static String getCurrentTimeStamp(){
@@ -392,7 +392,7 @@ public class TakePictureActivity extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pdialog = new ProgressDialog(TakePictureActivity.this);
+            pdialog = new ProgressDialog(TakePictureOfflineActivity.this);
             pdialog.setMessage("Yükleniyor...");
             pdialog.setIndeterminate(false);
             pdialog.setCancelable(false);

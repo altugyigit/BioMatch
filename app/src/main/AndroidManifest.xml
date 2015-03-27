@@ -57,7 +57,6 @@
             android:label="@string/title_activity_image_manipulations"
             android:screenOrientation="landscape" >
         </activity>
-
         <activity
             android:name=".TakePictureActivity"
             android:label="@string/title_activity_take_pic3"
@@ -70,6 +69,10 @@
         <activity
             android:name=".CobanActivity"
             android:label="@string/title_activity_coban" >
+        </activity>
+        <activity
+            android:name=".TakePictureOfflineActivity"
+            android:label="@string/title_activity_take_picture_offline" >
         </activity>
     </application>
 

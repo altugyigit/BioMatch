@@ -14,7 +14,6 @@ import android.widget.Button;
 public class WelcomeActivity extends ActionBarActivity {
 
     public Button btnStartAnalyze;
-    public Button btnStartAnalyze2;
     public Button btnPreviousAnalyze;
     public Button btnTypes;
     public Button btnMap;
@@ -40,7 +39,6 @@ public class WelcomeActivity extends ActionBarActivity {
         }
 
         btnStartAnalyze = (Button)findViewById(R.id.btnStartAnalyze);
-        btnStartAnalyze2 = (Button)findViewById(R.id.btnStartAnalyze2);
         btnPreviousAnalyze = (Button)findViewById(R.id.btnPreviousAnalyze);
         btnTypes = (Button)findViewById(R.id.btnType);
         btnMap = (Button)findViewById(R.id.btnMap);
@@ -50,24 +48,12 @@ public class WelcomeActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 //Intent intent = new Intent(WelcomeActivity.this.getApplicationContext() ,ImageManipulationsActivity.class);
-                Intent intent = new Intent(WelcomeActivity.this.getApplicationContext() ,TakePictureActivity.class);
-                startActivity(intent);
-
-            }
-        });
-        btnStartAnalyze2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
                 Intent intent = new Intent(WelcomeActivity.this.getApplicationContext() ,PicPicker.class);
                 startActivity(intent);
 
-                /*//Intent intent = new Intent(WelcomeActivity.this.getApplicationContext() ,ImageManipulationsActivity.class);
-                Intent intent = new Intent(WelcomeActivity.this.getApplicationContext() ,TakePic2Activity.class);
-                startActivity(intent);*/
-
             }
         });
+
         btnPreviousAnalyze.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -2,9 +2,8 @@
 <resources>
 
     <string name="app_name">BioMatch</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="giris">Sisteme Giriş</string>
+    <string name="giris">Giriş</string>
     <string name="kullaniciadi">Kullanıcı Adı:</string>
     <string name="sifre">Şifre:</string>
     <string name="btngiris">GİRİŞ</string>
@@ -37,5 +36,14 @@
     <string name="select2">2. Fotoğrafı Seç</string>
     <string name="analyze">Analiz</string>
     <string name="title_activity_coban">CobanActivity</string>
+    <string name="txtGorevli">Görevli</string>
+    <string name="txtBiyolog">Biyolog</string>
+    <string name="yerelKayit">Yerel Kayıt</string>
+    <string name="cevrimiciKayit">Çevrimiçi Kayıt</string>
+    <string name="cek">Görüntü Çek</string>
+    <string name="title_activity_take_picture_offline">TakePictureOfflineActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="gonder">Analize Gönder</string>
 
 </resources>
