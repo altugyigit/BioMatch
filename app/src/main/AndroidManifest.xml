@@ -20,6 +20,9 @@
     <uses-feature
         android:name="android.hardware.camera.front.autofocus"
         android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.front.focus"
+        android:required="false" />
 
     <application
         android:allowBackup="true"

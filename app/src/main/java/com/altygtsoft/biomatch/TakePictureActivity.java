@@ -87,7 +87,11 @@ public class TakePictureActivity extends ActionBarActivity {
 
     private void startCast()
     {
+
+
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+
+
 
         if(actionBar != null)
         {
@@ -116,27 +120,33 @@ public class TakePictureActivity extends ActionBarActivity {
             public void onClick(View v) {
                 if (camera == null)
                     return;
-
-                camera.takePicture(new Camera.ShutterCallback() {
-
+                camera.autoFocus(new Camera.AutoFocusCallback() {
                     @Override
-                    public void onShutter() {
-                        // nothing to do
-                    }
+                    public void onAutoFocus(boolean success, Camera camera) {
+                        if(success){
+                            camera.takePicture(new Camera.ShutterCallback() {
 
-                }, null, new Camera.PictureCallback() {
+                                @Override
+                                public void onShutter() {
+                                    // nothing to do
+                                }
 
-                    @Override
-                    public void onPictureTaken(byte[] data, Camera camera) {
-                        saveScaledPhoto(data);
-                        if (camera != null)
-                        {
-                            camera.startPreview();
+                            }, null, new Camera.PictureCallback() {
+
+                                @Override
+                                public void onPictureTaken(byte[] data, Camera camera) {
+                                    saveScaledPhoto(data);
+                                    if (camera != null)
+                                    {
+                                        camera.startPreview();
+                                    }
+                                }
+
+                            });
+
                         }
                     }
-
                 });
-
             }
         });
 
@@ -149,7 +159,11 @@ public class TakePictureActivity extends ActionBarActivity {
                     if (camera != null) {
                         camera.setDisplayOrientation(90);
                         camera.setPreviewDisplay(holder);
+                        Camera.Parameters params = camera.getParameters();
+                        params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+                        camera.setParameters(params);
                         camera.startPreview();
+
                     }
                 } catch (IOException e) {
                     Log.e("ERROR", "Error setting up preview", e);
@@ -158,13 +172,8 @@ public class TakePictureActivity extends ActionBarActivity {
 
             public void surfaceChanged(SurfaceHolder holder, int format,
                                        int width, int height) {
-
-                Camera.Parameters params = camera.getParameters();
-                //params.setPictureFormat(PixelFormat.JPEG);
-
-                camera.setParameters(params);
                 camera.startPreview();
-            }
+                }
 
             public void surfaceDestroyed(SurfaceHolder holder) {
 
@@ -175,41 +184,35 @@ public class TakePictureActivity extends ActionBarActivity {
         });
     }
 
-    /*
-     * ParseQueryAdapter loads ParseFiles into a ParseImageView at whatever size
-     * they are saved. Since we never need a full-size image in our app, we'll
-     * save a scaled one right away.
-     */
     private void saveScaledPhoto(byte[] data) {
 
         // Resize photo from camera byte array
         pictureWidth = camera.getParameters().getPictureSize().width;
         pictureHeight = camera.getParameters().getPictureSize().height;
-        Bitmap mealImage = BitmapFactory.decodeByteArray(data, 0, data.length);
-        Bitmap mealImageScaled = Bitmap.createScaledBitmap(mealImage, pictureWidth, pictureHeight, false);
+        Bitmap plantImage = BitmapFactory.decodeByteArray(data, 0, data.length);
+        Bitmap plantImageScaled = Bitmap.createScaledBitmap(plantImage, pictureWidth, pictureHeight, false);
         pictureCache = new PictureCache();
         // Override Android default landscape orientation and save portrait
         Matrix matrix = new Matrix();
         matrix.postRotate(90);
-        Bitmap rotatedScaledMealImage = Bitmap.createBitmap(mealImageScaled, 0,
-                0, mealImageScaled.getWidth(), mealImageScaled.getHeight(),
+        Bitmap rotatedScaledPlantImage = Bitmap.createBitmap(plantImageScaled, 0,
+                0, plantImageScaled.getWidth(), plantImageScaled.getHeight(),
                 matrix, true);
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        rotatedScaledMealImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
+        rotatedScaledPlantImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
 
         scaledData = bos.toByteArray();
 
         AlertDialog.Builder aDB = new AlertDialog.Builder(this);
         aDB.setCancelable(false);
         aDB.setTitle("Emin misiniz ?");
-        aDB.setMessage("Çektiğiniz resim analizde kullanılacaktır. Devam etmek istiyor musunuz ?..");
+        aDB.setMessage("Çektiğiniz resim analizde kullanılacaktır. Devam etmek istiyor musunuz ?.. ");
         aDB.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                if(isTac)
-                {
+                if (isTac) {
 
                     pictureCache.setByteArrayTac(scaledData);
                     isTac = false;
@@ -220,9 +223,7 @@ public class TakePictureActivity extends ActionBarActivity {
 
                     new AsyncUpload().execute(fileName);
 
-                }
-                else if(isCanak)
-                {
+                } else if (isCanak) {
 
 
                     pictureCache.setByteArrayCanak(scaledData);
@@ -233,9 +234,7 @@ public class TakePictureActivity extends ActionBarActivity {
                     fileName = "CanakYaprak";
 
                     new AsyncUpload().execute(fileName);
-                }
-                else if(isYaprak)
-                {
+                } else if (isYaprak) {
 
                     String plantTag = "A_Y";
                     pictureCache.setByteArrayYaprak(scaledData);
@@ -247,8 +246,7 @@ public class TakePictureActivity extends ActionBarActivity {
                     new AsyncUpload().execute(fileName);
                 }
 
-                if(!isTac && !isCanak && !isYaprak)
-                {
+                if (!isTac && !isCanak && !isYaprak) {
                     finish();
                 }
 
@@ -268,21 +266,21 @@ public class TakePictureActivity extends ActionBarActivity {
 
         public void startUpload(String fileName) {
 
-            try
-            {
+            try {
                 photoFile = new ParseFile(fileName, scaledData);
                 if (isTac) {
                     pictures.setPhotoFile12(photoFile);
-                }
-                else if (isCanak){
+                } else if (isCanak) {
                     pictures.setPhotoFile22(photoFile);
-                }
-                else if (isYaprak){
+                } else if (isYaprak) {
                     pictures.setPhotoFile32(photoFile);
                 }
 
 
-                //pictures.save();// Telefon çekirdeğine göre 2 asenkron methodu desteklemiyor o yüzden sadece save yazılabilir fakat başarılı kontolü SaveCallback' te yakalanamaz.
+               // pictures.save();// Telefon çekirdeğine göre 2 asenkron methodu desteklemiyor o yüzden sadece save yazılabilir fakat başarılı kontolü SaveCallback' te yakalanamaz.
+
+
+
 
                 pictures.saveInBackground(new SaveCallback() {
 
