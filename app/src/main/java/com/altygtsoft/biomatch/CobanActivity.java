@@ -12,13 +12,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.TextView;
+
+import com.parse.ParseUser;
 
 
 public class CobanActivity extends ActionBarActivity {
 
+    public TextView txtWelcome;
     public Button takePicCoban;
     public RadioButton radioOffline;
     public RadioButton radioOnline;
+    public Button btnLogOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +33,10 @@ public class CobanActivity extends ActionBarActivity {
     }
 
     private void startCast() {
+
+        //Login olmuþ kiþiyi al.
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        String struser = currentUser.getUsername().toString();
 
         ActionBar actionBar = getSupportActionBar();
 
@@ -39,30 +48,34 @@ public class CobanActivity extends ActionBarActivity {
             actionBar.show();
         }
 
+        txtWelcome = (TextView)findViewById(R.id.txtWelcome);
         takePicCoban = (Button)findViewById(R.id.takePictureCoban);
         radioOffline = (RadioButton)findViewById(R.id.yerelkayitButton);
         radioOnline = (RadioButton)findViewById(R.id.cicikayitButton);
-
+        btnLogOut = (Button)findViewById(R.id.btnLogOut);
+        //Kullanýcý adýný ekrana yaz.
+        txtWelcome.setText(struser + txtWelcome.getText().toString());
         takePicCoban.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(radioOnline.isChecked())
-                {
+                if (radioOnline.isChecked()) {
                     Intent intent = new Intent(CobanActivity.this.getApplicationContext(), TakePictureActivity.class);
                     startActivity(intent);
-                }
-                else
-                {
+                } else {
                     Intent intent = new Intent(CobanActivity.this.getApplicationContext(), TakePictureOfflineActivity.class);
                     startActivity(intent);
                 }
 
             }
         });
+        btnLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-
-
+                ParseUser.logOut();
+                finish();
+            }
+        });
     }
-
 }

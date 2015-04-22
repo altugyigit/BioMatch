@@ -272,13 +272,13 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
         {
             photoFile = new ParseFile(fileName, scaledData);
             if (isTac) {
-                pictures.setPhotoFile12(photoFile);
+                pictures.setPhotoFileTac(photoFile);
             }
             else if (isCanak){
-                pictures.setPhotoFile22(photoFile);
+                pictures.setPhotoFileCanak(photoFile);
             }
             else if (isYaprak){
-                pictures.setPhotoFile32(photoFile);
+                pictures.setPhotoFileYaprak(photoFile);
             }
 
 

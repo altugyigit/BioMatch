@@ -45,5 +45,11 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="gonder">Analize Gönder</string>
+    <string name="title_activity_map_pic_picker">MapPicPickerActivity</string>
+    <string name="btnCikis">ÇIKIŞ</string>
+    <string name="btnKisiKayitEt">Kişi Kayıt Et</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="sifreTekrar">Şifre Tekrar :</string>
+    <string name="btnKayitEt">Kayit Et</string>
 
 </resources>

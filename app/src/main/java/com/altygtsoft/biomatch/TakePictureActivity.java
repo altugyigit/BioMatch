@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.opencv.android.BaseLoaderCallback;
@@ -269,11 +270,11 @@ public class TakePictureActivity extends ActionBarActivity {
             try {
                 photoFile = new ParseFile(fileName, scaledData);
                 if (isTac) {
-                    pictures.setPhotoFile12(photoFile);
+                    pictures.setPhotoFileTac(photoFile);
                 } else if (isCanak) {
-                    pictures.setPhotoFile22(photoFile);
+                    pictures.setPhotoFileCanak(photoFile);
                 } else if (isYaprak) {
-                    pictures.setPhotoFile32(photoFile);
+                    pictures.setPhotoFileYaprak(photoFile);
                 }
 
 

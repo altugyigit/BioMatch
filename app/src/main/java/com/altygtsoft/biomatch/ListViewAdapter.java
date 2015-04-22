@@ -1,20 +1,13 @@
 package com.altygtsoft.biomatch;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.GridLayout;
 
-import com.parse.FindCallback;
-import com.parse.Parse;
-import com.parse.ParseException;
 import com.parse.ParseQuery;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -22,7 +15,7 @@ public class ListViewAdapter extends BaseAdapter {
 
     private Context context;
     private LayoutInflater inflater;
-    private List<Turler> turlerList;
+    private List<Species> speciesList;
 
     public ListViewAdapter(Context context) {
 
@@ -33,7 +26,7 @@ public class ListViewAdapter extends BaseAdapter {
     @Override
     public int getCount() {
 
-        return turlerList.size();
+        return speciesList.size();
 
     }
 
@@ -56,10 +49,10 @@ public class ListViewAdapter extends BaseAdapter {
             //View itemViewdersplist = inflater.inflate(R.layout.ders_list, parent, false);
 
 
-            /*ParseQuery<Turler> ogrenciDersParseQuery = ParseQuery.getQuery(Turler.class);
+           ParseQuery<Species> speciesParseQuery = ParseQuery.getQuery(Species.class);
 
-            List<Turler> turlerParseList = null;
-            try {
+           //List<Turler> turlerParseList = null;
+           /* try {
 
                 ogrencidersParseList = ogrenciDersParseQuery.find();
 

@@ -3,6 +3,7 @@ package com.altygtsoft.biomatch;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 @ParseClassName("Pictures")
 public class Pictures extends ParseObject {
@@ -12,49 +13,15 @@ public class Pictures extends ParseObject {
 
     }
 
-    public ParseFile getPhotoFile11() {
-        return getParseFile("photo");
-    }
-
-    public void setPhotoFile11(ParseFile file) {
-        put("photo", file);
-    }
-
-    public ParseFile getPhotoFile12(ParseFile file) { return getParseFile(file.getName()); }
-
-    public void setPhotoFile12(ParseFile file) {
+    public void setPhotoFileTac(ParseFile file) {
         put(file.getName(), file);
     }
 
-    public ParseFile getPhotoFile21() {
-        return getParseFile("photo");
-    }
-
-    public void setPhotoFile21(ParseFile file) {
-        put("photo", file);
-    }
-
-    public ParseFile getPhotoFile22() {
-        return getParseFile("photo");
-    }
-
-    public void setPhotoFile22(ParseFile file) {
+    public void setPhotoFileCanak(ParseFile file) {
         put(file.getName(), file);
     }
 
-    public ParseFile getPhotoFile31() {
-        return getParseFile("photo");
-    }
-
-    public void setPhotoFile31(ParseFile file) {
-        put("photo", file);
-    }
-
-    public ParseFile getPhotoFile32() {
-        return getParseFile("photo");
-    }
-
-    public void setPhotoFile32(ParseFile file) {
+    public void setPhotoFileYaprak(ParseFile file) {
         put(file.getName(), file);
     }
 
