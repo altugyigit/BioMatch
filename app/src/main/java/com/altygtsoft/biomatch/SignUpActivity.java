@@ -55,8 +55,8 @@ public class SignUpActivity extends ActionBarActivity {
         {
             AlertDialog adialog = new AlertDialog.Builder(this).create();
             adialog.setCancelable(false);
-            adialog.setTitle("Baðlantý Hatasý");
-            adialog.setMessage("Baðlantý bulunamadý !");
+            adialog.setTitle("BaÄŸlantÄ± Hatasi");
+            adialog.setMessage("BaÄŸlantÄ± bulunamadÄ± !");
             adialog.setButton("Tamam",new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -101,7 +101,7 @@ public class SignUpActivity extends ActionBarActivity {
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(), "Þifreler eþleþmiyor !", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Sifreler eslesmiyor !", Toast.LENGTH_LONG).show();
                 }
             }
         });

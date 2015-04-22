@@ -9,7 +9,7 @@ import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 /*
- * Created by Altuð on 22.4.2015.
+ * Created by Altug on 22.4.2015.
  */
 public class SignUpUser {
 
@@ -17,11 +17,11 @@ public class SignUpUser {
     {
         if (userName.equals("") && passwordUser.equals("")) {
             Toast.makeText(context.getApplicationContext() ,
-                    "Alanlar Boþ Býrakýlamaz !",
+                    "Alanlar BoÅŸ BÄ±rakÄ±lamaz !",
                     Toast.LENGTH_LONG).show();
 
         } else {
-            // Parse a kullanýcýyý kaydet.
+            // Parse a kullanci kaydet.
             ParseUser user = new ParseUser();
             user.setUsername(userName);
             user.setPassword(passwordUser);
@@ -30,11 +30,11 @@ public class SignUpUser {
                     if (e == null) {
                         // Herhangi bir hata yok ise internet durumu dahil.
                         Toast.makeText(context.getApplicationContext(),
-                                "Kayýt Etme Baþarýlý .",
+                                "Kayit Etme Basarili .",
                                 Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(context.getApplicationContext(),
-                                "HATA Oluþtu Tekrar Deneyiniz !", Toast.LENGTH_LONG)
+                                "HATA Olustu Tekrar Deneyiniz !", Toast.LENGTH_LONG)
                                 .show();
                     }
                 }

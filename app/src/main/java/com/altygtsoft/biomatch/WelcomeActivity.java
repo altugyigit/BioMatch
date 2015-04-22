@@ -21,6 +21,7 @@ public class WelcomeActivity extends ActionBarActivity {
     public Button btnPreviousAnalyze;
     public Button btnTypes;
     public Button btnMap;
+    public Button btnSignUp;
     public Button btnLogOut;
 
     @Override
@@ -33,7 +34,7 @@ public class WelcomeActivity extends ActionBarActivity {
 
     void startCast()
     {
-        //Login olmuþ kiþiyi al.
+        //Login olmus kisiyi al.
         ParseUser currentUser = ParseUser.getCurrentUser();
         String struser = currentUser.getUsername().toString();
 
@@ -52,8 +53,9 @@ public class WelcomeActivity extends ActionBarActivity {
         btnPreviousAnalyze = (Button)findViewById(R.id.btnPreviousAnalyze);
         btnTypes = (Button)findViewById(R.id.btnType);
         btnMap = (Button)findViewById(R.id.btnMap);
+        btnSignUp = (Button)findViewById(R.id.btnSignUp);
         btnLogOut = (Button)findViewById(R.id.btnLogOut);
-        //Kullanýcý adýný ekrana yaz.
+        //KullanÄ±cÄ± adÄ±nÄ± ekrana yaz.
         txtWelcome.setText(struser + txtWelcome.getText().toString());
         btnStartAnalyze.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +94,14 @@ public class WelcomeActivity extends ActionBarActivity {
                 //Intent intent = new Intent(WelcomeActivity.this.getApplicationContext() ,ImageManipulationsActivity.class);
                 startActivity(intent);
 
+            }
+        });
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(WelcomeActivity.this.getApplicationContext() ,SignUpActivity.class);
+                startActivity(intent);
             }
         });
         btnLogOut.setOnClickListener(new View.OnClickListener() {

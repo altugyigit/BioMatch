@@ -34,7 +34,7 @@ public class CobanActivity extends ActionBarActivity {
 
     private void startCast() {
 
-        //Login olmuþ kiþiyi al.
+        //Login olmuÅŸ kiÅŸiyi al.
         ParseUser currentUser = ParseUser.getCurrentUser();
         String struser = currentUser.getUsername().toString();
 
@@ -53,7 +53,7 @@ public class CobanActivity extends ActionBarActivity {
         radioOffline = (RadioButton)findViewById(R.id.yerelkayitButton);
         radioOnline = (RadioButton)findViewById(R.id.cicikayitButton);
         btnLogOut = (Button)findViewById(R.id.btnLogOut);
-        //Kullanýcý adýný ekrana yaz.
+        //KullanÄ±cÄ± adÄ±nÄ± ekrana yaz.
         txtWelcome.setText(struser + txtWelcome.getText().toString());
         takePicCoban.setOnClickListener(new View.OnClickListener() {
             @Override
