@@ -121,32 +121,25 @@ public class TakePictureActivity extends ActionBarActivity {
             public void onClick(View v) {
                 if (camera == null)
                     return;
-                camera.autoFocus(new Camera.AutoFocusCallback() {
+                camera.takePicture(new Camera.ShutterCallback() {
+
                     @Override
-                    public void onAutoFocus(boolean success, Camera camera) {
-                        if(success){
-                            camera.takePicture(new Camera.ShutterCallback() {
-
-                                @Override
-                                public void onShutter() {
+                    public void onShutter() {
                                     // nothing to do
-                                }
+                    }
 
-                            }, null, new Camera.PictureCallback() {
+                }, null, new Camera.PictureCallback() {
 
-                                @Override
-                                public void onPictureTaken(byte[] data, Camera camera) {
-                                    saveScaledPhoto(data);
-                                    if (camera != null)
-                                    {
-                                        camera.startPreview();
-                                    }
-                                }
-
-                            });
-
+                    @Override
+                    public void onPictureTaken(byte[] data, Camera camera) {
+                        saveScaledPhoto(data);
+                        if (camera != null)
+                        {
+                            camera.getParameters();
+                            camera.startPreview();
                         }
                     }
+
                 });
             }
         });
@@ -161,7 +154,7 @@ public class TakePictureActivity extends ActionBarActivity {
                         camera.setDisplayOrientation(90);
                         camera.setPreviewDisplay(holder);
                         Camera.Parameters params = camera.getParameters();
-                        params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+                        params.setFocusMode(Camera.Parameters.FOCUS_MODE_INFINITY);
                         camera.setParameters(params);
                         camera.startPreview();
 
@@ -188,8 +181,8 @@ public class TakePictureActivity extends ActionBarActivity {
     private void saveScaledPhoto(byte[] data) {
 
         // Resize photo from camera byte array
-        pictureWidth = camera.getParameters().getPictureSize().width;
-        pictureHeight = camera.getParameters().getPictureSize().height;
+        pictureWidth = camera.getParameters().getPreviewSize().width;
+        pictureHeight = camera.getParameters().getPreviewSize().height;
         Bitmap plantImage = BitmapFactory.decodeByteArray(data, 0, data.length);
         Bitmap plantImageScaled = Bitmap.createScaledBitmap(plantImage, pictureWidth, pictureHeight, false);
         pictureCache = new PictureCache();
@@ -361,7 +354,7 @@ public class TakePictureActivity extends ActionBarActivity {
     public void onResume() {
         super.onResume();
 
-        OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_3, this, mLoaderCallback);
+        //OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_3, this, mLoaderCallback);
 
         if (camera == null) {
             try {

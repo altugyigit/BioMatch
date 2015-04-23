@@ -13,10 +13,13 @@ import android.widget.TextView;
 
 import com.parse.ParseUser;
 
+import org.w3c.dom.Text;
+
 
 public class WelcomeActivity extends ActionBarActivity {
 
     public TextView txtWelcome;
+    public TextView txtUserName;
     public Button btnStartAnalyze;
     public Button btnPreviousAnalyze;
     public Button btnTypes;
@@ -36,7 +39,7 @@ public class WelcomeActivity extends ActionBarActivity {
     {
         //Login olmus kisiyi al.
         ParseUser currentUser = ParseUser.getCurrentUser();
-        String struser = currentUser.getUsername().toString();
+        String struser = currentUser.getUsername();
 
         ActionBar actionBar = getSupportActionBar();
 
@@ -49,6 +52,7 @@ public class WelcomeActivity extends ActionBarActivity {
         }
 
         txtWelcome = (TextView)findViewById(R.id.txtWelcome);
+        txtUserName = (TextView)findViewById(R.id.txtUserName);
         btnStartAnalyze = (Button)findViewById(R.id.btnStartAnalyze);
         btnPreviousAnalyze = (Button)findViewById(R.id.btnPreviousAnalyze);
         btnTypes = (Button)findViewById(R.id.btnType);
@@ -56,7 +60,7 @@ public class WelcomeActivity extends ActionBarActivity {
         btnSignUp = (Button)findViewById(R.id.btnSignUp);
         btnLogOut = (Button)findViewById(R.id.btnLogOut);
         //Kullanıcı adını ekrana yaz.
-        txtWelcome.setText(struser + txtWelcome.getText().toString());
+        txtUserName.setText(struser.toUpperCase());
         btnStartAnalyze.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

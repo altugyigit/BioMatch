@@ -14,12 +14,16 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.parse.Parse;
 import com.parse.ParseUser;
+
+import org.w3c.dom.Text;
 
 
 public class CobanActivity extends ActionBarActivity {
 
     public TextView txtWelcome;
+    public TextView txtUserName;
     public Button takePicCoban;
     public RadioButton radioOffline;
     public RadioButton radioOnline;
@@ -35,8 +39,9 @@ public class CobanActivity extends ActionBarActivity {
     private void startCast() {
 
         //Login olmuş kişiyi al.
+        Parse.initialize(this, "HgrrtDO2dnazkQCPY59MR82ERhiamS5b1LTXBit8", "FS2hiyTi5uYVqz392tA39aXHYxubPdsGv28IiJ5Y");
         ParseUser currentUser = ParseUser.getCurrentUser();
-        String struser = currentUser.getUsername().toString();
+        String struser = currentUser.getUsername();
 
         ActionBar actionBar = getSupportActionBar();
 
@@ -54,7 +59,8 @@ public class CobanActivity extends ActionBarActivity {
         radioOnline = (RadioButton)findViewById(R.id.cicikayitButton);
         btnLogOut = (Button)findViewById(R.id.btnLogOut);
         //Kullanıcı adını ekrana yaz.
-        txtWelcome.setText(struser + txtWelcome.getText().toString());
+        txtUserName = (TextView)findViewById(R.id.txtCobanUserName);
+        txtUserName.setText(struser);
         takePicCoban.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
