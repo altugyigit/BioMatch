@@ -43,8 +43,8 @@ import java.util.Date;
 public class TakePictureActivity extends ActionBarActivity {
 
     public static Camera camera;
-    public int pictureHeight = 2592;
-    public int pictureWidth = 1944;
+    public int pictureHeight;
+    public int pictureWidth;
     private SurfaceView surfaceView;
     public static ParseFile photoFile;
     private ImageButton photoButton;
@@ -121,26 +121,40 @@ public class TakePictureActivity extends ActionBarActivity {
             public void onClick(View v) {
                 if (camera == null)
                     return;
-                camera.takePicture(new Camera.ShutterCallback() {
-
+                camera.autoFocus(new Camera.AutoFocusCallback() {
                     @Override
-                    public void onShutter() {
+                    public void onAutoFocus(boolean success, Camera camera) {
+                        if(success){
+                            camera.takePicture(new Camera.ShutterCallback() {
+
+                                @Override
+                                public void onShutter() {
                                     // nothing to do
-                    }
+                                }
 
-                }, null, new Camera.PictureCallback() {
+                            }, null, new Camera.PictureCallback() {
 
-                    @Override
-                    public void onPictureTaken(byte[] data, Camera camera) {
-                        saveScaledPhoto(data);
-                        if (camera != null)
-                        {
-                            camera.getParameters();
-                            camera.startPreview();
+                                @Override
+                                public void onPictureTaken(byte[] data, Camera camera) {
+                                    saveScaledPhoto(data);
+                                    if (camera != null)
+                                    {
+                                        camera.getParameters();
+                                        camera.startPreview();
+                                    }
+                                }
+
+                            });
+
                         }
                     }
-
                 });
+
+
+                /*Toast.makeText(TakePictureActivity.this.getApplicationContext(), "HEIGHT / WIDTH = "
+                        + camera.getParameters().getPreviewSize().height + "" + camera.getParameters().getPreviewSize().width + "" +
+                        camera.getParameters().getPictureSize().height + "" + camera.getParameters().getPictureSize().width, Toast.LENGTH_LONG).show();*/
+
             }
         });
 
@@ -154,7 +168,7 @@ public class TakePictureActivity extends ActionBarActivity {
                         camera.setDisplayOrientation(90);
                         camera.setPreviewDisplay(holder);
                         Camera.Parameters params = camera.getParameters();
-                        params.setFocusMode(Camera.Parameters.FOCUS_MODE_INFINITY);
+                        params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
                         camera.setParameters(params);
                         camera.startPreview();
 
@@ -166,8 +180,10 @@ public class TakePictureActivity extends ActionBarActivity {
 
             public void surfaceChanged(SurfaceHolder holder, int format,
                                        int width, int height) {
+                
                 camera.startPreview();
-                }
+                camera.autoFocus(null);
+            }
 
             public void surfaceDestroyed(SurfaceHolder holder) {
 
@@ -181,22 +197,31 @@ public class TakePictureActivity extends ActionBarActivity {
     private void saveScaledPhoto(byte[] data) {
 
         // Resize photo from camera byte array
-        pictureWidth = camera.getParameters().getPreviewSize().width;
-        pictureHeight = camera.getParameters().getPreviewSize().height;
-        Bitmap plantImage = BitmapFactory.decodeByteArray(data, 0, data.length);
-        Bitmap plantImageScaled = Bitmap.createScaledBitmap(plantImage, pictureWidth, pictureHeight, false);
-        pictureCache = new PictureCache();
-        // Override Android default landscape orientation and save portrait
-        Matrix matrix = new Matrix();
-        matrix.postRotate(90);
-        Bitmap rotatedScaledPlantImage = Bitmap.createBitmap(plantImageScaled, 0,
-                0, plantImageScaled.getWidth(), plantImageScaled.getHeight(),
-                matrix, true);
+        try {
+            pictureWidth = camera.getParameters().getPreviewSize().width;
+            pictureHeight = camera.getParameters().getPreviewSize().height;
+            Bitmap plantImage = BitmapFactory.decodeByteArray(data, 0, data.length);
+            Bitmap plantImageScaled = Bitmap.createScaledBitmap(plantImage, pictureWidth, pictureHeight, false);
 
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        rotatedScaledPlantImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
 
-        scaledData = bos.toByteArray();
+            pictureCache = new PictureCache();
+            // Override Android default landscape orientation and save portrait
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90);
+            Bitmap rotatedScaledPlantImage = Bitmap.createBitmap(plantImageScaled, 0,
+                    0, plantImageScaled.getWidth(), plantImageScaled.getHeight(),
+                    matrix, true);
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            rotatedScaledPlantImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
+
+            scaledData = bos.toByteArray();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            Log.d("HATAAAAAAAAA", e.getMessage());
+            Toast.makeText(TakePictureActivity.this.getApplicationContext(), "HATAAAAAAAA" + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
 
         AlertDialog.Builder aDB = new AlertDialog.Builder(this);
         aDB.setCancelable(false);

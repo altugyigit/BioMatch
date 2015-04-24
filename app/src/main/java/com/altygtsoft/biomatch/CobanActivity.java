@@ -39,7 +39,7 @@ public class CobanActivity extends ActionBarActivity {
     private void startCast() {
 
         //Login olmuş kişiyi al.
-        Parse.initialize(this, "HgrrtDO2dnazkQCPY59MR82ERhiamS5b1LTXBit8", "FS2hiyTi5uYVqz392tA39aXHYxubPdsGv28IiJ5Y");
+        Parse.initialize(CobanActivity.this, "HgrrtDO2dnazkQCPY59MR82ERhiamS5b1LTXBit8", "FS2hiyTi5uYVqz392tA39aXHYxubPdsGv28IiJ5Y");
         ParseUser currentUser = ParseUser.getCurrentUser();
         String struser = currentUser.getUsername();
 
