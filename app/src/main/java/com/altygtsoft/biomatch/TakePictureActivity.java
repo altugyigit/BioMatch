@@ -198,8 +198,8 @@ public class TakePictureActivity extends ActionBarActivity {
 
         // Resize photo from camera byte array
         try {
-            pictureWidth = camera.getParameters().getPreviewSize().width;
-            pictureHeight = camera.getParameters().getPreviewSize().height;
+            pictureWidth = camera.getParameters().getPictureSize().width;
+            pictureHeight = camera.getParameters().getPictureSize().height;
             Bitmap plantImage = BitmapFactory.decodeByteArray(data, 0, data.length);
             Bitmap plantImageScaled = Bitmap.createScaledBitmap(plantImage, pictureWidth, pictureHeight, false);
 
