@@ -44,13 +44,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 
 public class TakePictureActivity extends ActionBarActivity {
 
     public static Camera camera;
-    public int pictureHeight;
-    public int pictureWidth;
+    public static final int pictureHeight = 480;
+    public static final int pictureWidth = 640;
     private SurfaceView surfaceView;
     public static ParseFile photoFile;
     private ImageButton photoButton;
@@ -202,8 +203,11 @@ public class TakePictureActivity extends ActionBarActivity {
 
     private void saveScaledPhoto(byte[] data) {
 
-        // Resize photo from camera byte array
+
         try {
+            //Burada telefonların desteklediği çözünürlükleri alabiliyoruz lakin yukarıda statik olarak
+            //640x480 tanımlanması kararına vardım çünkü her telefonun desteklediği aralıklar
+            //farklı olmakta bu da OutOfMemory gibi hatalara sebebiyet vermekte. (Kerem)
             List<Camera.Size> sizes = camera.getParameters().getSupportedPictureSizes();
             Camera.Size result;
 
@@ -213,20 +217,22 @@ public class TakePictureActivity extends ActionBarActivity {
                 Log.i("Size", "Supported Width = " + result.width + "Supported Height = " + result.height);
                 float carpim = ((result.width * result.height) / 1024000);
 
-                if (Math.round(carpim) == 1){
+                /*if (Math.round(carpim) == 1){
                     pictureWidth = result.width;
                     pictureHeight = result.height;
                     break;
-                }
+                }*/
             }
 
+            //pictureWidth ile pictureHeight en üstte statik tanımlandı. (width = 640 ,height = 480 )
 
             Bitmap plantImage = BitmapFactory.decodeByteArray(data, 0, data.length);
             Bitmap plantImageScaled = Bitmap.createScaledBitmap(plantImage, pictureWidth, pictureHeight, false);
 
 
             pictureCache = new PictureCache();
-            // Override Android default landscape orientation and save portrait
+            // Android'in varsayılan landscape fotoğraf biçimlendirmesi matrisin 90 derece döndürülmesi
+            // ile ekarte ediliyor. Dolayısı ile width = 480, height = 640 oluyor.
             Matrix matrix = new Matrix();
             matrix.postRotate(90);
             Bitmap rotatedScaledPlantImage = Bitmap.createBitmap(plantImageScaled, 0,
@@ -349,14 +355,10 @@ public class TakePictureActivity extends ActionBarActivity {
 
     public static String getCurrentTimeStamp(){
         try {
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-            String currentTimeStamp = dateFormat.format(new Date());
-
-            return currentTimeStamp;
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss", Locale.forLanguageTag("TR"));
+            return dateFormat.format(new Date());
         } catch (Exception e) {
             e.printStackTrace();
-
             return null;
         }
     }
