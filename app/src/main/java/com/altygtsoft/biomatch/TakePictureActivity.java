@@ -141,6 +141,7 @@ public class TakePictureActivity extends ActionBarActivity {
                                 public void onPictureTaken(byte[] data, Camera camera) {
                                     saveScaledPhoto(data);
                                     if (camera != null) {
+
                                         camera.getParameters();
                                         camera.startPreview();
                                     }
@@ -153,9 +154,7 @@ public class TakePictureActivity extends ActionBarActivity {
                 });
 
 
-                Log.d("HEIGHT / WIDTH = ",
-                        +camera.getParameters().getPreviewSize().height + " " + camera.getParameters().getPreviewSize().width + " " +
-                                camera.getParameters().getPictureSize().height + " " + camera.getParameters().getPictureSize().width);
+
 
             }
         });
@@ -171,6 +170,27 @@ public class TakePictureActivity extends ActionBarActivity {
                         camera.setDisplayOrientation(90);
                         camera.setPreviewDisplay(holder);
                         Camera.Parameters params = camera.getParameters();
+                        //Burada telefonların desteklediği çözünürlükleri alabiliyoruz lakin yukarıda statik olarak
+                        //640x480 tanımlanması kararına vardım çünkü her telefonun desteklediği aralıklar
+                        //farklı olmakta bu da OutOfMemory gibi hatalara sebebiyet vermekte. (Kerem)
+                        List<Camera.Size> sizes = camera.getParameters().getSupportedPictureSizes();
+                        Camera.Size result;
+                        for(int i = 0; i < sizes.size(); i++){
+                            result = sizes.get(i);
+                            Log.i("Size", "Supported Width = " + result.width + "Supported Height = " + result.height);
+                            /*float carpim = ((result.width * result.height) / 1024000);
+                            if (Math.round(carpim) == 1){
+                                pictureWidth = result.width;
+                                 pictureHeight = result.height;
+                                break;
+                             }*/
+                        }
+                        List<String> focusModes = camera.getParameters().getSupportedFocusModes();
+                        String focusResults;
+                        for (int j = 0; j < focusModes.size(); j++){
+                            focusResults = focusModes.get(j);
+                            Log.d("SupportedFocusModes", focusResults);
+                        }
 
                         params.setFocusMode(Camera.Parameters.FOCUS_MODE_MACRO);
                         camera.setParameters(params);
@@ -205,24 +225,6 @@ public class TakePictureActivity extends ActionBarActivity {
 
 
         try {
-            //Burada telefonların desteklediği çözünürlükleri alabiliyoruz lakin yukarıda statik olarak
-            //640x480 tanımlanması kararına vardım çünkü her telefonun desteklediği aralıklar
-            //farklı olmakta bu da OutOfMemory gibi hatalara sebebiyet vermekte. (Kerem)
-            List<Camera.Size> sizes = camera.getParameters().getSupportedPictureSizes();
-            Camera.Size result;
-
-            for(int i = 0; i < sizes.size(); i++){
-                result = sizes.get(i);
-
-                Log.i("Size", "Supported Width = " + result.width + "Supported Height = " + result.height);
-                float carpim = ((result.width * result.height) / 1024000);
-
-                /*if (Math.round(carpim) == 1){
-                    pictureWidth = result.width;
-                    pictureHeight = result.height;
-                    break;
-                }*/
-            }
 
             //pictureWidth ile pictureHeight en üstte statik tanımlandı. (width = 640 ,height = 480 )
 
@@ -264,7 +266,7 @@ public class TakePictureActivity extends ActionBarActivity {
                     isTac = false;
                     isCanak = true;
                     Toast.makeText(getApplicationContext(), "Taç yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
-                    String currentTimeStamp = getCurrentTimeStamp();
+                    //String currentTimeStamp = getCurrentTimeStamp();
                     fileName = "TacYaprak";
 
                     new AsyncUpload().execute(fileName);
@@ -276,7 +278,7 @@ public class TakePictureActivity extends ActionBarActivity {
                     isCanak = false;
                     isYaprak = true;
                     Toast.makeText(getApplicationContext(), "Çanak yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
-                    String currentTimeStamp = getCurrentTimeStamp();
+                   // String currentTimeStamp = getCurrentTimeStamp();
                     fileName = "CanakYaprak";
 
                     new AsyncUpload().execute(fileName);
@@ -286,7 +288,7 @@ public class TakePictureActivity extends ActionBarActivity {
                     pictureCache.setByteArrayYaprak(scaledData);
                     isYaprak = false;
                     Toast.makeText(getApplicationContext(), "Ağaç yaprağı görüntüsü alındı.", Toast.LENGTH_LONG).show();
-                    String currentTimeStamp = getCurrentTimeStamp();
+                    //String currentTimeStamp = getCurrentTimeStamp();
                     fileName = "AgacYapragi";
 
                     new AsyncUpload().execute(fileName);
@@ -353,7 +355,7 @@ public class TakePictureActivity extends ActionBarActivity {
         }
 
 
-    public static String getCurrentTimeStamp(){
+    /*public static String getCurrentTimeStamp(){
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss", Locale.forLanguageTag("TR"));
             return dateFormat.format(new Date());
@@ -361,7 +363,7 @@ public class TakePictureActivity extends ActionBarActivity {
             e.printStackTrace();
             return null;
         }
-    }
+    }*/
 
     @Override
     public void onResume() {
