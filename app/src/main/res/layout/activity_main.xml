@@ -84,6 +84,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:id="@+id/txtUserName"
+        android:inputType="text"
         android:textColor="#292e2e"/>
 
     <TextView
@@ -98,7 +99,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:id="@+id/txtPassword"
-        android:password="true"
+        android:inputType="numberPassword"
         android:textColor="#292e2e"
 
         />
