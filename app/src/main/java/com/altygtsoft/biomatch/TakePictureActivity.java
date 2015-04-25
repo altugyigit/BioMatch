@@ -10,12 +10,16 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.util.Size;
+import android.view.Display;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -38,6 +42,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 
 public class TakePictureActivity extends ActionBarActivity {
@@ -88,11 +94,7 @@ public class TakePictureActivity extends ActionBarActivity {
 
     private void startCast()
     {
-
-
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-
-
 
         if(actionBar != null)
         {
@@ -124,7 +126,7 @@ public class TakePictureActivity extends ActionBarActivity {
                 camera.autoFocus(new Camera.AutoFocusCallback() {
                     @Override
                     public void onAutoFocus(boolean success, Camera camera) {
-                        if(success){
+                        if (success) {
                             camera.takePicture(new Camera.ShutterCallback() {
 
                                 @Override
@@ -137,8 +139,7 @@ public class TakePictureActivity extends ActionBarActivity {
                                 @Override
                                 public void onPictureTaken(byte[] data, Camera camera) {
                                     saveScaledPhoto(data);
-                                    if (camera != null)
-                                    {
+                                    if (camera != null) {
                                         camera.getParameters();
                                         camera.startPreview();
                                     }
@@ -151,9 +152,9 @@ public class TakePictureActivity extends ActionBarActivity {
                 });
 
 
-                /*Toast.makeText(TakePictureActivity.this.getApplicationContext(), "HEIGHT / WIDTH = "
-                        + camera.getParameters().getPreviewSize().height + "" + camera.getParameters().getPreviewSize().width + "" +
-                        camera.getParameters().getPictureSize().height + "" + camera.getParameters().getPictureSize().width, Toast.LENGTH_LONG).show();*/
+                Log.d("HEIGHT / WIDTH = ",
+                        +camera.getParameters().getPreviewSize().height + " " + camera.getParameters().getPreviewSize().width + " " +
+                                camera.getParameters().getPictureSize().height + " " + camera.getParameters().getPictureSize().width);
 
             }
         });
@@ -165,11 +166,14 @@ public class TakePictureActivity extends ActionBarActivity {
             public void surfaceCreated(SurfaceHolder holder) {
                 try {
                     if (camera != null) {
+
                         camera.setDisplayOrientation(90);
                         camera.setPreviewDisplay(holder);
                         Camera.Parameters params = camera.getParameters();
-                        params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+
+                        params.setFocusMode(Camera.Parameters.FOCUS_MODE_MACRO);
                         camera.setParameters(params);
+
                         camera.startPreview();
 
                     }
@@ -180,7 +184,7 @@ public class TakePictureActivity extends ActionBarActivity {
 
             public void surfaceChanged(SurfaceHolder holder, int format,
                                        int width, int height) {
-                
+
                 camera.startPreview();
                 camera.autoFocus(null);
             }
@@ -194,12 +198,29 @@ public class TakePictureActivity extends ActionBarActivity {
         });
     }
 
+
+
     private void saveScaledPhoto(byte[] data) {
 
         // Resize photo from camera byte array
         try {
-            pictureWidth = camera.getParameters().getPictureSize().width;
-            pictureHeight = camera.getParameters().getPictureSize().height;
+            List<Camera.Size> sizes = camera.getParameters().getSupportedPictureSizes();
+            Camera.Size result;
+
+            for(int i = 0; i < sizes.size(); i++){
+                result = sizes.get(i);
+
+                Log.i("Size", "Supported Width = " + result.width + "Supported Height = " + result.height);
+                float carpim = ((result.width * result.height) / 1024000);
+
+                if (Math.round(carpim) == 1){
+                    pictureWidth = result.height;
+                    pictureHeight = result.width;
+                    break;
+                }
+            }
+
+
             Bitmap plantImage = BitmapFactory.decodeByteArray(data, 0, data.length);
             Bitmap plantImageScaled = Bitmap.createScaledBitmap(plantImage, pictureWidth, pictureHeight, false);
 
@@ -219,8 +240,8 @@ public class TakePictureActivity extends ActionBarActivity {
         }
         catch(Exception e){
             e.printStackTrace();
-            Log.d("HATAAAAAAAAA", e.getMessage());
-            Toast.makeText(TakePictureActivity.this.getApplicationContext(), "HATAAAAAAAA" + e.getMessage(), Toast.LENGTH_LONG).show();
+            Log.d("SaveScaledError", e.getMessage());
+
         }
 
         AlertDialog.Builder aDB = new AlertDialog.Builder(this);
@@ -324,41 +345,6 @@ public class TakePictureActivity extends ActionBarActivity {
                 Toast.makeText(getApplicationContext(),"Bağlantı Hatası !",Toast.LENGTH_LONG).show();
             }
         }
-
-        /****************************************************************************************************************************************/
-
-
-
-        /*************************************************************************************************************************************/
-
-
-        //KARŞILAŞTIRMA İÇİN YAZILACAK KOD
-
-        /*Mat img1 = Highgui.imread(Environment.getExternalStorageDirectory().getAbsolutePath() + "/1.png");
-        Mat img2 = Highgui.imread(Environment.getExternalStorageDirectory().getAbsolutePath() + "/2.png");
-
-        Mat hist0 = new Mat();
-        Mat hist1 = new Mat();
-
-        int hist_bins = 30;           //number of histogram bins
-        int hist_range[]= {0,180};//histogram range
-        MatOfFloat ranges = new MatOfFloat(0f, 256f);
-        MatOfInt histSize = new MatOfInt(25);
-
-        Imgproc.calcHist(Arrays.asList(img1), new MatOfInt(0), new Mat(), hist0, histSize, ranges);
-        Imgproc.calcHist(Arrays.asList(img2), new MatOfInt(0), new Mat(), hist1, histSize, ranges);
-
-        Toast.makeText(getApplicationContext()," HIGUI =" + Highgui.imread(Environment.getExternalStorageDirectory().getAbsolutePath() + "/1.png"), Toast.LENGTH_LONG).show();
-         Toast.makeText(getApplicationContext()," CANNY = " + Imgproc.compareHist(img1 , img2, Imgproc.CV_CANNY_L2_GRADIENT),Toast.LENGTH_LONG).show();*/
-
-
-       // Toast.makeText(getApplicationContext(),"RESİMLER AYNI !",Toast.LENGTH_LONG).show();
-
-
-
-
-
-        /*************************************************************************************************************************************/
 
 
     public static String getCurrentTimeStamp(){
