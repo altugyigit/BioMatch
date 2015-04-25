@@ -214,8 +214,8 @@ public class TakePictureActivity extends ActionBarActivity {
                 float carpim = ((result.width * result.height) / 1024000);
 
                 if (Math.round(carpim) == 1){
-                    pictureWidth = result.height;
-                    pictureHeight = result.width;
+                    pictureWidth = result.width;
+                    pictureHeight = result.height;
                     break;
                 }
             }
