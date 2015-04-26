@@ -21,7 +21,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:21.0.2'
+    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.google.android.gms:play-services:7.0.0'
     compile project(':openCVLibrary2410')
     compile 'com.parse.bolts:bolts-android:1.1.4'
     compile 'com.google.android.gms:play-services:7.0.0'
