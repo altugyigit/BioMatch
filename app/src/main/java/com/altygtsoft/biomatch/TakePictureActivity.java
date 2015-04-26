@@ -154,8 +154,6 @@ public class TakePictureActivity extends ActionBarActivity {
                 });
 
 
-
-
             }
         });
 
@@ -175,7 +173,7 @@ public class TakePictureActivity extends ActionBarActivity {
                         //farklı olmakta bu da OutOfMemory gibi hatalara sebebiyet vermekte. (Kerem)
                         List<Camera.Size> sizes = camera.getParameters().getSupportedPictureSizes();
                         Camera.Size result;
-                        for(int i = 0; i < sizes.size(); i++){
+                        for (int i = 0; i < sizes.size(); i++) {
                             result = sizes.get(i);
                             Log.i("Size", "Supported Width = " + result.width + "Supported Height = " + result.height);
                             /*float carpim = ((result.width * result.height) / 1024000);
@@ -187,12 +185,12 @@ public class TakePictureActivity extends ActionBarActivity {
                         }
                         List<String> focusModes = camera.getParameters().getSupportedFocusModes();
                         String focusResults;
-                        for (int j = 0; j < focusModes.size(); j++){
+                        for (int j = 0; j < focusModes.size(); j++) {
                             focusResults = focusModes.get(j);
                             Log.d("SupportedFocusModes", focusResults);
                         }
 
-                        params.setFocusMode(Camera.Parameters.FOCUS_MODE_MACRO);
+                        params.setFocusMode(Camera.Parameters.FOCUS_MODE_EDOF);
                         camera.setParameters(params);
 
                         camera.startPreview();

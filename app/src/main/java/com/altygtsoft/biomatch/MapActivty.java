@@ -1,5 +1,6 @@
 package com.altygtsoft.biomatch;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
@@ -8,9 +9,14 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
 public class MapActivty extends ActionBarActivity {
+
+    Button bellek;
+    Button resimcek;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,5 +37,24 @@ public class MapActivty extends ActionBarActivity {
 
             actionBar.show();
         }
+        bellek=(Button)findViewById(R.id.bellek);
+        resimcek=(Button)findViewById(R.id.ResimCek);
+        bellek.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MapActivty.this,Bellek_Activity.class);
+                i.setClass(getApplicationContext(), Bellek_Activity.class);
+                startActivity(i);
+
+            }
+        });
+        resimcek.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MapActivty.this,CameraPreview.class);
+                i.setClass(getApplicationContext(), CameraPreview.class);
+                startActivity(i);
+            }
+        });
     }
 }
