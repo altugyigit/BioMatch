@@ -121,49 +121,59 @@ public class TakePictureActivity extends ActionBarActivity {
                         Toast.LENGTH_LONG).show();
             }
         }
+        try {
+            photoButton.setOnClickListener(new View.OnClickListener() {
 
-        photoButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (camera == null)
+                        return;
+                    try {
+                        camera.autoFocus(new Camera.AutoFocusCallback() {
+                            @Override
+                            public void onAutoFocus(boolean success, Camera camera) {
+                                if (success) {
+                                    camera.takePicture(new Camera.ShutterCallback() {
 
-            @Override
-            public void onClick(View v) {
-                if (camera == null)
-                    return;
-                camera.autoFocus(new Camera.AutoFocusCallback() {
-                    @Override
-                    public void onAutoFocus(boolean success, Camera camera) {
-                        if (success) {
-                            camera.takePicture(new Camera.ShutterCallback() {
+                                        @Override
+                                        public void onShutter() {
+                                            // nothing to do
+                                        }
 
-                                @Override
-                                public void onShutter() {
-                                    // nothing to do
+                                    }, null, new Camera.PictureCallback() {
+
+                                        @Override
+                                        public void onPictureTaken(byte[] data, Camera camera) {
+                                            saveScaledPhoto(data);
+                                            if (camera != null) {
+                                                camera.getParameters();
+                                                camera.startPreview();
+                                            }
+                                        }
+
+                                    });
+
                                 }
-
-                            }, null, new Camera.PictureCallback() {
-
-                                @Override
-                                public void onPictureTaken(byte[] data, Camera camera) {
-                                    saveScaledPhoto(data);
-                                    if (camera != null) {
-                                        camera.getParameters();
-                                        camera.startPreview();
-                                    }
-                                }
-
-                            });
-
-                        }
+                            }
+                        });
                     }
-                });
+                    catch (Exception e){
+                        e.printStackTrace();
+                        Log.d("AUTOFOCUSCALLBACK", e.getMessage());
+                    }
 
 
-                Log.d("HEIGHT / WIDTH = ",
-                        +camera.getParameters().getPreviewSize().height + " " + camera.getParameters().getPreviewSize().width + " " +
-                                camera.getParameters().getPictureSize().height + " " + camera.getParameters().getPictureSize().width);
+                    Log.d("HEIGHT / WIDTH = ",
+                            +camera.getParameters().getPreviewSize().height + " " + camera.getParameters().getPreviewSize().width + " " +
+                                    camera.getParameters().getPictureSize().height + " " + camera.getParameters().getPictureSize().width);
 
-            }
-        });
-
+                }
+            });
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Log.d("photoButtonOnClick", e.getMessage());
+        }
         surfaceView = (SurfaceView)findViewById(R.id.camera_surface_view);
         SurfaceHolder holder = surfaceView.getHolder();
         holder.addCallback(new SurfaceHolder.Callback() {
@@ -268,7 +278,7 @@ public class TakePictureActivity extends ActionBarActivity {
                     isTac = false;
                     isCanak = true;
                     Toast.makeText(getApplicationContext(), "Taç yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
-                    String currentTimeStamp = getCurrentTimeStamp();
+                    //String currentTimeStamp = getCurrentTimeStamp();
                     fileName = "TacYaprak";
 
                     new AsyncUpload().execute(fileName);
@@ -280,7 +290,7 @@ public class TakePictureActivity extends ActionBarActivity {
                     isCanak = false;
                     isYaprak = true;
                     Toast.makeText(getApplicationContext(), "Çanak yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
-                    String currentTimeStamp = getCurrentTimeStamp();
+                    //String currentTimeStamp = getCurrentTimeStamp();
                     fileName = "CanakYaprak";
 
                     new AsyncUpload().execute(fileName);
@@ -290,7 +300,7 @@ public class TakePictureActivity extends ActionBarActivity {
                     pictureCache.setByteArrayYaprak(scaledData);
                     isYaprak = false;
                     Toast.makeText(getApplicationContext(), "Ağaç yaprağı görüntüsü alındı.", Toast.LENGTH_LONG).show();
-                    String currentTimeStamp = getCurrentTimeStamp();
+                    //String currentTimeStamp = getCurrentTimeStamp();
                     fileName = "AgacYapragi";
 
                     new AsyncUpload().execute(fileName);
@@ -360,7 +370,7 @@ public class TakePictureActivity extends ActionBarActivity {
         }
 
 
-    public static String getCurrentTimeStamp(){
+    /*public static String getCurrentTimeStamp(){
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss", Locale.forLanguageTag("TR"));
             return dateFormat.format(new Date());
@@ -368,7 +378,7 @@ public class TakePictureActivity extends ActionBarActivity {
             e.printStackTrace();
             return null;
         }
-    }
+    }*/
 
     @Override
     public void onResume() {

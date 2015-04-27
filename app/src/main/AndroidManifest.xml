@@ -12,8 +12,7 @@
          The following two permissions are not required to use
          Google Maps Android API v2, but are recommended.
     -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
 //Resimlerin taglarına GPS bilgisini yazacağız Gerekli !
     <uses-feature
         android:name="android.hardware.camera"
@@ -53,7 +52,7 @@
         android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDnaKJsNtCpu196ZRAFqYYBDqxjQWwiYvs" />
+            android:value="AIzaSyChXoEdG6gOCvjw0l_7RxJHYaiECyK5m9g" />
 
         <activity
             android:name=".MainActivity"

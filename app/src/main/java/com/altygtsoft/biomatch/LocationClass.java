@@ -69,7 +69,7 @@ public class LocationClass
 
         this.LOCATION_EDIRNE = new LatLng(lat, lon);
         this.googleMap.addMarker(new MarkerOptions().position(LOCATION_EDIRNE));
-        this.update = CameraUpdateFactory.newLatLngZoom(/*konum bilgisi*/LOCATION_EDIRNE, /*uyakýnlaþtýrma oraný*/16);
+        this.update = CameraUpdateFactory.newLatLngZoom(LOCATION_EDIRNE, 16);
         this.googleMap.animateCamera(update);
     }
 }
