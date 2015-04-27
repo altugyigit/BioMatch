@@ -67,6 +67,7 @@ public class CobanActivity extends ActionBarActivity {
 
                 if (radioOnline.isChecked()) {
                     Intent intent = new Intent(CobanActivity.this.getApplicationContext(), TakePictureActivity.class);
+                    intent.putExtra("from","picture");
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(CobanActivity.this.getApplicationContext(), TakePictureOfflineActivity.class);

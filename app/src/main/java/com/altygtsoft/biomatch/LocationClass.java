@@ -1,10 +1,16 @@
 package com.altygtsoft.biomatch;
 
+import android.content.Context;
+import android.media.ExifInterface;
+import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.File;
 
 public class LocationClass
 {
@@ -15,8 +21,10 @@ public class LocationClass
     public ExifLocation exifLocation;
     public  GoogleMap googleMap;
     public CameraUpdate update;
-    public LocationClass(GoogleMap googleMap)
+    private Context context;
+    public LocationClass(Context context, GoogleMap googleMap)
     {
+        this.context = context;
         this.googleMap = googleMap;
         this.exifLocation = new ExifLocation();
     }
@@ -49,27 +57,53 @@ public class LocationClass
     }
 
     public void setFilePath(String filePath) {
-        this.filePath = filePath;
+        File file = new File(filePath);
+        if(file.exists())
+        {
+            this.filePath = filePath;
+        }
+        else
+        {
+            Toast.makeText(context, "Fotograf bulunamadi !", Toast.LENGTH_LONG).show();
+        }
     }
 
     public double getLatFunc()
     {
-        this.lat = exifLocation.exif2Loc(this.filePath).getLatitude();
-        return  this.lat;
+        try
+        {
+            this.lat = exifLocation.exif2Loc(this.filePath).getLatitude();
+            return  this.lat;
+        }
+        catch (Throwable ex)
+        {
+            Toast.makeText(context, "Fotografta konum bilgisi mevut degil !", Toast.LENGTH_LONG).show();
+            return 0.0;
+        }
+
     }
     public double getLonFunc()
     {
-        this.lon = exifLocation.exif2Loc(this.filePath).getLongitude();
-        return this.lon;
+        try
+        {
+            this.lon = exifLocation.exif2Loc(this.filePath).getLongitude();
+            return this.lon;
+        }
+        catch (Throwable ex)
+        {
+            return 0.0;
+        }
+
     }
     public void DynamicMapUpdate()
     {
         this.lat = getLatFunc();
         this.lon = getLonFunc();
 
-        this.LOCATION_EDIRNE = new LatLng(lat, lon);
-        this.googleMap.addMarker(new MarkerOptions().position(LOCATION_EDIRNE));
-        this.update = CameraUpdateFactory.newLatLngZoom(LOCATION_EDIRNE, 16);
-        this.googleMap.animateCamera(update);
+            this.LOCATION_EDIRNE = new LatLng(lat, lon);
+            this.googleMap.addMarker(new MarkerOptions().position(LOCATION_EDIRNE));
+            this.update = CameraUpdateFactory.newLatLngZoom(LOCATION_EDIRNE, 16);
+            this.googleMap.animateCamera(update);
+
     }
 }

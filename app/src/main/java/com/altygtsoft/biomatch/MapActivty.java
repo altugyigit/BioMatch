@@ -43,7 +43,6 @@ public class MapActivty extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MapActivty.this,Bellek_Activity.class);
-                i.setClass(getApplicationContext(), Bellek_Activity.class);
                 startActivity(i);
 
             }
@@ -51,8 +50,8 @@ public class MapActivty extends ActionBarActivity {
         resimcek.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MapActivty.this,CameraPreview.class);
-                i.setClass(getApplicationContext(), CameraPreview.class);
+                Intent i = new Intent(MapActivty.this,TakePictureActivity.class);
+                i.putExtra("from","map");
                 startActivity(i);
             }
         });

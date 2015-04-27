@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.parse.Parse;
 import com.parse.ParseUser;
 
 import org.w3c.dom.Text;
@@ -37,6 +38,7 @@ public class WelcomeActivity extends ActionBarActivity {
 
     void startCast()
     {
+        Parse.initialize(WelcomeActivity.this, "HgrrtDO2dnazkQCPY59MR82ERhiamS5b1LTXBit8", "FS2hiyTi5uYVqz392tA39aXHYxubPdsGv28IiJ5Y");
         //Login olmus kisiyi al.
         ParseUser currentUser = ParseUser.getCurrentUser();
         String struser = currentUser.getUsername();
@@ -94,7 +96,7 @@ public class WelcomeActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(WelcomeActivity.this.getApplicationContext() ,MapPicPickerActivity.class);
+                Intent intent = new Intent(WelcomeActivity.this.getApplicationContext() ,MapActivty.class);
                 //Intent intent = new Intent(WelcomeActivity.this.getApplicationContext() ,ImageManipulationsActivity.class);
                 startActivity(intent);
 

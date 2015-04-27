@@ -69,6 +69,7 @@ public class TakePictureActivity extends ActionBarActivity {
     public static boolean isTac = true;
     public static boolean isCanak = false;
     public static boolean isYaprak = false;
+    public static String from;
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -99,6 +100,16 @@ public class TakePictureActivity extends ActionBarActivity {
 
     private void startCast()
     {
+        from = getIntent().getStringExtra("from");
+
+        if(from.equals("map"))
+        {
+            Toast.makeText(TakePictureActivity.this, "From :" + from, Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            Toast.makeText(TakePictureActivity.this, "From :" + from, Toast.LENGTH_LONG).show();
+        }
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
 
         if(actionBar != null)
