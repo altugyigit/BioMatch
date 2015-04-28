@@ -10,6 +10,7 @@ import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.Parse;
 import com.parse.ParseUser;
@@ -27,6 +28,7 @@ public class WelcomeActivity extends ActionBarActivity {
     public Button btnMap;
     public Button btnSignUp;
     public Button btnLogOut;
+    public GPSConnectionClass gpsConnectionClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,21 @@ public class WelcomeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_welcome);
 
         startCast();
+        verifyGPS();
+    }
+
+
+    void connectionGPS()
+    {
+        gpsConnectionClass = new GPSConnectionClass(WelcomeActivity.this);
+        Toast.makeText(getApplicationContext(), "Lutfen GPS aciniz ...", Toast.LENGTH_LONG).show();
+        gpsConnectionClass.goToTurnOnScreenGPS();//GPS acmak icin settings getir.
+
+    }
+
+    void verifyGPS()
+    {
+        gpsConnectionClass.verifyGPS();//GPS Acildi mi ? acilmadiysa actir.
     }
 
     void startCast()
@@ -52,6 +69,8 @@ public class WelcomeActivity extends ActionBarActivity {
 
             actionBar.show();
         }
+
+        connectionGPS();
 
         txtWelcome = (TextView)findViewById(R.id.txtWelcome);
         txtUserName = (TextView)findViewById(R.id.txtUserName);

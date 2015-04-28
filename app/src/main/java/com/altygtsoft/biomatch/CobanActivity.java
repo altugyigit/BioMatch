@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.Parse;
 import com.parse.ParseUser;
@@ -28,12 +29,30 @@ public class CobanActivity extends ActionBarActivity {
     public RadioButton radioOffline;
     public RadioButton radioOnline;
     public Button btnLogOut;
+    public GPSConnectionClass gpsConnectionClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coban);
+
         startCast();
+        verifyGPS();
+    }
+
+
+
+    void connectionGPS()
+    {
+        gpsConnectionClass = new GPSConnectionClass(CobanActivity.this);
+        Toast.makeText(getApplicationContext(), "Lutfen GPS aciniz ...", Toast.LENGTH_LONG).show();
+        gpsConnectionClass.goToTurnOnScreenGPS();//GPS acmak icin settings getir.
+
+    }
+
+    void verifyGPS()
+    {
+        gpsConnectionClass.verifyGPS();//GPS Acildi mi ? acilmadiysa actir.
     }
 
     private void startCast() {
@@ -52,6 +71,8 @@ public class CobanActivity extends ActionBarActivity {
 
             actionBar.show();
         }
+
+        connectionGPS();
 
         txtWelcome = (TextView)findViewById(R.id.txtWelcome);
         takePicCoban = (Button)findViewById(R.id.takePictureCoban);
