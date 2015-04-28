@@ -3,6 +3,7 @@ package com.altygtsoft.biomatch;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +14,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.hardware.Camera;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
@@ -33,6 +36,7 @@ import android.widget.Toast;
 import com.google.android.gms.location.LocationRequest;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -64,12 +68,18 @@ public class TakePictureActivity extends ActionBarActivity {
     public static String fileName;
     public static byte[] scaledData;
     public static ProgressDialog pdialog;
-    private Location location;
-    private LocationRequest locationRequest;
+    public static Location location;
+    public static LocationManager locationManager;
+    public static LocationRequest locationRequest;
+    public static double latitude = 0;
+    public static double longtitude = 0;
+    public static double[] latlon;
+    public static LocationListener locationListener;
     public static boolean isTac = true;
     public static boolean isCanak = false;
     public static boolean isYaprak = false;
     public static String from;
+    public static ParseGeoPoint parseGeoPoint;
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -87,16 +97,78 @@ public class TakePictureActivity extends ActionBarActivity {
         }
     };
 
+    GPSTracker gpsTracker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         pictures = new Pictures();
+        latlon = new double[2];
         super.onCreate(savedInstanceState);
+
+        gpsTracker = new GPSTracker(TakePictureActivity.this);
+
+        if (gpsTracker.canGetLocation()){
+            latitude = gpsTracker.getLatitude();
+            longtitude = gpsTracker.getLongtitude();
+
+            Toast.makeText(getApplicationContext(), "Konumumuzun enlemi = " + latitude + " boylamı ise = " + longtitude,Toast.LENGTH_LONG).show();
+        }
+        else
+            Toast.makeText(getApplicationContext(), "Hala sıkıntı var konumda..", Toast.LENGTH_LONG).show();
+
+        /*locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        latlon = getLocation();*/
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_take_picture);
 
         startCast();
     }
+
+
+
+   /* public void setLocation(Location loc){
+        Log.d("SETLOCATIONVALUES", loc.getLatitude() + " " + loc.getLongitude() );
+    }
+
+        public double[] getLocation () {
+
+            locationListener = new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    setLocation(location);
+                    latitude = location.getLatitude();
+                    longtitude = location.getLongitude();
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            };
+        double[] coordinates = new double[2];
+
+        if (latitude != 0 || longtitude != 0) { //koordinatların listener'da doldurulup doldurulmadığını kontrol ediyoruz
+            coordinates[0] = latitude;
+            coordinates[1] = longtitude;
+        } else                                    //Dolmadıysa metodu tekrar çağırıyoruz.
+            Log.d("LATLONError", latitude + " " + longtitude);
+
+
+        return coordinates;
+
+
+    }*/
+
 
     private void startCast()
     {
@@ -192,6 +264,7 @@ public class TakePictureActivity extends ActionBarActivity {
             public void surfaceCreated(SurfaceHolder holder) {
                 try {
                     if (camera != null) {
+
 
                         camera.setDisplayOrientation(90);
                         camera.setPreviewDisplay(holder);
@@ -339,13 +412,17 @@ public class TakePictureActivity extends ActionBarActivity {
 
             try {
                 photoFile = new ParseFile(fileName, scaledData);
+                parseGeoPoint = new ParseGeoPoint(latitude, longtitude);
                 //ExifInterface exif = new ExifInterface()
                 if (isTac) {
+                    pictures.setLocation(parseGeoPoint);
                     pictures.setPhotoFileTac(photoFile);
 
                 } else if (isCanak) {
+                    pictures.setLocation(parseGeoPoint);
                     pictures.setPhotoFileCanak(photoFile);
                 } else if (isYaprak) {
+                    pictures.setLocation(parseGeoPoint);
                     pictures.setPhotoFileYaprak(photoFile);
 
                 }
@@ -396,7 +473,7 @@ public class TakePictureActivity extends ActionBarActivity {
         super.onResume();
 
         //OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_3, this, mLoaderCallback);
-
+        //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 360000, 1000, locationListener);
         if (camera == null) {
             try {
                 camera = Camera.open();
