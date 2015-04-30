@@ -109,13 +109,14 @@
         android:padding="10dp"/>
     
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
         android:id="@+id/btnLogin"
         android:textSize="25sp"
-        android:text="@string/btngiris"
-        android:background="#ff474c4c"
+        android:text=""
+        android:background="@drawable/custom_button"
         android:textColor="#fff"
+
         />
 </LinearLayout>
 </ScrollView>
