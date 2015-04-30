@@ -110,7 +110,7 @@
     
     <Button
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
+        android:layout_height="100dp"
         android:id="@+id/btnLogin"
         android:textSize="25sp"
         android:text=""
