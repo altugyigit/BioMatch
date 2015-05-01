@@ -35,17 +35,9 @@ public class WelcomeActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
+        gpsConnectionClass = new GPSConnectionClass(WelcomeActivity.this);
         startCast();
         verifyGPS();
-    }
-
-
-    void connectionGPS()
-    {
-        gpsConnectionClass = new GPSConnectionClass(WelcomeActivity.this);
-        Toast.makeText(getApplicationContext(), "Lutfen GPS aciniz ...", Toast.LENGTH_LONG).show();
-        gpsConnectionClass.goToTurnOnScreenGPS();//GPS acmak icin settings getir.
-
     }
 
     void verifyGPS()
@@ -69,8 +61,6 @@ public class WelcomeActivity extends ActionBarActivity {
 
             actionBar.show();
         }
-
-        connectionGPS();
 
         txtWelcome = (TextView)findViewById(R.id.txtWelcome);
         txtUserName = (TextView)findViewById(R.id.txtUserName);

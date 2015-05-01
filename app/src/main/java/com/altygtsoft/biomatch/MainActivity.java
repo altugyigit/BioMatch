@@ -2,6 +2,7 @@ package com.altygtsoft.biomatch;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +37,7 @@ public class MainActivity extends ActionBarActivity {
     public String passwordUser;
     public RadioButton cobanRadio;
     public RadioButton biyologRadio;
+    public ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +45,6 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
             isConnected();
-
-            Parse.enableLocalDatastore(this);
-            Parse.initialize(this, "HgrrtDO2dnazkQCPY59MR82ERhiamS5b1LTXBit8", "FS2hiyTi5uYVqz392tA39aXHYxubPdsGv28IiJ5Y");
-
-            ParseUser.enableAutomaticUser();
-            ParseACL defaultACL = new ParseACL();
-            defaultACL.setPublicReadAccess(true);
-            ParseACL.setDefaultACL(defaultACL, true);
-            ParseObject.registerSubclass(Pictures.class);
-
-
             startCast();
     }
 
@@ -83,6 +75,25 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    void showDialog()
+    {
+        progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setTitle("Doğrulanıyor...");
+        progressDialog.setMessage("Lütfen bekleyin");
+        progressDialog.setCancelable(false);
+        progressDialog.setIndeterminate(true);
+        progressDialog.show();
+    }
+
+    void closeDialog()
+    {
+        if(progressDialog != null)
+        {
+            progressDialog.dismiss();
+        }
+    }
+
+
     void startCast()
     {
         ActionBar actionBar = getSupportActionBar();
@@ -109,9 +120,10 @@ public class MainActivity extends ActionBarActivity {
                     userName = txtUserName.getText().toString();
                     passwordUser = txtPassword.getText().toString();
                     //Önemli olan Parse tan kontrol ile gerçekleşen login işlemidir.
-
+                    showDialog();
                     ParseUser.logInInBackground(userName, passwordUser,
                             new LogInCallback() {
+
                                 @Override
                                 public void done(ParseUser parseUser, ParseException e) {
 
@@ -120,15 +132,18 @@ public class MainActivity extends ActionBarActivity {
                                             Toast.makeText(getApplicationContext(), "Hoşgeldin ...", Toast.LENGTH_LONG).show();
                                             Intent intentCoban = new Intent(MainActivity.this.getApplicationContext(), CobanActivity.class);
                                             startActivity(intentCoban);
+                                            closeDialog();
                                             finish();
                                         } else {
                                             Toast.makeText(getApplicationContext(), "Hoşgeldiniz ...", Toast.LENGTH_LONG).show();
                                             Intent intent = new Intent(MainActivity.this.getApplicationContext(), WelcomeActivity.class);
                                             startActivity(intent);
+                                            closeDialog();
                                             finish();
                                         }
                                     } else {
                                         Toast.makeText(getApplicationContext(), "Kullanıcı adı yada şifre yanlış !", Toast.LENGTH_LONG).show();
+                                        closeDialog();
                                     }
                                 }
                             }

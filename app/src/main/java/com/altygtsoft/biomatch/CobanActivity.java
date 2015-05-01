@@ -36,18 +36,9 @@ public class CobanActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coban);
 
+        gpsConnectionClass = new GPSConnectionClass(CobanActivity.this);
         startCast();
         verifyGPS();
-    }
-
-
-
-    void connectionGPS()
-    {
-        gpsConnectionClass = new GPSConnectionClass(CobanActivity.this);
-        Toast.makeText(getApplicationContext(), "Lutfen GPS aciniz ...", Toast.LENGTH_LONG).show();
-        gpsConnectionClass.goToTurnOnScreenGPS();//GPS acmak icin settings getir.
-
     }
 
     void verifyGPS()
@@ -71,8 +62,6 @@ public class CobanActivity extends ActionBarActivity {
 
             actionBar.show();
         }
-
-        connectionGPS();
 
         txtWelcome = (TextView)findViewById(R.id.txtWelcome);
         takePicCoban = (Button)findViewById(R.id.takePictureCoban);

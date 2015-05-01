@@ -168,6 +168,7 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
 
             public void surfaceDestroyed(SurfaceHolder holder) {
 
+                holder.removeCallback(this);
                 camera.stopPreview();
                 camera.release();
             }

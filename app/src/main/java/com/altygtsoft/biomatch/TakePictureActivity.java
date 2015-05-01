@@ -81,6 +81,7 @@ public class TakePictureActivity extends ActionBarActivity {
     public static String from;
     public static ParseGeoPoint parseGeoPoint;
 
+
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
@@ -118,13 +119,11 @@ public class TakePictureActivity extends ActionBarActivity {
         /*locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         latlon = getLocation();*/
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         setContentView(R.layout.activity_take_picture);
 
         startCast();
     }
-
-
 
    /* public void setLocation(Location loc){
         Log.d("SETLOCATIONVALUES", loc.getLatitude() + " " + loc.getLongitude() );
@@ -265,9 +264,9 @@ public class TakePictureActivity extends ActionBarActivity {
                 try {
                     if (camera != null) {
 
-
-                        camera.setDisplayOrientation(90);
                         camera.setPreviewDisplay(holder);
+                        camera.setDisplayOrientation(90);
+
                         Camera.Parameters params = camera.getParameters();
 
                         params.setFocusMode(Camera.Parameters.FOCUS_MODE_MACRO);
@@ -292,7 +291,9 @@ public class TakePictureActivity extends ActionBarActivity {
 
                 camera.stopPreview();
                 camera.release();
-            }
+
+
+                }
 
         });
     }
@@ -476,6 +477,7 @@ public class TakePictureActivity extends ActionBarActivity {
         //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 360000, 1000, locationListener);
         if (camera == null) {
             try {
+
                 camera = Camera.open();
                 photoButton.setEnabled(true);
             } catch (Exception e) {
@@ -490,12 +492,19 @@ public class TakePictureActivity extends ActionBarActivity {
     public void onPause() {
 
         super.onPause();
+
+        /*if(camera != null)
+        {
+            camera.stopPreview();
+            camera.release();
+        }*/
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
     }
+
 
     public class AsyncUpload extends AsyncTask<String,Void,String> {
 

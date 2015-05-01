@@ -113,8 +113,8 @@
         android:layout_height="100dp"
         android:id="@+id/btnLogin"
         android:textSize="25sp"
-        android:text=""
-        android:background="@drawable/custom_button"
+        android:text="@string/btngiris"
+        android:background="#ff474c4c"
         android:textColor="#fff"
 
         />
