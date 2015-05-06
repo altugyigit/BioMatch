@@ -12,7 +12,9 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
+        android:background="@drawable/custom_button"
+        android:textSize="20dp"
         android:text="Resim Seç"
         android:id="@+id/resim_sec" />
 
@@ -42,7 +44,9 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
+        android:background="@drawable/custom_button"
+        android:textSize="20dp"
         android:text="Harita'ya Git"
         android:id="@+id/ButtonMap" />
 

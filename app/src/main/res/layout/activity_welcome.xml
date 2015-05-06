@@ -45,12 +45,13 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
+        android:background="@drawable/custom_button"
+        android:textSize="20dp"
+        android:textColor="#080808"
+        android:text="ANALİZE GÖNDER"
         android:id="@+id/btnStartAnalyze"
-        android:textSize="25sp"
-        android:text="@string/gonder"
-        android:background="#ff474c4c"
-        android:textColor="#fff"/>
+/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,12 +62,13 @@
         />
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
+        android:background="@drawable/custom_button"
+        android:textSize="20dp"
+        android:textColor="#080808"
         android:id="@+id/btnPreviousAnalyze"
-        android:textSize="25sp"
         android:text="@string/btnOncekiAnaliz"
-        android:background="#ff474c4c"
-        android:textColor="#fff"/>
+    />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -78,12 +80,13 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
+        android:background="@drawable/custom_button"
+        android:textSize="20dp"
+        android:textColor="#080808"
         android:id="@+id/btnType"
-        android:textSize="25sp"
         android:text="@string/btnTurler"
-        android:background="#ff474c4c"
-        android:textColor="#fff"/>
+        />
 
     <TextView
         android:layout_width="match_parent"
@@ -96,12 +99,12 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
+        android:background="@drawable/custom_button"
+        android:textSize="20dp"
+        android:textColor="#080808"
         android:id="@+id/btnMap"
-        android:textSize="25sp"
-        android:text="@string/btnHarita"
-        android:background="#ff474c4c"
-        android:textColor="#fff"/>
+        android:text="@string/btnHarita" />
 
     <TextView
         android:layout_width="match_parent"
@@ -114,12 +117,13 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
+        android:background="@drawable/custom_button"
+        android:textSize="20dp"
+        android:textColor="#080808"
         android:id="@+id/btnSignUp"
-        android:textSize="25sp"
         android:text="@string/btnKisiKayitEt"
-        android:background="#ff474c4c"
-        android:textColor="#fff"/>
+        />
 
     <TextView
         android:layout_width="match_parent"
@@ -132,12 +136,13 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
+        android:background="@drawable/custom_button"
+        android:textSize="20dp"
+        android:textColor="#080808"
         android:id="@+id/btnLogOut"
-        android:textSize="25sp"
         android:text="@string/btnCikis"
-        android:background="#ff474c4c"
-        android:textColor="#fff"/>
+        />
 
     <TextView
         android:layout_width="match_parent"

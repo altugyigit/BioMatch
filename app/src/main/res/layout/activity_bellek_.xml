@@ -32,12 +32,14 @@
 
             <Button
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="75dp"
                 android:text="Resim Seç"
                 android:id="@+id/Sec"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_margin="25dp" />
+                android:layout_margin="25dp"
+                android:textSize="20dp"
+                android:background="@drawable/custom_button"/>
 
         </LinearLayout>
 
@@ -60,11 +62,14 @@
 
             <Button
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="75dp"
                 android:text="Haritaya Git"
+                android:textSize="20dp"
                 android:id="@+id/harita"
                 android:layout_gravity="bottom|center_horizontal"
-                android:layout_margin="25dp" />
+                android:layout_margin="25dp"
+                android:background="@drawable/custom_button"
+                android:textAlignment="center"/>
         </LinearLayout>
 
     </LinearLayout>

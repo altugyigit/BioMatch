@@ -19,16 +19,20 @@
 
         <Button
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="75dp"
             android:text="Haritada Göster"
             android:id="@+id/getir"
+            android:textSize="20dp"
+            android:background="@drawable/custom_button"
             android:layout_gravity="top" />
 
         <Button
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="75dp"
             android:text="Başa Dön"
             android:id="@+id/back"
+            android:background="@drawable/custom_button"
+            android:textSize="20dp"
             android:layout_marginTop="5dp" />
         <fragment
             android:id="@+id/map"

@@ -38,7 +38,9 @@
     <Button
         android:id="@+id/btnSelect1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
+        android:background="@drawable/custom_button"
+        android:textSize="20dp"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:text="@string/select1" />
@@ -62,7 +64,9 @@
     <Button
         android:id="@+id/btnSelect2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
+        android:background="@drawable/custom_button"
+        android:textSize="20dp"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:text="@string/select2" />
@@ -72,12 +76,12 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
+        android:background="@drawable/custom_button"
+        android:textSize="20dp"
         android:id="@+id/btnStart"
-        android:textSize="25sp"
         android:text="@string/gonder"
-        android:background="#ff474c4c"
-        android:textColor="#fff"/>
+        android:textColor="#080808"/>
 
     </LinearLayout>
 </ScrollView>

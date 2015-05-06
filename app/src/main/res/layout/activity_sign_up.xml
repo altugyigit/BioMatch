@@ -94,12 +94,12 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="75dp"
+            android:background="@drawable/custom_button"
+            android:textSize="20dp"
             android:id="@+id/btnSignUp"
-            android:textSize="25sp"
             android:text="@string/btnKayitEt"
-            android:background="#ff474c4c"
-            android:textColor="#fff"
+            android:textColor="#080808"
             />
     </LinearLayout>
 </ScrollView>
