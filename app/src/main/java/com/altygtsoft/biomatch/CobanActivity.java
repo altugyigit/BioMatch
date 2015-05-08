@@ -30,15 +30,19 @@ public class CobanActivity extends ActionBarActivity {
     public RadioButton radioOnline;
     public Button btnLogOut;
     public GPSConnectionClass gpsConnectionClass;
+    public GetLatLon getLatLon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coban);
-
+        getLatLon = new GetLatLon(this);
         gpsConnectionClass = new GPSConnectionClass(CobanActivity.this);
         startCast();
         verifyGPS();
+
+
+
     }
 
     void verifyGPS()
@@ -52,7 +56,7 @@ public class CobanActivity extends ActionBarActivity {
         Parse.initialize(CobanActivity.this, "HgrrtDO2dnazkQCPY59MR82ERhiamS5b1LTXBit8", "FS2hiyTi5uYVqz392tA39aXHYxubPdsGv28IiJ5Y");
         ParseUser currentUser = ParseUser.getCurrentUser();
         String struser = currentUser.getUsername().toUpperCase();
-
+        getLatLon.getLatLon();
         ActionBar actionBar = getSupportActionBar();
 
         if(actionBar != null)

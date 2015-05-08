@@ -2,6 +2,7 @@ package com.altygtsoft.biomatch;
 
 import android.content.Context;
 import android.media.ExifInterface;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -11,9 +12,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
+import java.util.List;
 
 public class LocationClass
 {
+
     private LatLng LOCATION_EDIRNE;
     private double lat;
     private double lon;
@@ -22,8 +25,14 @@ public class LocationClass
     public  GoogleMap googleMap;
     public CameraUpdate update;
     private Context context;
+    public GetLatLon getLatLon = new GetLatLon(context);
+
+    public static double tempLat;
+    public static double tempLon;
+    public static List<Double> latLonDoubleList;
     public LocationClass(Context context, GoogleMap googleMap)
     {
+
         this.context = context;
         this.googleMap = googleMap;
         this.exifLocation = new ExifLocation();
@@ -99,11 +108,18 @@ public class LocationClass
     {
         this.lat = getLatFunc();
         this.lon = getLonFunc();
+            double[] latLonArray;
+            latLonArray = getLatLon.latLonArray.clone();
 
-            this.LOCATION_EDIRNE = new LatLng(lat, lon);
+
+        for (int i=0; i<latLonArray.length-1; i++) {
+            tempLat = latLonArray[i];
+            tempLon = latLonArray[i+1];
+            Log.d("LocationClassMessage", "ENLEM : "+latLonArray[i]+"BOYLAM : "+latLonArray[i+1]);
+            this.LOCATION_EDIRNE = new LatLng(tempLat, tempLon);
             this.googleMap.addMarker(new MarkerOptions().position(LOCATION_EDIRNE));
             this.update = CameraUpdateFactory.newLatLngZoom(LOCATION_EDIRNE, 16);
             this.googleMap.animateCamera(update);
-
+        }
     }
 }
