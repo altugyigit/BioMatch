@@ -12,6 +12,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LocationClass
@@ -108,16 +109,19 @@ public class LocationClass
     {
         this.lat = getLatFunc();
         this.lon = getLonFunc();
-            double[] latLonArray;
-            latLonArray = getLatLon.latLonArray.clone();
+        List<Double> latArrayLC = new ArrayList<Double>();
+        List<Double> lonArrayLC = new ArrayList<Double>();
+        latArrayLC = getLatLon.latArray;
+        lonArrayLC = getLatLon.lonArray;
 
+        for (int i=0; i<latArrayLC.size(); i++) {
+                tempLat = latArrayLC.get(i);
+                Log.d("LocationClassMessage", "ENLEM : "+tempLat);
+                tempLon = lonArrayLC.get(i);
+                Log.d("LocationClassMessage", "BOYLAM : "+tempLon);
 
-        for (int i=0; i<latLonArray.length-1; i++) {
-            tempLat = latLonArray[i];
-            tempLon = latLonArray[i+1];
-            Log.d("LocationClassMessage", "ENLEM : "+latLonArray[i]+"BOYLAM : "+latLonArray[i+1]);
             this.LOCATION_EDIRNE = new LatLng(tempLat, tempLon);
-            this.googleMap.addMarker(new MarkerOptions().position(LOCATION_EDIRNE));
+            this.googleMap.addMarker(new MarkerOptions().position(LOCATION_EDIRNE).title("ENLEM : "+tempLat +"\nBOYLAM : "+tempLon));
             this.update = CameraUpdateFactory.newLatLngZoom(LOCATION_EDIRNE, 16);
             this.googleMap.animateCamera(update);
         }

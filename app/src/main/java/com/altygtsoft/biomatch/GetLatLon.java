@@ -28,7 +28,8 @@ public class GetLatLon extends Application {
     public static final double NORTH_EAST_LAT = 40.634671;
     public static final double NORTH_EAST_LON = 26.095247;
     public static List<ParseObject> latLonObject;
-    public double[] latLonArray;
+    public List<Double> latArray;
+    public List<Double> lonArray;
     public static int forSize;
     public GetLatLon(Context context){
 
@@ -40,7 +41,7 @@ public class GetLatLon extends Application {
 
 
 
-    public double[] getLatLon() {
+    public void getLatLon() {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Pictures");
         query.whereExists("location");
@@ -50,23 +51,17 @@ public class GetLatLon extends Application {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
                 latLonObject = new ArrayList<>(list);
-                double lat;
-                double lon;
-                forSize = 0;
                 int size = latLonObject.size();
-                size = size + 1;
-                forSize = latLonObject.size();
-                latLonArray = new double[size];
-                //latLonArray = new ArrayList<Double>(10);
 
-                for (int i = 0; i < forSize; i++) {
+                latArray = new ArrayList<Double>();
+                lonArray = new ArrayList<Double>();
+
+
+                for (int i = 0; i < size; i++) {
                     ParseObject tempObj = latLonObject.get(i);
                     ParseGeoPoint tempGeoPoint = tempObj.getParseGeoPoint("location");
-                    lat = tempGeoPoint.getLatitude();
-                    lon = tempGeoPoint.getLongitude();
-                    latLonArray[i] = lat;
-                    latLonArray[i+1] = lon;
-                    Log.d("****LATLONPARSE****", "ENLEM = " + latLonArray[i] + " BOYLAM = " + latLonArray[i+1]);
+                    latArray.add(tempGeoPoint.getLatitude());
+                    lonArray.add(tempGeoPoint.getLongitude());
                 }
 
 
@@ -74,7 +69,7 @@ public class GetLatLon extends Application {
 
         });
 
-        return latLonArray;
+
     }
 
     public void parseInit(){
