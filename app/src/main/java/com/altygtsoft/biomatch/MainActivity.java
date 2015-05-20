@@ -46,6 +46,18 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Thread thread = new Thread() {
+
+            @Override
+            public void run() {
+                RabbitMQConn rabbitMQConn = new RabbitMQConn();
+
+                //rabbitMQConn.rabbitMQSend();
+                //rabbitMQConn.rabbitMQReceive();
+            }
+        };
+        thread.start();
+
         isConnected();
         startCast();
     }
@@ -112,7 +124,7 @@ public class MainActivity extends ActionBarActivity {
         txtUserName = (TextView)findViewById(R.id.txtUserName);
         txtPassword = (TextView)findViewById(R.id.txtPassword);
         cobanRadio = (RadioButton)findViewById(R.id.cobanButton);
-        biyologRadio = (RadioButton)findViewById(R.id.biyologButton);
+        biyologRadio = (RadioButton) findViewById(R.id.biyologButton);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
