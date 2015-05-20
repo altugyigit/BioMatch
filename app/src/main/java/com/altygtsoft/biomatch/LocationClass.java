@@ -3,6 +3,7 @@ package com.altygtsoft.biomatch;
 import android.content.Context;
 import android.media.ExifInterface;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -17,6 +18,7 @@ import java.util.List;
 
 public class LocationClass
 {
+
 
     private LatLng LOCATION_EDIRNE;
     private double lat;
