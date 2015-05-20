@@ -1,7 +1,9 @@
 package com.altygtsoft.biomatch;
 
 import android.content.Context;
+import android.text.Html;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -10,6 +12,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -22,7 +25,7 @@ import java.util.List;
  */
 public class LastLocationClass {
 
-    Context context;
+    private Context context;
     private LatLng LOCATION_EDIRNE;
     public GoogleMap googleMap;
     public CameraUpdate update;
@@ -55,11 +58,15 @@ public class LastLocationClass {
                 for (int i = 0; i < size; i++) {
                     ParseObject tempObj = latLonObject.get(i);
                     ParseGeoPoint tempGeoPoint = tempObj.getParseGeoPoint("location");
+                    ParseFile tacFile = (ParseFile)tempObj.get("TacYaprak");
+                    String tacURL = tacFile.getUrl();
                     latArray.add(tempGeoPoint.getLatitude());
                     lonArray.add(tempGeoPoint.getLongitude());
 
                     LOCATION_EDIRNE = new LatLng(tempGeoPoint.getLatitude(), tempGeoPoint.getLongitude());
-                    googleMap.addMarker(new MarkerOptions().position(LOCATION_EDIRNE).title("ENLEM : "+tempGeoPoint.getLatitude() +"\nBOYLAM : "+tempGeoPoint.getLongitude()));
+                    Toast.makeText(LastLocationClass.this.context, "" + tacURL ,Toast.LENGTH_LONG).show();
+                    String fotoGoster = Html.fromHtml("<p><img src='"+ tacURL +"'></p>").toString();
+                    googleMap.addMarker(new MarkerOptions().position(LOCATION_EDIRNE).title(fotoGoster + "\nENLEM : "+tempGeoPoint.getLatitude() +"\nBOYLAM : "+tempGeoPoint.getLongitude()));
                     update = CameraUpdateFactory.newLatLngZoom(LOCATION_EDIRNE, 16);
                     googleMap.animateCamera(update);
                 }
