@@ -205,7 +205,7 @@ public class TakePictureActivity extends ActionBarActivity {
 
                 @Override
                 public void onClick(View v) {
-                    if (camera == null)
+                    if (camera == null )
                         return;
                     try {
                         camera.autoFocus(new Camera.AutoFocusCallback() {
