@@ -34,4 +34,12 @@ public class Pictures extends ParseObject {
         put("location", value);
 
     }
+
+    public void setSensorSize(String sensorSize){
+        put("sensorSize", sensorSize);
+    }
+
+    public void setFocalLength(String focalLength){
+        put("focalLength", focalLength);
+    }
 }

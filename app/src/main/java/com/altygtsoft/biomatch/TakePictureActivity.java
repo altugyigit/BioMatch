@@ -18,9 +18,11 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.ExifInterface;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Size;
 import android.view.Display;
@@ -52,7 +54,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-
+import com.altygtsoft.biomatch.Devices;
 
 public class TakePictureActivity extends ActionBarActivity {
 
@@ -69,6 +71,7 @@ public class TakePictureActivity extends ActionBarActivity {
     public static byte[] scaledData;
     public static ProgressDialog pdialog;
     public static Location location;
+    public static String focalLength;
     public static LocationManager locationManager;
     public static LocationRequest locationRequest;
     public static double latitude = 0;
@@ -80,6 +83,9 @@ public class TakePictureActivity extends ActionBarActivity {
     public static boolean isYaprak = false;
     public static String from;
     public static ParseGeoPoint parseGeoPoint;
+    public static String SONY_XPERIA_Z2_SENSOR_SIZE = "4.55";
+    public static String ASUS_ZENFONE_5_SENSOR_SIZE = "3.6";
+    public static String SONY_XPERIA_SOLA_SENSOR_SIZE = "3.6";
 
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
@@ -206,6 +212,7 @@ public class TakePictureActivity extends ActionBarActivity {
                             @Override
                             public void onAutoFocus(boolean success, Camera camera) {
                                 if (success) {
+
                                     camera.takePicture(new Camera.ShutterCallback() {
 
                                         @Override
@@ -220,6 +227,7 @@ public class TakePictureActivity extends ActionBarActivity {
                                             saveScaledPhoto(data);
                                             if (camera != null) {
                                                 camera.getParameters();
+
                                                 camera.startPreview();
                                             }
                                         }
@@ -259,11 +267,14 @@ public class TakePictureActivity extends ActionBarActivity {
                         camera.setDisplayOrientation(90);
 
                         Camera.Parameters params = camera.getParameters();
-
+                        focalLength = String.valueOf(params.getFocalLength());
+                        pictures.setFocalLength(focalLength);
+                        getDeviceName();
                         params.setFocusMode(Camera.Parameters.FOCUS_MODE_MACRO);
                         camera.setParameters(params);
 
                         camera.startPreview();
+                        Log.d("Focal Length: ", "focal : " + focalLength);
 
                     }
                 } catch (IOException e) {
@@ -289,6 +300,34 @@ public class TakePictureActivity extends ActionBarActivity {
         });
     }
 
+    public static void getDeviceName() {
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
+        String hardware = Build.HARDWARE;
+        String device = Build.DEVICE;
+        String brand = Build.BRAND;
+
+        Log.d("DEVICEEEE : ", "manu : "+manufacturer+" model : "+model+" hardware : "+hardware+" device : "+device+" brand : "+brand);
+
+        if (manufacturer.startsWith("Sony")){
+            if (model.startsWith("D6503")) {
+                pictures.setSensorSize(SONY_XPERIA_Z2_SENSOR_SIZE);
+                Log.d("SENSOR SIZE : ", "SONY : " + SONY_XPERIA_Z2_SENSOR_SIZE);
+            }
+        }
+        else
+        if (manufacturer.startsWith("Sony")){
+            if (model.startsWith("Xperia")) {
+                pictures.setSensorSize(SONY_XPERIA_SOLA_SENSOR_SIZE);
+                Log.d("SENSOR SIZE : ", "SONY : " + SONY_XPERIA_SOLA_SENSOR_SIZE);
+            }
+        }
+        else
+            if (manufacturer.startsWith("asus")){
+                pictures.setSensorSize(ASUS_ZENFONE_5_SENSOR_SIZE);
+                Log.d("SENSOR SIZE : ", "ASUS : " + ASUS_ZENFONE_5_SENSOR_SIZE);
+            }
+    }
 
 
     private void saveScaledPhoto(byte[] data) {
