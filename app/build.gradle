@@ -30,6 +30,4 @@ dependencies {
     compile files('libs/commons-cli-1.1.jar')
     compile files('libs/commons-io-1.2.jar')
     compile files('libs/junit.jar')
-    compile files('libs/rabbitmq-client-tests.jar')
-    compile files('libs/rabbitmq-client.jar')
 }

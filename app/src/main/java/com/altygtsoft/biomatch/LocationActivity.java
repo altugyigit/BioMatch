@@ -28,7 +28,6 @@ public class LocationActivity extends ActionBarActivity {
         map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         //locationClass = new LocationClass(LocationActivity.this, map);
 
-        btnBack = (Button)findViewById(R.id.back);
         Bas=(Button)findViewById(R.id.getir);
         //locationClass.setFilePath(getIntent().getStringExtra("path"));
 
