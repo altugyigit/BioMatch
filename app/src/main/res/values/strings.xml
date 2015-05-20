@@ -53,5 +53,6 @@
     <string name="btnKayitEt">Kayit Et</string>
     <string name="title_activity_bellek_">Bellek_Activity</string>
     <string name="title_activity_location">LocationActivity</string>
+    <string name="title_activity_activity_custom_map_info">activity_custom_map_info</string>
 
 </resources>

@@ -2,6 +2,7 @@ package com.altygtsoft.biomatch;
 
 import android.content.Context;
 import android.media.ExifInterface;
+import android.text.Html;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
@@ -123,7 +124,8 @@ public class LocationClass
                 Log.d("LocationClassMessage", "BOYLAM : "+tempLon);
 
             this.LOCATION_EDIRNE = new LatLng(tempLat, tempLon);
-            this.googleMap.addMarker(new MarkerOptions().position(LOCATION_EDIRNE).title("ENLEM : "+tempLat +"\nBOYLAM : "+tempLon));
+            this.googleMap.addMarker(new MarkerOptions().position(LOCATION_EDIRNE)
+                    .title("ENLEM : "+tempLat +"\nBOYLAM : "+tempLon));
             this.update = CameraUpdateFactory.newLatLngZoom(LOCATION_EDIRNE, 16);
             this.googleMap.animateCamera(update);
         }

@@ -53,10 +53,10 @@
         android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
+            android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCmiuOK7bDuCyU7xoKA4lw-v45WwrlPQGM" />
+            android:value="AIzaSyDJ7mZ7QXcONbneZojk2gkTidUd8usaCwI" />
 
         <activity
             android:name=".MainActivity"
@@ -127,6 +127,10 @@
         <activity
             android:name=".LocationActivity"
             android:label="@string/title_activity_location" >
+        </activity>
+        <activity
+            android:name=".activity_custom_map_info"
+            android:label="@string/title_activity_activity_custom_map_info" >
         </activity>
     </application>
 
