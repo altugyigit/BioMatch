@@ -307,7 +307,7 @@ public class TakePictureActivity extends ActionBarActivity {
         String device = Build.DEVICE;
         String brand = Build.BRAND;
 
-        Log.d("DEVICEEEE : ", "manu : "+manufacturer+" model : "+model+" hardware : "+hardware+" device : "+device+" brand : "+brand);
+        Log.d("DEVICEEEE : ", "manu : "+manufacturer +" model : "+model+" hardware : "+hardware+" device : "+device+" brand : "+brand);
 
         if (manufacturer.startsWith("Sony")){
             if (model.startsWith("D6503")) {
