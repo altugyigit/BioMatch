@@ -171,16 +171,7 @@ public class TakePictureActivity extends ActionBarActivity {
 
     private void startCast()
     {
-        from = getIntent().getStringExtra("from");
 
-        if(from.equals("map"))
-        {
-            Toast.makeText(TakePictureActivity.this, "From :" + from, Toast.LENGTH_LONG).show();
-        }
-        else
-        {
-            Toast.makeText(TakePictureActivity.this, "From :" + from, Toast.LENGTH_LONG).show();
-        }
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
 
         if(actionBar != null)
