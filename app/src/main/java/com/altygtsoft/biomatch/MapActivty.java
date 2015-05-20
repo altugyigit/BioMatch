@@ -11,12 +11,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 
 public class MapActivty extends ActionBarActivity {
 
-    Button bellek;
-    Button resimcek;
+    //Button bellek;
+    Button haritayaGit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,22 +38,24 @@ public class MapActivty extends ActionBarActivity {
 
             actionBar.show();
         }
-        bellek=(Button)findViewById(R.id.bellek);
-        resimcek=(Button)findViewById(R.id.ResimCek);
-        bellek.setOnClickListener(new View.OnClickListener() {
+        //bellek=(Button)findViewById(R.id.bellek);
+        haritayaGit=(Button)findViewById(R.id.haritayaGit);
+        /*bellek.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MapActivty.this,Bellek_Activity.class);
                 startActivity(i);
 
             }
-        });
-        resimcek.setOnClickListener(new View.OnClickListener() {
+        });*/
+        haritayaGit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MapActivty.this,TakePictureActivity.class);
-                i.putExtra("from","map");
+
+                Intent i = new Intent(MapActivty.this, LocationActivity.class);
+                i.setClass(getApplicationContext(), LocationActivity.class);
                 startActivity(i);
+
             }
         });
     }

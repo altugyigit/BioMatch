@@ -49,21 +49,12 @@
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="75dp"
-                android:background="@drawable/custom_button"
+                android:text="Haritaya Git"
                 android:textSize="20dp"
-                android:text="Bellekten Sorgula"
-                android:id="@+id/bellek"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center" />
-
-            <Button
-                android:layout_width="fill_parent"
-                android:layout_height="75dp"
+                android:id="@+id/haritayaGit"
+                android:gravity="center"
                 android:background="@drawable/custom_button"
-                android:textSize="20dp"
-                android:text="Resim Çek"
-                android:id="@+id/ResimCek"
-                android:gravity="center" />
+                android:textAlignment="center"/>
         </LinearLayout>
 
     </LinearLayout>

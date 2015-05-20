@@ -27,6 +27,8 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.io.UnsupportedEncodingException;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -44,8 +46,8 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-            isConnected();
-            startCast();
+        isConnected();
+        startCast();
     }
 
     private void isConnected()
@@ -116,7 +118,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                if(!txtUserName.getText().toString().isEmpty() || !txtPassword.getText().toString().isEmpty()) {
+                if (!txtUserName.getText().toString().isEmpty() || !txtPassword.getText().toString().isEmpty()) {
                     userName = txtUserName.getText().toString();
                     passwordUser = txtPassword.getText().toString();
                     //Önemli olan Parse tan kontrol ile gerçekleşen login işlemidir.
@@ -148,9 +150,7 @@ public class MainActivity extends ActionBarActivity {
                                 }
                             }
                     );
-                }
-                else
-                {
+                } else {
                     Toast.makeText(getApplicationContext(), "Alanlar Boş Bırakılamaz !", Toast.LENGTH_LONG).show();
                 }
 
