@@ -576,7 +576,6 @@ public class TakePictureActivity extends ActionBarActivity {
         super.onDestroy();
     }
 
-
     public class AsyncUpload extends AsyncTask<String,Void,String> {
 
         @Override

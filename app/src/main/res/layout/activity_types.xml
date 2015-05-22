@@ -64,6 +64,14 @@
         android:layout_height="200dp"
         android:gravity="top"
         android:orientation="vertical">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lwSpecies"
+            />
+
+
     </LinearLayout>
 
 </LinearLayout>

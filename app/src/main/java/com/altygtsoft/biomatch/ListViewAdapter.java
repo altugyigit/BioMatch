@@ -6,27 +6,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListViewAdapter extends BaseAdapter {
 
     private Context context;
-    private LayoutInflater inflater;
-    private List<Species> speciesList;
+    private List<ParseObject> speciesObjectList;
 
-    public ListViewAdapter(Context context) {
-
+    public ListViewAdapter(Context context, List<ParseObject> speciesObjectList)
+    {
         this.context = context;
-
+        this.speciesObjectList = speciesObjectList;
     }
 
     @Override
     public int getCount() {
 
-        return speciesList.size();
+        return this.speciesObjectList.size();
 
     }
 
@@ -43,40 +48,17 @@ public class ListViewAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+        View itemViewlist = inflater.inflate(R.layout.specieslayout, parent, false);
 
-            //View itemViewdersplist = inflater.inflate(R.layout.ders_list, parent, false);
+        final TextView twTurk = (TextView)itemViewlist.findViewById(R.id.txtTurk);
+        final TextView twLatin = (TextView)itemViewlist.findViewById(R.id.txtLatin);
 
+            twTurk.setText(speciesObjectList.get(position).get("name_turkish").toString());
+            twLatin.setText(speciesObjectList.get(position).get("name_latin").toString());
 
-           ParseQuery<Species> speciesParseQuery = ParseQuery.getQuery(Species.class);
-
-           //List<Turler> turlerParseList = null;
-           /* try {
-
-                ogrencidersParseList = ogrenciDersParseQuery.find();
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            if(ogrencidersParseList == null)
-                    {
-                        Toast.makeText(context2, "Kayıt Yok !", Toast.LENGTH_LONG).show();
-                    }
-                    else
-                    {
-                        for(OgrenciDers o: ogrencidersParseList)
-                        {
-                            txtOgrenciNo.setText(o.getogrencino());
-                            txtOgrenciAdi.setText(o.getogrenciadi());
-                            txtOgrenciSoyadi.setText(o.getogrencisoyadi());
-                        }
-
-                    }
-
-            return itemViewyoklama;*/
-
-        return null;
+        return itemViewlist;
         }
 
 }
