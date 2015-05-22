@@ -57,6 +57,7 @@ public class MainActivity extends ActionBarActivity {
         };
         thread.start();*/
 
+
         isConnected();
         startCast();
     }

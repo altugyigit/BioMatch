@@ -582,6 +582,7 @@ public class TakePictureActivity extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
             pdialog = new ProgressDialog(TakePictureActivity.this);
             pdialog.setMessage("Yükleniyor...");
             pdialog.setIndeterminate(false);

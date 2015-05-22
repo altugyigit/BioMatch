@@ -22,6 +22,7 @@ public class RabbitMQConn {
     {
         try
         {
+
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("188.166.67.19");
         Connection connection = factory.newConnection();
@@ -31,6 +32,7 @@ public class RabbitMQConn {
         System.out.println(" [x] Sent '" + message + "'");
         channel.close();
         connection.close();
+
         }
         catch(IOException e)
         {
