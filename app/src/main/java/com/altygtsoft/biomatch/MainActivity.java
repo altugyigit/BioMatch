@@ -45,6 +45,18 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*//SERVERA OBJECTID AT.
+        Thread thread = new Thread() {
+
+            @Override
+            public void run() {
+                RabbitMQConn rabbitMQConn = new RabbitMQConn();
+
+                rabbitMQConn.rabbitMQSend("ANDROID DENEME !!!");
+            }
+        };
+        thread.start();*/
+
         isConnected();
         startCast();
     }

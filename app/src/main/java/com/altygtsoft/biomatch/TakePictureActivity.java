@@ -62,7 +62,7 @@ import com.altygtsoft.biomatch.Devices;
 
 public class TakePictureActivity extends ActionBarActivity {
 
-    public String lastId = "";
+    public String lastId = "start";
     public static Camera camera;
     public static final int pictureHeight = 480;
     public static final int pictureWidth = 640;
@@ -428,17 +428,7 @@ public class TakePictureActivity extends ActionBarActivity {
                 }
 
                 if (!isTac && !isCanak && !isYaprak) {
-                    //SERVERA OBJECTID AT.
-                    Thread thread = new Thread() {
 
-                        @Override
-                        public void run() {
-                            RabbitMQConn rabbitMQConn = new RabbitMQConn();
-
-                            rabbitMQConn.rabbitMQSend(lastId);
-                        }
-                    };
-                    thread.start();
                     finish();
                 }
 
@@ -487,21 +477,27 @@ public class TakePictureActivity extends ActionBarActivity {
                         if(e == null){
                             Toast.makeText(getApplicationContext(),"Buluta yükleme başarılı. " , Toast.LENGTH_LONG).show();
                             //SON KAYDI GETIR.
-                            ParseQuery<ParseObject> query = ParseQuery.getQuery("Pictures");
-                            query.whereExists("location");
-                            query.orderByDescending("createdAt");
+                            if(lastId.equals("start"))
+                            {
+                                ParseQuery<ParseObject> query = ParseQuery.getQuery("Pictures");
+                                query.whereExists("location");
+                                query.orderByDescending("createdAt");
 
-                            query.findInBackground(new FindCallback<ParseObject>() {
-                                @Override
-                                public void done(List<ParseObject> list, ParseException e) {
+                                query.findInBackground(new FindCallback<ParseObject>() {
+                                    @Override
+                                    public void done(List<ParseObject> list, ParseException e) {
 
-                                    List<ParseObject> arrayList = new ArrayList<>(list);
+                                        List<ParseObject> arrayList = new ArrayList<>(list);
 
-                                    lastId = arrayList.get(0).getObjectId();
+                                        lastId = arrayList.get(0).getObjectId();
 
-                                    Toast.makeText(getApplicationContext(),"Son ID =" + lastId , Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), "Son ID =" + lastId, Toast.LENGTH_LONG).show();
 
-                                }});
+                                    }
+                                });
+
+                            }
+
                             if(pdialog != null)
                             {
                                 pdialog.dismiss();//Eğer işlem başarılı ise asenkron sınıfta yaratılan progressbar ı kapat.
@@ -564,6 +560,19 @@ public class TakePictureActivity extends ActionBarActivity {
 
     @Override
     public void onDestroy() {
+
+        //SERVERA OBJECTID AT.
+        Thread thread = new Thread() {
+
+            @Override
+            public void run() {
+                RabbitMQConn rabbitMQConn = new RabbitMQConn();
+
+                rabbitMQConn.rabbitMQSend(lastId);
+            }
+        };
+        thread.start();
+
         super.onDestroy();
     }
 
