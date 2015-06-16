@@ -90,11 +90,6 @@
             android:label="@string/title_activity_map_activty" >
         </activity>
         <activity
-            android:name=".ImageManipulationsActivity"
-            android:label="@string/title_activity_image_manipulations"
-            android:screenOrientation="landscape" >
-        </activity>
-        <activity
             android:name=".TakePictureActivity"
             android:label="@string/title_activity_take_pic3"
             android:screenOrientation="portrait" >

@@ -11,7 +11,10 @@ import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.ColorDrawable;
 import android.hardware.Camera;
+import android.media.ExifInterface;
 import android.os.AsyncTask;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Html;
@@ -33,6 +36,8 @@ import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -57,27 +62,25 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
     public static boolean isTac = true;
     public static boolean isCanak = false;
     public static boolean isYaprak = false;
+    public static GPSTracker gpsTracker;
+    public static double longitude;
+    public static double latitude;
 
-    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
-        @Override
-        public void onManagerConnected(int status) {
-            switch (status) {
-                case LoaderCallbackInterface.SUCCESS:
-                {
 
-                } break;
-                default:
-                {
-                    super.onManagerConnected(status);
-                } break;
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         pictures = new Pictures();
         super.onCreate(savedInstanceState);
+
+
+        gpsTracker = new GPSTracker(TakePictureOfflineActivity.this);
+
+        if (gpsTracker.canGetLocation){
+            longitude = gpsTracker.getLongtitude();
+            latitude = gpsTracker.getLatitude();
+
+        }
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_take_picture_offline);
@@ -176,11 +179,7 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
         });
     }
 
-    /*
-     * ParseQueryAdapter loads ParseFiles into a ParseImageView at whatever size
-     * they are saved. Since we never need a full-size image in our app, we'll
-     * save a scaled one right away.
-     */
+
     private void saveScaledPhoto(byte[] data) {
 
         // Resize photo from camera byte array
@@ -196,10 +195,13 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
                 0, mealImageScaled.getWidth(), mealImageScaled.getHeight(),
                 matrix, true);
 
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        rotatedScaledMealImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
+        savePhotoLocal(rotatedScaledMealImage);
 
-        scaledData = bos.toByteArray();
+        //rotatedScaledMealImage.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+
+        //scaledData = file.toByteArray();
+
+
 
         AlertDialog.Builder aDB = new AlertDialog.Builder(this);
         aDB.setCancelable(false);
@@ -211,16 +213,21 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
 
                 if(isTac)
                 {
+                    try {
 
-                    pictureCache.setByteArrayTac(scaledData);
-                    isTac = false;
-                    isCanak = true;
-                    Toast.makeText(getApplicationContext(), "Taç yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
-                    String currentTimeStamp = getCurrentTimeStamp();
-                    fileName = "TacYaprak";
-
-                    new AsyncUpload().execute(fileName);
-
+                        pictureCache.setByteArrayTac(scaledData);
+                        isTac = false;
+                        isCanak = true;
+                        Toast.makeText(getApplicationContext(), "Taç yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
+                        String currentTimeStamp = getCurrentTimeStamp();
+                        fileName = "TacYaprak";
+                        //savePhotoLocal(scaledData);
+                        //new AsyncSave().execute(scaledData);
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                        Log.e("Error in If", e.getMessage());
+                    }
                 }
                 else if(isCanak)
                 {
@@ -232,8 +239,8 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
                     Toast.makeText(getApplicationContext(), "Çanak yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
                     String currentTimeStamp = getCurrentTimeStamp();
                     fileName = "CanakYaprak";
-
-                    new AsyncUpload().execute(fileName);
+                    //savePhotoLocal(scaledData);
+                    //new AsyncSave().execute(scaledData);
                 }
                 else if(isYaprak)
                 {
@@ -244,8 +251,8 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
                     Toast.makeText(getApplicationContext(), "Ağaç yaprağı görüntüsü alındı.", Toast.LENGTH_LONG).show();
                     String currentTimeStamp = getCurrentTimeStamp();
                     fileName = "AgacYapragi";
-
-                    new AsyncUpload().execute(fileName);
+                    //savePhotoLocal(scaledData);
+                    //new AsyncSave().execute(scaledData);
                 }
 
                 if(!isTac && !isCanak && !isYaprak)
@@ -309,40 +316,6 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
         }
     }
 
-    /****************************************************************************************************************************************/
-
-
-
-    /*************************************************************************************************************************************/
-
-
-    //KARŞILAŞTIRMA İÇİN YAZILACAK KOD
-
-        /*Mat img1 = Highgui.imread(Environment.getExternalStorageDirectory().getAbsolutePath() + "/1.png");
-        Mat img2 = Highgui.imread(Environment.getExternalStorageDirectory().getAbsolutePath() + "/2.png");
-
-        Mat hist0 = new Mat();
-        Mat hist1 = new Mat();
-
-        int hist_bins = 30;           //number of histogram bins
-        int hist_range[]= {0,180};//histogram range
-        MatOfFloat ranges = new MatOfFloat(0f, 256f);
-        MatOfInt histSize = new MatOfInt(25);
-
-        Imgproc.calcHist(Arrays.asList(img1), new MatOfInt(0), new Mat(), hist0, histSize, ranges);
-        Imgproc.calcHist(Arrays.asList(img2), new MatOfInt(0), new Mat(), hist1, histSize, ranges);
-
-        Toast.makeText(getApplicationContext()," HIGUI =" + Highgui.imread(Environment.getExternalStorageDirectory().getAbsolutePath() + "/1.png"), Toast.LENGTH_LONG).show();
-         Toast.makeText(getApplicationContext()," CANNY = " + Imgproc.compareHist(img1 , img2, Imgproc.CV_CANNY_L2_GRADIENT),Toast.LENGTH_LONG).show();*/
-
-
-    // Toast.makeText(getApplicationContext(),"RESİMLER AYNI !",Toast.LENGTH_LONG).show();
-
-
-
-
-
-    /*************************************************************************************************************************************/
 
 
     public static String getCurrentTimeStamp(){
@@ -363,7 +336,7 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
     public void onResume() {
         super.onResume();
 
-        OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_3, this, mLoaderCallback);
+
 
         if (camera == null) {
             try {
@@ -388,29 +361,67 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
         super.onDestroy();
     }
 
-    public class AsyncUpload extends AsyncTask<String,Void,String> {
+    public void savePhotoLocal(Bitmap bmp){
+
+        try {
+            String offlinePhotoFileName = "offline";
+            File photo = new File(Environment.getExternalStorageDirectory().toString(), offlinePhotoFileName + ".png");
+            int i = 0;
+            if (photo.exists()) {
+                i++;
+                String j = String.valueOf(i);
+                File photoNew = new File(Environment.getExternalStorageDirectory().toString(), offlinePhotoFileName + j + ".png");
+                photo.renameTo(photoNew);
+            }
+
+            ExifInterface exifInterface = new ExifInterface(photo.getAbsolutePath());
+
+
+
+
+            FileOutputStream fos = new FileOutputStream(photo.getPath());
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
+
+
+            fos.flush();
+            fos.close();
+            MediaStore.Images.Media.insertImage(getContentResolver(), photo.getAbsolutePath(), photo.getName(), photo.getName());
+        }
+
+        catch (Exception e){
+
+            e.printStackTrace();
+            Log.e("File error", e.getMessage());
+        }
+
+
+    }
+
+    public class AsyncSave extends AsyncTask<byte[],String,String> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             pdialog = new ProgressDialog(TakePictureOfflineActivity.this);
-            pdialog.setMessage("Yükleniyor...");
+            pdialog.setMessage("Kaydediliyor...");
             pdialog.setIndeterminate(false);
             pdialog.setCancelable(false);
             pdialog.show();
         }
 
         @Override
-        protected String doInBackground(String... fileNames) {
+        protected String doInBackground(byte[]... scaledData) {
 
-            return fileNames[0];
+            //savePhotoLocal(scaledData);
+
+            return null;
 
         }
 
         @Override
         protected void onPostExecute(String name) {
 
-            startUpload(name);
+
 
             super.onPostExecute(name);
 

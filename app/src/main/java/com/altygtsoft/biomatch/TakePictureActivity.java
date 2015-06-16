@@ -36,9 +36,12 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.location.LocationRequest;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -49,6 +52,7 @@ import org.opencv.android.OpenCVLoader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -58,6 +62,7 @@ import com.altygtsoft.biomatch.Devices;
 
 public class TakePictureActivity extends ActionBarActivity {
 
+    public String lastId = "start";
     public static Camera camera;
     public static final int pictureHeight = 480;
     public static final int pictureWidth = 640;
@@ -292,7 +297,7 @@ public class TakePictureActivity extends ActionBarActivity {
             public void surfaceDestroyed(SurfaceHolder holder) {
 
                 camera.stopPreview();
-                camera.release();
+                //camera.release();
 
 
                 }
@@ -409,7 +414,8 @@ public class TakePictureActivity extends ActionBarActivity {
                     fileName = "CanakYaprak";
 
                     new AsyncUpload().execute(fileName);
-                } else if (isYaprak) {
+
+                } /*else if (isYaprak) {
 
                     String plantTag = "A_Y";
                     pictureCache.setByteArrayYaprak(scaledData);
@@ -419,9 +425,10 @@ public class TakePictureActivity extends ActionBarActivity {
                     fileName = "AgacYapragi";
 
                     new AsyncUpload().execute(fileName);
-                }
+                }*/
 
-                if (!isTac && !isCanak && !isYaprak) {
+                if (!isTac && !isCanak) {
+
                     finish();
                 }
 
@@ -452,6 +459,8 @@ public class TakePictureActivity extends ActionBarActivity {
                 } else if (isCanak) {
                     pictures.setLocation(parseGeoPoint);
                     pictures.setPhotoFileCanak(photoFile);
+
+
                 } else if (isYaprak) {
                     pictures.setLocation(parseGeoPoint);
                     pictures.setPhotoFileYaprak(photoFile);
@@ -461,15 +470,34 @@ public class TakePictureActivity extends ActionBarActivity {
 
                // pictures.save();// Telefon çekirdeğine göre 2 asenkron methodu desteklemiyor o yüzden sadece save yazılabilir fakat başarılı kontolü SaveCallback' te yakalanamaz.
 
-
-
-
                 pictures.saveInBackground(new SaveCallback() {
 
                     @Override
                     public void done(ParseException e) {
                         if(e == null){
                             Toast.makeText(getApplicationContext(),"Buluta yükleme başarılı. " , Toast.LENGTH_LONG).show();
+                            //SON KAYDI GETIR.
+                            if(lastId.equals("start"))
+                            {
+                                ParseQuery<ParseObject> query = ParseQuery.getQuery("Pictures");
+                                query.whereExists("location");
+                                query.orderByDescending("createdAt");
+
+                                query.findInBackground(new FindCallback<ParseObject>() {
+                                    @Override
+                                    public void done(List<ParseObject> list, ParseException e) {
+
+                                        List<ParseObject> arrayList = new ArrayList<>(list);
+
+                                        lastId = arrayList.get(0).getObjectId();
+
+                                        Toast.makeText(getApplicationContext(), "Son ID =" + lastId, Toast.LENGTH_LONG).show();
+
+                                    }
+                                });
+
+                            }
+
                             if(pdialog != null)
                             {
                                 pdialog.dismiss();//Eğer işlem başarılı ise asenkron sınıfta yaratılan progressbar ı kapat.
@@ -532,15 +560,28 @@ public class TakePictureActivity extends ActionBarActivity {
 
     @Override
     public void onDestroy() {
+        pdialog.dismiss();
+        //SERVERA OBJECTID AT.
+        Thread thread = new Thread() {
+
+            @Override
+            public void run() {
+                RabbitMQConn rabbitMQConn = new RabbitMQConn();
+
+                rabbitMQConn.rabbitMQSend(lastId);
+            }
+        };
+        thread.start();
+
         super.onDestroy();
     }
-
 
     public class AsyncUpload extends AsyncTask<String,Void,String> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
             pdialog = new ProgressDialog(TakePictureActivity.this);
             pdialog.setMessage("Yükleniyor...");
             pdialog.setIndeterminate(false);
@@ -563,7 +604,6 @@ public class TakePictureActivity extends ActionBarActivity {
             super.onPostExecute(name);
 
         }
-
     }
 
 }

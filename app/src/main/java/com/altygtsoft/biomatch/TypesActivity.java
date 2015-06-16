@@ -8,9 +8,22 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class TypesActivity extends ActionBarActivity {
+
+    ListView lwSpecies;
+    ArrayList<ParseObject> speciesObjectList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +44,26 @@ public class TypesActivity extends ActionBarActivity {
 
             actionBar.show();
         }
+
+        lwSpecies = (ListView)findViewById(R.id.lwSpecies);
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Species");
+        query.whereExists("name_turkish");
+        query.orderByDescending("createdAt");
+
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+
+                speciesObjectList = new ArrayList<>(list);
+
+                ListViewAdapter lwAdapter = new ListViewAdapter(TypesActivity.this, speciesObjectList);
+
+                lwSpecies.setAdapter(lwAdapter);
+
+            }
+        });
+
 
 
     }

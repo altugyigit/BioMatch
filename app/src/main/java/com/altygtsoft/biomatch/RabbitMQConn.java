@@ -16,27 +16,28 @@ import java.util.concurrent.TimeoutException;
 
 public class RabbitMQConn {
 
-    private final static String QUEUE_NAME = "id";
+    private final static String QUEUE_NAME = "idobj";
 
-    public void rabbitMQSend()
+    public void rabbitMQSend(String message)
     {
         try
         {
+
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("192.168.1.3");
+        factory.setHost("188.166.67.19");
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-        String message = "Hello World!";
         channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
         System.out.println(" [x] Sent '" + message + "'");
         channel.close();
         connection.close();
+
         }
         catch(IOException e)
         {
             e.printStackTrace();
-            Log.d("EROOR", e.getMessage());
+            Log.d("ERROR", e.getMessage());
 
         }
         catch (TimeoutException e) {
@@ -47,7 +48,7 @@ public class RabbitMQConn {
 
     public void rabbitMQReceive() {
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("192.168.1.3");
+        factory.setHost("188.166.67.19");
         Connection connection = null;
         try {
             connection = factory.newConnection();

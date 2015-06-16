@@ -29,7 +29,6 @@ import com.parse.ParseUser;
 
 import java.io.UnsupportedEncodingException;
 
-
 public class MainActivity extends ActionBarActivity {
 
     public Button btnLogin;
@@ -46,17 +45,18 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*//SERVERA OBJECTID AT.
         Thread thread = new Thread() {
 
             @Override
             public void run() {
                 RabbitMQConn rabbitMQConn = new RabbitMQConn();
 
-                //rabbitMQConn.rabbitMQSend();
-                //rabbitMQConn.rabbitMQReceive();
+                rabbitMQConn.rabbitMQSend("ANDROID DENEME !!!");
             }
         };
-        thread.start();
+        thread.start();*/
+
 
         isConnected();
         startCast();

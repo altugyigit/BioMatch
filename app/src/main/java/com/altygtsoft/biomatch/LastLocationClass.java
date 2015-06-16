@@ -64,11 +64,9 @@ public class LastLocationClass {
                     lonArray.add(tempGeoPoint.getLongitude());
 
                     LOCATION_EDIRNE = new LatLng(tempGeoPoint.getLatitude(), tempGeoPoint.getLongitude());
-                   // Toast.makeText(LastLocationClass.this.context, "" + tacURL ,Toast.LENGTH_LONG).show();
+                    Toast.makeText(LastLocationClass.this.context, "" + tacURL ,Toast.LENGTH_LONG).show();
                     String fotoGoster = Html.fromHtml("<p><img src='"+ tacURL +"'></p>").toString();
-                    googleMap.addMarker(new MarkerOptions().position(LOCATION_EDIRNE)
-                            .title(fotoGoster + "\nENLEM : "+tempGeoPoint.getLatitude() +"\nBOYLAM : "+tempGeoPoint.getLongitude())
-                    );
+                    googleMap.addMarker(new MarkerOptions().position(LOCATION_EDIRNE).title(fotoGoster + "\nENLEM : "+tempGeoPoint.getLatitude() +"\nBOYLAM : "+tempGeoPoint.getLongitude()));
                     update = CameraUpdateFactory.newLatLngZoom(LOCATION_EDIRNE, 16);
                     googleMap.animateCamera(update);
                 }
