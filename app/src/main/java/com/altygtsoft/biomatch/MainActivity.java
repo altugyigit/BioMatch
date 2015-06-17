@@ -119,6 +119,8 @@ public class MainActivity extends ActionBarActivity {
             actionBar.show();
         }
 
+
+
         btnOffline = (Button)findViewById(R.id.btnOffline);
         btnLogin = (Button)findViewById(R.id.btnLogin);
         txtUserName = (TextView)findViewById(R.id.txtUserName);
@@ -134,40 +136,73 @@ public class MainActivity extends ActionBarActivity {
                 if (!txtUserName.getText().toString().isEmpty() || !txtPassword.getText().toString().isEmpty()) {
                     userName = txtUserName.getText().toString();
                     passwordUser = txtPassword.getText().toString();
-                    //Önemli olan Parse tan kontrol ile gerçekleşen login işlemidir.
-                    showDialog();
-                    ParseUser.logInInBackground(userName, passwordUser,
-                            new LogInCallback() {
 
-                                @Override
-                                public void done(ParseUser parseUser, ParseException e) {
+                    if (cobanRadio.isChecked()) {
+                        if (userName.substring(0, 2).equals("g_")) {
 
-                                    if (parseUser != null) {
-                                        if (cobanRadio.isChecked()) {
-                                            Toast.makeText(getApplicationContext(), "Hoşgeldin ...", Toast.LENGTH_LONG).show();
-                                            Intent intentCoban = new Intent(MainActivity.this.getApplicationContext(), CobanActivity.class);
-                                            startActivity(intentCoban);
-                                            closeDialog();
-                                            finish();
-                                        } else {
-                                            Toast.makeText(getApplicationContext(), "Hoşgeldiniz ...", Toast.LENGTH_LONG).show();
-                                            Intent intent = new Intent(MainActivity.this.getApplicationContext(), WelcomeActivity.class);
-                                            startActivity(intent);
-                                            closeDialog();
-                                            finish();
+                            //Önemli olan Parse tan kontrol ile gerçekleşen login işlemidir.
+                            showDialog();
+                            ParseUser.logInInBackground(userName, passwordUser,
+                                    new LogInCallback() {
+
+                                        @Override
+                                        public void done(ParseUser parseUser, ParseException e) {
+
+                                            if (parseUser != null) {
+
+                                                Toast.makeText(getApplicationContext(), "Hoşgeldin ...", Toast.LENGTH_LONG).show();
+                                                Intent intentCoban = new Intent(MainActivity.this.getApplicationContext(), CobanActivity.class);
+                                                startActivity(intentCoban);
+                                                closeDialog();
+                                                finish();
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), "Kullanıcı adı yada şifre yanlış !", Toast.LENGTH_LONG).show();
+                                                closeDialog();
+                                            }
                                         }
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "Kullanıcı adı yada şifre yanlış !", Toast.LENGTH_LONG).show();
-                                        closeDialog();
                                     }
-                                }
-                            }
-                    );
-                } else {
+                            );
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(), "Görevli bulunamadı !", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        if (!userName.substring(0, 2).equals("g_")) {
+                            //Önemli olan Parse tan kontrol ile gerçekleşen login işlemidir.
+                            showDialog();
+                            ParseUser.logInInBackground(userName, passwordUser,
+                                    new LogInCallback() {
+
+                                        @Override
+                                        public void done(ParseUser parseUser, ParseException e) {
+
+                                            if (parseUser != null) {
+
+                                                Toast.makeText(getApplicationContext(), "Hoşgeldiniz ...", Toast.LENGTH_LONG).show();
+                                                Intent intent = new Intent(MainActivity.this.getApplicationContext(), WelcomeActivity.class);
+                                                startActivity(intent);
+                                                closeDialog();
+                                                finish();
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), "Kullanıcı adı yada şifre yanlış !", Toast.LENGTH_LONG).show();
+                                                closeDialog();
+                                            }
+                                        }
+                                    }
+                            );
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(), "Yetkiniz yoktur !", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+                else
+                {
                     Toast.makeText(getApplicationContext(), "Alanlar Boş Bırakılamaz !", Toast.LENGTH_LONG).show();
                 }
-
-            }
+                }
         });
 
         btnOffline.setOnClickListener(new View.OnClickListener() {
