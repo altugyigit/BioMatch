@@ -66,6 +66,8 @@ import com.altygtsoft.biomatch.Devices;
 
 public class TakePictureTrainOnline extends ActionBarActivity {
 
+    public EditText editText;
+    public Button btnTrain;
     public String lastId = "start";
     public static Camera camera;
     public static final int pictureHeight = 480;
@@ -387,11 +389,11 @@ public class TakePictureTrainOnline extends ActionBarActivity {
                     isCanak = true;
                     Toast.makeText(getApplicationContext(), "Taç yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
                     //String currentTimeStamp = getCurrentTimeStamp();
-                    final EditText editText = (EditText)findViewById(R.id.trainEdtOnline);
-                    final Button btn = (Button)findViewById(R.id.trainBtnOnline);
+                    editText = (EditText)findViewById(R.id.trainEdtOnline);
+                    btnTrain = (Button)findViewById(R.id.trainBtnOnline);
                     editText.setVisibility(View.VISIBLE);
-                    btn.setVisibility(View.VISIBLE);
-                    btn.setOnClickListener(new View.OnClickListener() {
+                    btnTrain.setVisibility(View.VISIBLE);
+                    btnTrain.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             String text = editText.getText().toString();
