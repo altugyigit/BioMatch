@@ -50,7 +50,7 @@ public class ListViewAdapter extends BaseAdapter {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View itemViewlist = inflater.inflate(R.layout.specieslayout, parent, false);
+        View itemViewlist = inflater.inflate(R.layout.activity_types, parent, false);
 
         final TextView twTurk = (TextView)itemViewlist.findViewById(R.id.txtTurk);
         final TextView twLatin = (TextView)itemViewlist.findViewById(R.id.txtLatin);

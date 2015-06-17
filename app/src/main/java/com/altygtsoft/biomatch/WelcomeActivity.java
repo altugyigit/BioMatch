@@ -81,8 +81,8 @@ public class WelcomeActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
 
-                //Intent intent = new Intent(WelcomeActivity.this.getApplicationContext(), CustomBioRecordActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(WelcomeActivity.this.getApplicationContext(), CustomBioRecordActivity.class);
+                startActivity(intent);
 
             }
         });

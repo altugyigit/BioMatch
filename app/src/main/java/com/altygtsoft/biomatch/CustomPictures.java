@@ -14,7 +14,7 @@ public class CustomPictures extends ParseObject
     }
 
     public void setPhotoFile(ParseFile file) {
-        put(file.getName(), file);
+        put("picture", file);
     }
 
     public ParseGeoPoint getLocation(){

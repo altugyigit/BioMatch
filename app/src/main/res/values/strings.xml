@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">BioMatch</string>
+    <string name="title_custom">Kişisel Çekim</string>
     <string name="action_settings">Settings</string>
     <string name="giris">Giriş</string>
     <string name="kullaniciadi">Kullanıcı Adı:</string>

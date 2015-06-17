@@ -73,6 +73,10 @@
             android:required="true" />
 
         <activity
+            android:name=".CustomBioRecordActivity"
+            android:label="@string/title_custom" >
+        </activity>
+        <activity
             android:name=".WelcomeActivity"
             android:label="@string/title_activity_welcome" >
         </activity>

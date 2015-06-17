@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.3"
-            android:id="@+id/twTurkish"
+            android:id="@+id/txtTurk"
             android:textSize="18sp"
             android:text="@string/twTurkce"
             android:gravity="center"
@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.3"
-            android:id="@+id/twLatin"
+            android:id="@+id/txtLatin"
             android:textSize="18sp"
             android:text="@string/twLatince"
             android:gravity="center"
@@ -70,7 +70,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/lwSpecies"
             />
-
 
     </LinearLayout>
 

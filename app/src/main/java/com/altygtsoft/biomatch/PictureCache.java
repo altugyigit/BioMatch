@@ -8,7 +8,6 @@ public class PictureCache extends TakePictureActivity {
 
         public TakePictureActivity takePictureActivity = new TakePictureActivity();
 
-
         public byte[] getByteArrayTac() {
         return byteArrayTac;
     }

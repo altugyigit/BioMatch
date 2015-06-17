@@ -5,7 +5,7 @@ import com.parse.ParseACL;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-/**
+/*
  * Created by Altu on 1.5.2015.
  */
 public class Application extends android.app.Application {
@@ -22,6 +22,7 @@ public class Application extends android.app.Application {
         defaultACL.setPublicReadAccess(true);
         ParseACL.setDefaultACL(defaultACL, true);
         ParseObject.registerSubclass(Pictures.class);
+        ParseObject.registerSubclass(CustomPictures.class);
 
     }
 
