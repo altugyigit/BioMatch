@@ -65,6 +65,7 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
     public static GPSTracker gpsTracker;
     public static double longitude;
     public static double latitude;
+    public static GPSConvertion convertGPS;
 
 
 
@@ -81,6 +82,9 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
             latitude = gpsTracker.getLatitude();
 
         }
+
+        convertGPS = new GPSConvertion(TakePictureOfflineActivity.this);
+
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_take_picture_offline);
@@ -195,7 +199,8 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
                 0, mealImageScaled.getWidth(), mealImageScaled.getHeight(),
                 matrix, true);
 
-        savePhotoLocal(rotatedScaledMealImage);
+        String absolutePath = savePhotoLocal(rotatedScaledMealImage);
+        saveExifInformation(absolutePath);
 
         //rotatedScaledMealImage.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
 
@@ -273,6 +278,60 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
         AlertDialog alertDialog = aDB.create();
         alertDialog.show();
     }
+    public String savePhotoLocal(Bitmap bmp){
+
+        try {
+            String offlinePhotoFileName = "offline";
+            File photo = new File(Environment.getExternalStorageDirectory().toString(), offlinePhotoFileName + ".jpg");
+            int i = 0;
+            if (photo.exists()) {
+                i++;
+                String j = String.valueOf(i);
+                File photoNew = new File(Environment.getExternalStorageDirectory().toString(), offlinePhotoFileName + j + ".jpg");
+                photo.renameTo(photoNew);
+            }
+
+            FileOutputStream fos = new FileOutputStream(photo.getPath());
+
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+
+            fos.flush();
+            fos.close();
+            MediaStore.Images.Media.insertImage(getContentResolver(), photo.getAbsolutePath(), photo.getName(), photo.getName());
+
+            return photo.getAbsolutePath();
+
+        }
+
+        catch (Exception e){
+
+            e.printStackTrace();
+            Log.e("File error", e.getMessage());
+        }
+
+        return null;
+
+    }
+    private void saveExifInformation(String path) {
+        try {
+
+            ExifInterface exifInterface = new ExifInterface(path);
+            String latitudeStr = String.valueOf(latitude);
+            String longitudeStr = String.valueOf(longitude);
+            exifInterface.setAttribute(ExifInterface.TAG_GPS_LATITUDE, convertGPS.convert(latitude));
+            exifInterface.setAttribute(ExifInterface.TAG_GPS_LATITUDE_REF, convertGPS.latitudeRef(latitude));
+            exifInterface.setAttribute(ExifInterface.TAG_GPS_LONGITUDE, convertGPS.convert(longitude));
+            exifInterface.setAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF, convertGPS.longitudeRef(longitude));
+
+            Log.d("EXIF VALUES", "LAT: "+convertGPS.convert(latitude)+" LON: "+convertGPS.convert(longitude));
+
+            exifInterface.saveAttributes();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Log.e("EXIF ERROR", e.getMessage());
+        }
+    }
 
     public void startUpload(String fileName) {
 
@@ -291,6 +350,7 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
 
 
             //pictures.save();// Telefon çekirdeğine göre 2 asenkron methodu desteklemiyor o yüzden sadece save yazılabilir fakat başarılı kontolü SaveCallback' te yakalanamaz.
+
 
             pictures.saveInBackground(new SaveCallback() {
 
@@ -361,43 +421,9 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
         super.onDestroy();
     }
 
-    public void savePhotoLocal(Bitmap bmp){
-
-        try {
-            String offlinePhotoFileName = "offline";
-            File photo = new File(Environment.getExternalStorageDirectory().toString(), offlinePhotoFileName + ".png");
-            int i = 0;
-            if (photo.exists()) {
-                i++;
-                String j = String.valueOf(i);
-                File photoNew = new File(Environment.getExternalStorageDirectory().toString(), offlinePhotoFileName + j + ".png");
-                photo.renameTo(photoNew);
-            }
-
-            ExifInterface exifInterface = new ExifInterface(photo.getAbsolutePath());
 
 
-
-
-            FileOutputStream fos = new FileOutputStream(photo.getPath());
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
-
-
-            fos.flush();
-            fos.close();
-            MediaStore.Images.Media.insertImage(getContentResolver(), photo.getAbsolutePath(), photo.getName(), photo.getName());
-        }
-
-        catch (Exception e){
-
-            e.printStackTrace();
-            Log.e("File error", e.getMessage());
-        }
-
-
-    }
-
-    public class AsyncSave extends AsyncTask<byte[],String,String> {
+    /*public class AsyncSave extends AsyncTask<byte[],String,String> {
 
         @Override
         protected void onPreExecute() {
@@ -427,6 +453,6 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
 
         }
 
-    }
+    }*/
 
 }
