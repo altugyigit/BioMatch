@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -27,6 +28,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Size;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -66,8 +68,7 @@ import com.altygtsoft.biomatch.Devices;
 
 public class TakePictureTrainOnline extends ActionBarActivity {
 
-    public EditText editText;
-    public Button btnTrain;
+
     public String lastId = "start";
     public static Camera camera;
     public static final int pictureHeight = 480;
@@ -78,7 +79,7 @@ public class TakePictureTrainOnline extends ActionBarActivity {
     public static Pictures pictures;
     public PictureCache pictureCache;
     public Calendar c;
-    public static String fileName;
+    public static String filenameIntent;
     public static byte[] scaledData;
     public static ProgressDialog pdialog;
     public static Location location;
@@ -97,7 +98,7 @@ public class TakePictureTrainOnline extends ActionBarActivity {
     public static String SONY_XPERIA_Z2_SENSOR_SIZE = "4.55";
     public static String ASUS_ZENFONE_5_SENSOR_SIZE = "3.6";
     public static String SONY_XPERIA_SOLA_SENSOR_SIZE = "3.6";
-
+    public String fileName;
 
 
 
@@ -108,6 +109,9 @@ public class TakePictureTrainOnline extends ActionBarActivity {
         latlon = new double[2];
         super.onCreate(savedInstanceState);
 
+        Intent i = getIntent();
+        filenameIntent = i.getStringExtra("FILENAME");
+        Toast.makeText(getApplicationContext(), "filename: "+filenameIntent,Toast.LENGTH_LONG).show();
         gpsTracker = new GPSTracker(TakePictureTrainOnline.this);
 
         if (gpsTracker.canGetLocation()){
@@ -123,7 +127,7 @@ public class TakePictureTrainOnline extends ActionBarActivity {
         latlon = getLocation();*/
 
 
-        setContentView(R.layout.activity_take_picture);
+        setContentView(R.layout.activity_take_picture_train_online);
 
         startCast();
     }
@@ -384,33 +388,17 @@ public class TakePictureTrainOnline extends ActionBarActivity {
             public void onClick(DialogInterface dialog, int which) {
 
                 if (isTac) {
+
                     pictureCache.setByteArrayTac(scaledData);
                     isTac = false;
                     isCanak = true;
                     Toast.makeText(getApplicationContext(), "Taç yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
                     //String currentTimeStamp = getCurrentTimeStamp();
-                    editText = (EditText)findViewById(R.id.trainEdtOnline);
-                    btnTrain = (Button)findViewById(R.id.trainBtnOnline);
-                    editText.setVisibility(View.VISIBLE);
-                    btnTrain.setVisibility(View.VISIBLE);
-                    btnTrain.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String text = editText.getText().toString();
-                            if (text.equals("")){
-                                Toast.makeText(getApplicationContext(),"Lütfen tür adı giriniz", Toast.LENGTH_LONG).show();
-
-                            }
-                            fileName = text;
-
-                        }
-                    });
-
+                    fileName = "TacYaprak";
 
                     new AsyncUpload().execute(fileName);
 
                 } else if (isCanak) {
-
 
                     pictureCache.setByteArrayCanak(scaledData);
                     isCanak = false;
@@ -461,18 +449,14 @@ public class TakePictureTrainOnline extends ActionBarActivity {
             if (isTac) {
                 pictures.setLocation(parseGeoPoint);
                 pictures.setPhotoFileTac(photoFile);
-
+                pictures.setSpecyName(filenameIntent);
             } else if (isCanak) {
                 pictures.setLocation(parseGeoPoint);
                 pictures.setPhotoFileCanak(photoFile);
+                pictures.setSpecyName(filenameIntent);
 
-
-            } else if (isYaprak) {
-                pictures.setLocation(parseGeoPoint);
-                pictures.setPhotoFileYaprak(photoFile);
 
             }
-
 
             pictures.saveInBackground(new SaveCallback() {
 
@@ -505,6 +489,7 @@ public class TakePictureTrainOnline extends ActionBarActivity {
                         if(pdialog != null)
                         {
                             pdialog.dismiss();//Eğer işlem başarılı ise asenkron sınıfta yaratılan progressbar ı kapat.
+
                         }
                     }
                     else{
@@ -521,22 +506,12 @@ public class TakePictureTrainOnline extends ActionBarActivity {
     }
 
 
-    /*public static String getCurrentTimeStamp(){
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss", Locale.forLanguageTag("TR"));
-            return dateFormat.format(new Date());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }*/
 
     @Override
     public void onResume() {
         super.onResume();
 
-        //OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_3, this, mLoaderCallback);
-        //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 360000, 1000, locationListener);
+
         if (camera == null) {
             try {
 

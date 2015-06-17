@@ -60,5 +60,6 @@
     <string name="kisiselKayit">Kişisel Kayıt</string>
     <string name="analizeGonder">Analize Gönder</string>
     <string name="btnTrain">Eğitim Fotoğrafı Çek</string>
+    <string name="title_activity_dialog">DialogActivity</string>
 
 </resources>

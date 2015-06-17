@@ -17,17 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_weight="1"
+        android:src="@android:drawable/ic_menu_camera"
+        />
 
-        android:src="@android:drawable/ic_menu_camera" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:id="@+id/trainEdtOnline"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/trainBtnOnline"
-        android:visibility="invisible"/>
 </LinearLayout>

@@ -15,6 +15,10 @@ public class Pictures extends ParseObject {
 
     }
 
+    public void setSpecyName(String file) {put("specyName", file); }
+
+
+
     public void setPhotoFileTac(ParseFile file) {
         put(file.getName(), file);
     }

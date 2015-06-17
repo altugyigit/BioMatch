@@ -145,7 +145,7 @@ public class WelcomeActivity extends ActionBarActivity {
         btnTrain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(WelcomeActivity.this.getApplicationContext(), TakePictureTrainOnline.class);
+                Intent intent = new Intent(WelcomeActivity.this.getApplicationContext(), DialogActivity.class);
                 startActivity(intent);
             }
         });

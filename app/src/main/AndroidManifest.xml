@@ -29,6 +29,7 @@
     <uses-feature
         android:name="android.hardware.camera.front.focus"
         android:required="false" />
+
     <uses-permission android:name="com.example.utkuloptuk.myapplication.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -129,6 +130,10 @@
         <activity
             android:name=".TakePictureTrainOnline"
             android:label="@string/title_activity_take_picture_train_online" >
+        </activity>
+        <activity
+            android:name=".DialogActivity"
+            android:label="@string/title_activity_dialog" >
         </activity>
     </application>
 
