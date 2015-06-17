@@ -92,7 +92,6 @@ public class TakePictureActivity extends ActionBarActivity {
     public static String ASUS_ZENFONE_5_SENSOR_SIZE = "3.6";
     public static String SONY_XPERIA_SOLA_SENSOR_SIZE = "3.6";
 
-
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
@@ -248,11 +247,9 @@ public class TakePictureActivity extends ActionBarActivity {
                         Log.d("AUTOFOCUSCALLBACK", e.getMessage());
                     }
 
-
                     Log.d("HEIGHT / WIDTH = ",
                             +camera.getParameters().getPreviewSize().height + " " + camera.getParameters().getPreviewSize().width + " " +
                                     camera.getParameters().getPictureSize().height + " " + camera.getParameters().getPictureSize().width);
-
                 }
             });
         }
@@ -404,7 +401,6 @@ public class TakePictureActivity extends ActionBarActivity {
                     new AsyncUpload().execute(fileName);
 
                 } else if (isCanak) {
-
 
                     pictureCache.setByteArrayCanak(scaledData);
                     isCanak = false;

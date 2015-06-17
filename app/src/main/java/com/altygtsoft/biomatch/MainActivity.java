@@ -31,6 +31,7 @@ import java.io.UnsupportedEncodingException;
 
 public class MainActivity extends ActionBarActivity {
 
+    public Button btnOffline;
     public Button btnLogin;
     public TextView txtUserName;
     public TextView txtPassword;
@@ -57,8 +58,6 @@ public class MainActivity extends ActionBarActivity {
         };
         thread.start();*/
 
-
-        isConnected();
         startCast();
     }
 
@@ -120,6 +119,7 @@ public class MainActivity extends ActionBarActivity {
             actionBar.show();
         }
 
+        btnOffline = (Button)findViewById(R.id.btnOffline);
         btnLogin = (Button)findViewById(R.id.btnLogin);
         txtUserName = (TextView)findViewById(R.id.txtUserName);
         txtPassword = (TextView)findViewById(R.id.txtPassword);
@@ -130,6 +130,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
+                isConnected();
                 if (!txtUserName.getText().toString().isEmpty() || !txtPassword.getText().toString().isEmpty()) {
                     userName = txtUserName.getText().toString();
                     passwordUser = txtPassword.getText().toString();
@@ -169,6 +170,19 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        btnOffline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MainActivity.this.getApplicationContext(), TakePictureOfflineActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
     }
+
+
+
 
 }

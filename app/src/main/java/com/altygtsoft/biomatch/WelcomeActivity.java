@@ -20,6 +20,7 @@ import org.w3c.dom.Text;
 
 public class WelcomeActivity extends ActionBarActivity {
 
+    public Button btnCustomBioRecord;
     public TextView txtWelcome;
     public TextView txtUserName;
     public Button btnStartAnalyze;
@@ -62,6 +63,7 @@ public class WelcomeActivity extends ActionBarActivity {
             actionBar.show();
         }
 
+        btnCustomBioRecord = (Button)findViewById(R.id.btnCustomBioRecord);
         txtWelcome = (TextView)findViewById(R.id.txtWelcome);
         txtUserName = (TextView)findViewById(R.id.txtUserName);
         btnStartAnalyze = (Button)findViewById(R.id.btnStartAnalyze);
@@ -72,6 +74,17 @@ public class WelcomeActivity extends ActionBarActivity {
         btnLogOut = (Button)findViewById(R.id.btnLogOut);
         //Kullanıcı adını ekrana yaz.
         txtUserName.setText(struser.toUpperCase());
+
+        btnCustomBioRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(WelcomeActivity.this.getApplicationContext(), CustomBioRecordActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
         btnStartAnalyze.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
