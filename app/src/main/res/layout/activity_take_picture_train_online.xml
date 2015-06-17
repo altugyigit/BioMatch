@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/camera_preview"
+    android:id="@+id/layout_camera_preview_train_online"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    >
 
     <SurfaceView
         android:id="@+id/camera_surface_view"
@@ -19,4 +20,14 @@
 
         android:src="@android:drawable/ic_menu_camera" />
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:id="@+id/trainEdtOnline"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/trainBtnOnline"
+        android:visibility="invisible"/>
 </LinearLayout>

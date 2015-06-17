@@ -22,6 +22,7 @@ import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Layout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Size;
@@ -30,7 +31,10 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -285,7 +289,6 @@ public class TakePictureTrainOnline extends ActionBarActivity {
                 camera.stopPreview();
                 //camera.release();
 
-
             }
 
         });
@@ -379,13 +382,28 @@ public class TakePictureTrainOnline extends ActionBarActivity {
             public void onClick(DialogInterface dialog, int which) {
 
                 if (isTac) {
-
                     pictureCache.setByteArrayTac(scaledData);
                     isTac = false;
                     isCanak = true;
                     Toast.makeText(getApplicationContext(), "Taç yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
                     //String currentTimeStamp = getCurrentTimeStamp();
-                    fileName = "TacYaprak";
+                    final EditText editText = (EditText)findViewById(R.id.trainEdtOnline);
+                    final Button btn = (Button)findViewById(R.id.trainBtnOnline);
+                    editText.setVisibility(View.VISIBLE);
+                    btn.setVisibility(View.VISIBLE);
+                    btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String text = editText.getText().toString();
+                            if (text.equals("")){
+                                Toast.makeText(getApplicationContext(),"Lütfen tür adı giriniz", Toast.LENGTH_LONG).show();
+
+                            }
+                            fileName = text;
+
+                        }
+                    });
+
 
                     new AsyncUpload().execute(fileName);
 
@@ -453,8 +471,6 @@ public class TakePictureTrainOnline extends ActionBarActivity {
 
             }
 
-
-            // pictures.save();// Telefon çekirdeğine göre 2 asenkron methodu desteklemiyor o yüzden sadece save yazılabilir fakat başarılı kontolü SaveCallback' te yakalanamaz.
 
             pictures.saveInBackground(new SaveCallback() {
 

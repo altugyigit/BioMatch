@@ -29,6 +29,7 @@ public class WelcomeActivity extends ActionBarActivity {
     public Button btnMap;
     public Button btnSignUp;
     public Button btnLogOut;
+    public Button btnTrain;
     public GPSConnectionClass gpsConnectionClass;
 
     @Override
@@ -72,6 +73,7 @@ public class WelcomeActivity extends ActionBarActivity {
         btnMap = (Button)findViewById(R.id.btnMap);
         btnSignUp = (Button)findViewById(R.id.btnSignUp);
         btnLogOut = (Button)findViewById(R.id.btnLogOut);
+        btnTrain = (Button)findViewById(R.id.btnTrain);
         //Kullanıcı adını ekrana yaz.
         txtUserName.setText(struser.toUpperCase());
 
@@ -79,8 +81,8 @@ public class WelcomeActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(WelcomeActivity.this.getApplicationContext(), CustomBioRecordActivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(WelcomeActivity.this.getApplicationContext(), CustomBioRecordActivity.class);
+                //startActivity(intent);
 
             }
         });
@@ -138,6 +140,13 @@ public class WelcomeActivity extends ActionBarActivity {
                 
                 ParseUser.logOut();
                 finish();
+            }
+        });
+        btnTrain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WelcomeActivity.this.getApplicationContext(), TakePictureTrainOnline.class);
+                startActivity(intent);
             }
         });
     }
