@@ -281,15 +281,19 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
     public String savePhotoLocal(Bitmap bmp){
 
         try {
-            String offlinePhotoFileName = "offline";
-            File photo = new File(Environment.getExternalStorageDirectory().toString(), offlinePhotoFileName + ".jpg");
-            int i = 0;
+
+            String path = getCurrentTimeStamp();
+            File photo = new File(Environment.getExternalStorageDirectory().toString(), path + ".jpg");
+            /*int i = 0;
             if (photo.exists()) {
                 i++;
                 String j = String.valueOf(i);
                 File photoNew = new File(Environment.getExternalStorageDirectory().toString(), offlinePhotoFileName + j + ".jpg");
-                photo.renameTo(photoNew);
+                if(!photo.renameTo(photoNew)){
+                    Toast.makeText(TakePictureOfflineActivity.this, "Dosya adlandırılamadı", Toast.LENGTH_LONG).show();
+                }
             }
+            */
 
             FileOutputStream fos = new FileOutputStream(photo.getPath());
 
@@ -315,6 +319,7 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
     private void saveExifInformation(String path) {
         try {
 
+
             ExifInterface exifInterface = new ExifInterface(path);
             String latitudeStr = String.valueOf(latitude);
             String longitudeStr = String.valueOf(longitude);
@@ -324,7 +329,6 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
             exifInterface.setAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF, convertGPS.longitudeRef(longitude));
 
             Log.d("EXIF VALUES", "LAT: "+convertGPS.convert(latitude)+" LON: "+convertGPS.convert(longitude));
-
             exifInterface.saveAttributes();
         }
         catch (Exception e){
@@ -381,10 +385,18 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
     public static String getCurrentTimeStamp(){
         try {
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-            String currentTimeStamp = dateFormat.format(new Date());
+            Calendar c = Calendar.getInstance();
+            int date = c.get(Calendar.DATE);
+            int month = c.get(Calendar.MONTH);
+            int year = c.get(Calendar.YEAR);
+            int hour = c.get(Calendar.HOUR);
+            int minute = c.get(Calendar.MINUTE);
+            int seconds = c.get(Calendar.SECOND);
 
-            return currentTimeStamp;
+            String stamp = String.valueOf(date) +"_"+ String.valueOf(month)+"_" + String.valueOf(year)
+            +"_"+ String.valueOf(hour)+"_"+ String.valueOf(minute)+"_"+"_"+String.valueOf(seconds);
+
+            return stamp;
         } catch (Exception e) {
             e.printStackTrace();
 

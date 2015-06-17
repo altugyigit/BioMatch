@@ -60,7 +60,7 @@ import java.util.List;
 import java.util.Locale;
 import com.altygtsoft.biomatch.Devices;
 
-public class TakePictureActivity extends ActionBarActivity {
+public class TakePictureTrainOnline extends ActionBarActivity {
 
     public String lastId = "start";
     public static Camera camera;
@@ -93,21 +93,7 @@ public class TakePictureActivity extends ActionBarActivity {
     public static String SONY_XPERIA_SOLA_SENSOR_SIZE = "3.6";
 
 
-    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
-        @Override
-        public void onManagerConnected(int status) {
-            switch (status) {
-                case LoaderCallbackInterface.SUCCESS:
-                {
 
-                } break;
-                default:
-                {
-                    super.onManagerConnected(status);
-                } break;
-            }
-        }
-    };
 
     GPSTracker gpsTracker;
     @Override
@@ -116,7 +102,7 @@ public class TakePictureActivity extends ActionBarActivity {
         latlon = new double[2];
         super.onCreate(savedInstanceState);
 
-        gpsTracker = new GPSTracker(TakePictureActivity.this);
+        gpsTracker = new GPSTracker(TakePictureTrainOnline.this);
 
         if (gpsTracker.canGetLocation()){
             latitude = gpsTracker.getLatitude();
@@ -300,7 +286,7 @@ public class TakePictureActivity extends ActionBarActivity {
                 //camera.release();
 
 
-                }
+            }
 
         });
     }
@@ -328,10 +314,10 @@ public class TakePictureActivity extends ActionBarActivity {
             }
         }
         else
-            if (manufacturer.startsWith("asus")){
-                pictures.setSensorSize(ASUS_ZENFONE_5_SENSOR_SIZE);
-                Log.d("SENSOR SIZE : ", "ASUS : " + ASUS_ZENFONE_5_SENSOR_SIZE);
-            }
+        if (manufacturer.startsWith("asus")){
+            pictures.setSensorSize(ASUS_ZENFONE_5_SENSOR_SIZE);
+            Log.d("SENSOR SIZE : ", "ASUS : " + ASUS_ZENFONE_5_SENSOR_SIZE);
+        }
     }
 
 
@@ -446,75 +432,75 @@ public class TakePictureActivity extends ActionBarActivity {
         alertDialog.show();
     }
 
-        public void startUpload(String fileName) {
+    public void startUpload(String fileName) {
 
-            try {
-                photoFile = new ParseFile(fileName, scaledData);
-                parseGeoPoint = new ParseGeoPoint(latitude, longtitude);
-                //ExifInterface exif = new ExifInterface()
-                if (isTac) {
-                    pictures.setLocation(parseGeoPoint);
-                    pictures.setPhotoFileTac(photoFile);
+        try {
+            photoFile = new ParseFile(fileName, scaledData);
+            parseGeoPoint = new ParseGeoPoint(latitude, longtitude);
+            //ExifInterface exif = new ExifInterface()
+            if (isTac) {
+                pictures.setLocation(parseGeoPoint);
+                pictures.setPhotoFileTac(photoFile);
 
-                } else if (isCanak) {
-                    pictures.setLocation(parseGeoPoint);
-                    pictures.setPhotoFileCanak(photoFile);
-
-
-                } else if (isYaprak) {
-                    pictures.setLocation(parseGeoPoint);
-                    pictures.setPhotoFileYaprak(photoFile);
-
-                }
+            } else if (isCanak) {
+                pictures.setLocation(parseGeoPoint);
+                pictures.setPhotoFileCanak(photoFile);
 
 
-               // pictures.save();// Telefon çekirdeğine göre 2 asenkron methodu desteklemiyor o yüzden sadece save yazılabilir fakat başarılı kontolü SaveCallback' te yakalanamaz.
+            } else if (isYaprak) {
+                pictures.setLocation(parseGeoPoint);
+                pictures.setPhotoFileYaprak(photoFile);
 
-                pictures.saveInBackground(new SaveCallback() {
+            }
 
-                    @Override
-                    public void done(ParseException e) {
-                        if(e == null){
-                            Toast.makeText(getApplicationContext(),"Buluta yükleme başarılı. " , Toast.LENGTH_LONG).show();
-                            //SON KAYDI GETIR.
-                            if(lastId.equals("start"))
-                            {
-                                ParseQuery<ParseObject> query = ParseQuery.getQuery("Pictures");
-                                query.whereExists("location");
-                                query.orderByDescending("createdAt");
 
-                                query.findInBackground(new FindCallback<ParseObject>() {
-                                    @Override
-                                    public void done(List<ParseObject> list, ParseException e) {
+            // pictures.save();// Telefon çekirdeğine göre 2 asenkron methodu desteklemiyor o yüzden sadece save yazılabilir fakat başarılı kontolü SaveCallback' te yakalanamaz.
 
-                                        List<ParseObject> arrayList = new ArrayList<>(list);
+            pictures.saveInBackground(new SaveCallback() {
 
-                                        lastId = arrayList.get(0).getObjectId();
+                @Override
+                public void done(ParseException e) {
+                    if(e == null){
+                        Toast.makeText(getApplicationContext(),"Buluta yükleme başarılı. " , Toast.LENGTH_LONG).show();
+                        //SON KAYDI GETIR.
+                        if(lastId.equals("start"))
+                        {
+                            ParseQuery<ParseObject> query = ParseQuery.getQuery("Pictures");
+                            query.whereExists("location");
+                            query.orderByDescending("createdAt");
 
-                                        Toast.makeText(getApplicationContext(), "Son ID =" + lastId, Toast.LENGTH_LONG).show();
+                            query.findInBackground(new FindCallback<ParseObject>() {
+                                @Override
+                                public void done(List<ParseObject> list, ParseException e) {
 
-                                    }
-                                });
+                                    List<ParseObject> arrayList = new ArrayList<>(list);
 
-                            }
+                                    lastId = arrayList.get(0).getObjectId();
 
-                            if(pdialog != null)
-                            {
-                                pdialog.dismiss();//Eğer işlem başarılı ise asenkron sınıfta yaratılan progressbar ı kapat.
-                            }
+                                    Toast.makeText(getApplicationContext(), "Son ID =" + lastId, Toast.LENGTH_LONG).show();
+
+                                }
+                            });
+
                         }
-                        else{
-                            Toast.makeText(getApplicationContext(),"Hata" +e.toString(),Toast.LENGTH_LONG).show();
+
+                        if(pdialog != null)
+                        {
+                            pdialog.dismiss();//Eğer işlem başarılı ise asenkron sınıfta yaratılan progressbar ı kapat.
                         }
                     }
-                });
+                    else{
+                        Toast.makeText(getApplicationContext(),"Hata" +e.toString(),Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
 
-            }
-            catch (Exception ex)
-            {
-                Toast.makeText(getApplicationContext(),"Bağlantı Hatası !",Toast.LENGTH_LONG).show();
-            }
         }
+        catch (Exception ex)
+        {
+            Toast.makeText(getApplicationContext(),"Bağlantı Hatası !",Toast.LENGTH_LONG).show();
+        }
+    }
 
 
     /*public static String getCurrentTimeStamp(){
@@ -582,7 +568,7 @@ public class TakePictureActivity extends ActionBarActivity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            pdialog = new ProgressDialog(TakePictureActivity.this);
+            pdialog = new ProgressDialog(TakePictureTrainOnline.this);
             pdialog.setMessage("Yükleniyor...");
             pdialog.setIndeterminate(false);
             pdialog.setCancelable(false);

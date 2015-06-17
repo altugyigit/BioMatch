@@ -54,5 +54,6 @@
     <string name="title_activity_bellek_">Bellek_Activity</string>
     <string name="title_activity_location">LocationActivity</string>
     <string name="title_activity_activity_custom_map_info">activity_custom_map_info</string>
+    <string name="title_activity_take_picture_train_online">TakePictureTrainOnline</string>
 
 </resources>
