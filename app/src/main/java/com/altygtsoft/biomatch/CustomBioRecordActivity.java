@@ -420,25 +420,6 @@ public class CustomBioRecordActivity extends ActionBarActivity {
     }*/
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        //OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_3, this, mLoaderCallback);
-        //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 360000, 1000, locationListener);
-        if (camera == null) {
-            try {
-
-                camera = Camera.open();
-                photoButton.setEnabled(true);
-            } catch (Exception e) {
-                photoButton.setEnabled(false);
-                Toast.makeText(getApplicationContext(), "Kamera Bulunamadı !",
-                        Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    @Override
     public void onPause() {
 
         super.onPause();
@@ -452,7 +433,7 @@ public class CustomBioRecordActivity extends ActionBarActivity {
 
     @Override
     public void onDestroy() {
-        pdialog.dismiss();
+        if(pdialog != null)pdialog.dismiss();
         super.onDestroy();
     }
 
@@ -483,6 +464,24 @@ public class CustomBioRecordActivity extends ActionBarActivity {
 
             super.onPostExecute(name);
 
+        }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_3, this, mLoaderCallback);
+        //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 360000, 1000, locationListener);
+        if (camera == null) {
+            try {
+
+                camera = Camera.open();
+                photoButton.setEnabled(true);
+            } catch (Exception e) {
+                photoButton.setEnabled(false);
+                Toast.makeText(getApplicationContext(), "Kamera Bulunamadı !",
+                        Toast.LENGTH_LONG).show();
+            }
         }
     }
 

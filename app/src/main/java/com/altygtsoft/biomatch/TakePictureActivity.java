@@ -556,7 +556,7 @@ public class TakePictureActivity extends ActionBarActivity {
 
     @Override
     public void onDestroy() {
-        pdialog.dismiss();
+        if(pdialog != null)pdialog.dismiss();
         //SERVERA OBJECTID AT.
         Thread thread = new Thread() {
 
