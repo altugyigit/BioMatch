@@ -1,11 +1,11 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:gravity="center">
 <LinearLayout
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
     android:background="@drawable/bck"
@@ -14,8 +14,8 @@
 <LinearLayout
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="top"
+    android:orientation="vertical"
+    android:gravity="center"
     android:padding="10dp">
 
 <LinearLayout
@@ -43,7 +43,7 @@
         android:textSize="20dp"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:text="@string/select1" />
+        android:text="@string/selectTacYap" />
 
 </LinearLayout>
     <LinearLayout
@@ -69,7 +69,7 @@
         android:textSize="20dp"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:text="@string/select2" />
+        android:text="@string/selectCanak" />
 </LinearLayout>
 
     </LinearLayout>
@@ -79,7 +79,7 @@
         android:layout_height="75dp"
         android:background="@drawable/custom_button"
         android:textSize="20dp"
-        android:id="@+id/btnStart"
+        android:id="@+id/btnSend"
         android:text="@string/gonder"
         android:textColor="#080808"/>
 

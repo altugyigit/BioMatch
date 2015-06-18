@@ -61,5 +61,8 @@
     <string name="analizeGonder">Analize Gönder</string>
     <string name="btnTrain">Eğitim Fotoğrafı Çek</string>
     <string name="title_activity_dialog">DialogActivity</string>
+    <string name="selectTac">Taç Yaprak Seç</string>
+    <string name="selectTacYap">Taç Yaprak</string>
+    <string name="selectCanak">Çanak Yaprak</string>
 
 </resources>
