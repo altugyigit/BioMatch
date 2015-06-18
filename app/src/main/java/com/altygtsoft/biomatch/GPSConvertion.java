@@ -45,7 +45,7 @@ public class GPSConvertion {
         stringBuilder.append(minute);
         stringBuilder.append("/1,");
         stringBuilder.append(second);
-        stringBuilder.append("/1000,");
+        stringBuilder.append("/100");
 
         return stringBuilder.toString();
 

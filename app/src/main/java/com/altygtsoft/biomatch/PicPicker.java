@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -76,21 +77,7 @@ public class PicPicker extends ActionBarActivity {
     public Bitmap bmTac;
     public Bitmap bmCanak;
 
-    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
-        @Override
-        public void onManagerConnected(int status) {
-            switch (status) {
-                case LoaderCallbackInterface.SUCCESS:
-                {
 
-                } break;
-                default:
-                {
-                    super.onManagerConnected(status);
-                } break;
-            }
-        }
-    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,21 +102,21 @@ public class PicPicker extends ActionBarActivity {
         btnSelectTac.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                openFolder();
+                /*Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image/*");
                 startActivityForResult(photoPickerIntent, 1);
-
+*/
             }
         });
 
         btnSelectCanak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                openFolder();
+                /*Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, 1);
+                startActivityForResult(photoPickerIntent, 1);*/
             }
         });
 
@@ -153,6 +140,15 @@ public class PicPicker extends ActionBarActivity {
         });
     }
 
+    public void openFolder()
+    {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        String path = Environment.getExternalStorageDirectory().getPath()
+                + "/BioMatch/";
+        Uri uri = Uri.parse(path);
+        intent.setDataAndType(uri, "image/jpeg");
+        startActivity(Intent.createChooser(intent, "Klasör Aç"));
+    }
     @Override
     public void onDestroy() {
         pdialog.dismiss();

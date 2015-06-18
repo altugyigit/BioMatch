@@ -3,6 +3,8 @@ package com.altygtsoft.biomatch;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +13,7 @@ import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.ColorDrawable;
 import android.hardware.Camera;
+import android.location.Location;
 import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -57,8 +60,9 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
     public Calendar c;
     public static String fileName;
     public static byte[] scaledData;
+    public static Bitmap rotatedScaledImage;
     public static ProgressDialog pdialog;
-
+    public static Location location;
     public static boolean isTac = true;
     public static boolean isCanak = false;
     public static boolean isYaprak = false;
@@ -195,13 +199,13 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
         // Override Android default landscape orientation and save portrait
         Matrix matrix = new Matrix();
         matrix.postRotate(90);
-        Bitmap rotatedScaledMealImage = Bitmap.createBitmap(mealImageScaled, 0,
+        rotatedScaledImage = Bitmap.createBitmap(mealImageScaled, 0,
                 0, mealImageScaled.getWidth(), mealImageScaled.getHeight(),
                 matrix, true);
 
-        String absolutePath = savePhotoLocal(rotatedScaledMealImage);
+        /*String absolutePath = savePhotoLocal(rotatedScaledImage);
         saveExifInformation(absolutePath);
-
+        */
         //rotatedScaledMealImage.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
 
         //scaledData = file.toByteArray();
@@ -219,15 +223,15 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
                 if(isTac)
                 {
                     try {
-
+                        String flag = "T";
                         pictureCache.setByteArrayTac(scaledData);
                         isTac = false;
                         isCanak = true;
                         Toast.makeText(getApplicationContext(), "Taç yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
                         String currentTimeStamp = getCurrentTimeStamp();
                         fileName = "TacYaprak";
-                        //savePhotoLocal(scaledData);
-                        //new AsyncSave().execute(scaledData);
+                        String absolutePath = makeDir(rotatedScaledImage, flag);
+                        new AsyncSave().execute(absolutePath);
                     }
                     catch (Exception e){
                         e.printStackTrace();
@@ -237,17 +241,17 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
                 else if(isCanak)
                 {
 
-
+                    String flag = "C";
                     pictureCache.setByteArrayCanak(scaledData);
                     isCanak = false;
                     isYaprak = true;
                     Toast.makeText(getApplicationContext(), "Çanak yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
                     String currentTimeStamp = getCurrentTimeStamp();
                     fileName = "CanakYaprak";
-                    //savePhotoLocal(scaledData);
-                    //new AsyncSave().execute(scaledData);
+                    String absolutePath = makeDir(rotatedScaledImage, flag);
+                    new AsyncSave().execute(absolutePath);
                 }
-                else if(isYaprak)
+                /*else if(isYaprak)
                 {
 
                     String plantTag = "A_Y";
@@ -256,11 +260,11 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
                     Toast.makeText(getApplicationContext(), "Ağaç yaprağı görüntüsü alındı.", Toast.LENGTH_LONG).show();
                     String currentTimeStamp = getCurrentTimeStamp();
                     fileName = "AgacYapragi";
-                    //savePhotoLocal(scaledData);
-                    //new AsyncSave().execute(scaledData);
-                }
+                    String absolutePath = makeDir(rotatedScaledImage);
+                    new AsyncSave().execute(absolutePath);
+                }*/
 
-                if(!isTac && !isCanak && !isYaprak)
+                if(!isTac && !isCanak)
                 {
                     finish();
                 }
@@ -278,30 +282,41 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
         AlertDialog alertDialog = aDB.create();
         alertDialog.show();
     }
-    public String savePhotoLocal(Bitmap bmp){
+
+    public String makeDir(Bitmap bmp, String flag){
+
+        File dir = new File(Environment.getExternalStorageDirectory().toString(), "BioMatch");
+
+        if (dir.exists()){
+            String absolutePath = savePhotoLocal(bmp, dir.toString(), flag);
+            return absolutePath;
+        }
+        else if(dir.mkdir()){
+            String absolutePath = savePhotoLocal(bmp, dir.toString(), flag);
+            Log.d("DIRECTORY", "DIRECTORY CREATED");
+            return absolutePath;
+        }
+        else{
+            Log.d("DIRECTORY_ERROR", "CAN NOT CREATED DIRECTORY");
+        }
+        return null;
+    }
+
+    public String savePhotoLocal(Bitmap bmp, String dir, String flag){
 
         try {
+                String path = getCurrentTimeStamp();
+                File photo = new File(dir,flag+"_"+path + ".jpg");
 
-            String path = getCurrentTimeStamp();
-            File photo = new File(Environment.getExternalStorageDirectory().toString(), path + ".jpg");
-            /*int i = 0;
-            if (photo.exists()) {
-                i++;
-                String j = String.valueOf(i);
-                File photoNew = new File(Environment.getExternalStorageDirectory().toString(), offlinePhotoFileName + j + ".jpg");
-                if(!photo.renameTo(photoNew)){
-                    Toast.makeText(TakePictureOfflineActivity.this, "Dosya adlandırılamadı", Toast.LENGTH_LONG).show();
-                }
-            }
-            */
+                FileOutputStream fos = new FileOutputStream(photo.getPath());
 
-            FileOutputStream fos = new FileOutputStream(photo.getPath());
-
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-
-            fos.flush();
-            fos.close();
+                bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             MediaStore.Images.Media.insertImage(getContentResolver(), photo.getAbsolutePath(), photo.getName(), photo.getName());
+                fos.flush();
+                fos.close();
+
+
+
 
             return photo.getAbsolutePath();
 
@@ -316,22 +331,24 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
         return null;
 
     }
-    private void saveExifInformation(String path) {
+    public void saveExifInformation(String path) {
         try {
 
 
             ExifInterface exifInterface = new ExifInterface(path);
-            String latitudeStr = String.valueOf(latitude);
-            String longitudeStr = String.valueOf(longitude);
-            exifInterface.setAttribute(ExifInterface.TAG_GPS_LATITUDE, convertGPS.convert(latitude));
+
+            exifInterface.setAttribute(ExifInterface.TAG_MAKE, String.valueOf(latitude));
             exifInterface.setAttribute(ExifInterface.TAG_GPS_LATITUDE_REF, convertGPS.latitudeRef(latitude));
-            exifInterface.setAttribute(ExifInterface.TAG_GPS_LONGITUDE, convertGPS.convert(longitude));
+            exifInterface.setAttribute(ExifInterface.TAG_MODEL, String.valueOf(longitude));
             exifInterface.setAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF, convertGPS.longitudeRef(longitude));
 
             Log.d("EXIF VALUES", "LAT: "+convertGPS.convert(latitude)+" LON: "+convertGPS.convert(longitude));
             exifInterface.saveAttributes();
+
+            pdialog.dismiss();
+            Log.d("EXIFGET", exifInterface.getAttribute(ExifInterface.TAG_MAKE));
         }
-        catch (Exception e){
+        catch (IOException e){
             e.printStackTrace();
             Log.e("EXIF ERROR", e.getMessage());
         }
@@ -394,7 +411,7 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
             int seconds = c.get(Calendar.SECOND);
 
             String stamp = String.valueOf(date) +"_"+ String.valueOf(month)+"_" + String.valueOf(year)
-            +"_"+ String.valueOf(hour)+"_"+ String.valueOf(minute)+"_"+"_"+String.valueOf(seconds);
+            +"_"+ String.valueOf(hour)+"_"+ String.valueOf(minute)+"_"+String.valueOf(seconds);
 
             return stamp;
         } catch (Exception e) {
@@ -435,7 +452,7 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
 
 
 
-    /*public class AsyncSave extends AsyncTask<byte[],String,String> {
+    public class AsyncSave extends AsyncTask<String,Void,String> {
 
         @Override
         protected void onPreExecute() {
@@ -448,23 +465,23 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
         }
 
         @Override
-        protected String doInBackground(byte[]... scaledData) {
+        protected String doInBackground(String... path) {
 
-            //savePhotoLocal(scaledData);
+            return path[0];
 
-            return null;
+
 
         }
 
         @Override
         protected void onPostExecute(String name) {
 
-
+            saveExifInformation(name);
 
             super.onPostExecute(name);
 
         }
 
-    }*/
+    }
 
 }
