@@ -62,7 +62,7 @@ import com.altygtsoft.biomatch.Devices;
 
 public class TakePictureActivity extends ActionBarActivity {
 
-    public String lastId = "start";
+    public static String lastId = "start";
     public static Camera camera;
     public static final int pictureHeight = 480;
     public static final int pictureWidth = 640;
