@@ -61,7 +61,7 @@ import java.util.List;
 
 public class PicPicker extends ActionBarActivity {
 
-    public String lastId = "start";
+    public static String lastId = "start";
     public ParseGeoPoint parseGeoPoint;
     public static double latitude = 0;
     public static double longtitude = 0;
