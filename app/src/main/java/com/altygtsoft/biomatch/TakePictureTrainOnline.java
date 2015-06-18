@@ -76,7 +76,6 @@ public class TakePictureTrainOnline extends ActionBarActivity {
     private SurfaceView surfaceView;
     public static ParseFile photoFile;
     private ImageButton photoButton;
-    public static Pictures pictures;
     public PictureCache pictureCache;
     public Calendar c;
     public static String filenameIntent;
@@ -90,24 +89,24 @@ public class TakePictureTrainOnline extends ActionBarActivity {
     public static double longtitude = 0;
     public static double[] latlon;
     public static LocationListener locationListener;
-    public static boolean isTac = true;
-    public static boolean isCanak = false;
-    public static boolean isYaprak = false;
+    public static boolean isTac;
+    public static boolean isCanak;
     public static String from;
     public static ParseGeoPoint parseGeoPoint;
     public static String SONY_XPERIA_Z2_SENSOR_SIZE = "4.55";
     public static String ASUS_ZENFONE_5_SENSOR_SIZE = "3.6";
     public static String SONY_XPERIA_SOLA_SENSOR_SIZE = "3.6";
     public String fileName;
-
-
+    public ParseObject picturesParseObject = new ParseObject("Train");
 
     GPSTracker gpsTracker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        pictures = new Pictures();
         latlon = new double[2];
         super.onCreate(savedInstanceState);
+
+        isTac = true;
+        isCanak = false;
 
         Intent i = getIntent();
         filenameIntent = i.getStringExtra("FILENAME");
@@ -131,50 +130,6 @@ public class TakePictureTrainOnline extends ActionBarActivity {
 
         startCast();
     }
-
-   /* public void setLocation(Location loc){
-        Log.d("SETLOCATIONVALUES", loc.getLatitude() + " " + loc.getLongitude() );
-    }
-
-        public double[] getLocation () {
-
-            locationListener = new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
-                    setLocation(location);
-                    latitude = location.getLatitude();
-                    longtitude = location.getLongitude();
-                }
-
-                @Override
-                public void onStatusChanged(String provider, int status, Bundle extras) {
-
-                }
-
-                @Override
-                public void onProviderEnabled(String provider) {
-
-                }
-
-                @Override
-                public void onProviderDisabled(String provider) {
-
-                }
-            };
-        double[] coordinates = new double[2];
-
-        if (latitude != 0 || longtitude != 0) { //koordinatların listener'da doldurulup doldurulmadığını kontrol ediyoruz
-            coordinates[0] = latitude;
-            coordinates[1] = longtitude;
-        } else                                    //Dolmadıysa metodu tekrar çağırıyoruz.
-            Log.d("LATLONError", latitude + " " + longtitude);
-
-
-        return coordinates;
-
-
-    }*/
-
 
     private void startCast()
     {
@@ -269,7 +224,7 @@ public class TakePictureTrainOnline extends ActionBarActivity {
 
                         Camera.Parameters params = camera.getParameters();
                         focalLength = String.valueOf(params.getFocalLength());
-                        pictures.setFocalLength(focalLength);
+                        picturesParseObject.put("focalLength", focalLength);
                         getDeviceName();
                         params.setFocusMode(Camera.Parameters.FOCUS_MODE_MACRO);
                         camera.setParameters(params);
@@ -300,7 +255,7 @@ public class TakePictureTrainOnline extends ActionBarActivity {
         });
     }
 
-    public static void getDeviceName() {
+    public void getDeviceName() {
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;
         String hardware = Build.HARDWARE;
@@ -311,27 +266,26 @@ public class TakePictureTrainOnline extends ActionBarActivity {
 
         if (manufacturer.startsWith("Sony")){
             if (model.startsWith("D6503")) {
-                pictures.setSensorSize(SONY_XPERIA_Z2_SENSOR_SIZE);
+                picturesParseObject.put("SensorSize",SONY_XPERIA_Z2_SENSOR_SIZE);
                 Log.d("SENSOR SIZE : ", "SONY : " + SONY_XPERIA_Z2_SENSOR_SIZE);
             }
         }
         else
         if (manufacturer.startsWith("Sony")){
             if (model.startsWith("Xperia")) {
-                pictures.setSensorSize(SONY_XPERIA_SOLA_SENSOR_SIZE);
+                picturesParseObject.put("SensorSize", SONY_XPERIA_SOLA_SENSOR_SIZE);
                 Log.d("SENSOR SIZE : ", "SONY : " + SONY_XPERIA_SOLA_SENSOR_SIZE);
             }
         }
         else
         if (manufacturer.startsWith("asus")){
-            pictures.setSensorSize(ASUS_ZENFONE_5_SENSOR_SIZE);
+            picturesParseObject.put("SensorSize", ASUS_ZENFONE_5_SENSOR_SIZE);
             Log.d("SENSOR SIZE : ", "ASUS : " + ASUS_ZENFONE_5_SENSOR_SIZE);
         }
     }
 
 
     private void saveScaledPhoto(byte[] data) {
-
 
         try {
             //Burada telefonların desteklediği çözünürlükleri alabiliyoruz lakin yukarıda statik olarak
@@ -387,6 +341,7 @@ public class TakePictureTrainOnline extends ActionBarActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
+                Toast.makeText(TakePictureTrainOnline.this.getApplicationContext(), "İKİNCİYE GELDİM", Toast.LENGTH_LONG).show();
                 try {
                     if (isTac) {
 
@@ -403,26 +358,15 @@ public class TakePictureTrainOnline extends ActionBarActivity {
 
                         pictureCache.setByteArrayCanak(scaledData);
                         isCanak = false;
-                        isYaprak = true;
                         Toast.makeText(getApplicationContext(), "Çanak yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
                         //String currentTimeStamp = getCurrentTimeStamp();
                         fileName = "CanakYaprak";
 
                         new AsyncUpload().execute(fileName);
 
-                    } else if (isYaprak) {
-
-                    String plantTag = "A_Y";
-                    pictureCache.setByteArrayYaprak(scaledData);
-                    isYaprak = false;
-                    Toast.makeText(getApplicationContext(), "Ağaç yaprağı görüntüsü alındı.", Toast.LENGTH_LONG).show();
-                    //String currentTimeStamp = getCurrentTimeStamp();
-                    fileName = "AgacYapragi";
-
-                    new AsyncUpload().execute(fileName);
-                }
-
-                    if (!isTac && !isCanak &&!isYaprak) {
+                    }
+                    if (!isTac && !isCanak)
+                    {
 
                         finish();
                     }
@@ -449,24 +393,15 @@ public class TakePictureTrainOnline extends ActionBarActivity {
     public void startUpload(String fileName) {
 
         try {
+
             photoFile = new ParseFile(fileName, scaledData);
             parseGeoPoint = new ParseGeoPoint(latitude, longtitude);
             //ExifInterface exif = new ExifInterface()
-            if (isTac) {
-                pictures.setLocation(parseGeoPoint);
-                pictures.setPhotoFileTac(photoFile);
-                pictures.setSpecyName(filenameIntent);
+            picturesParseObject.put("location", parseGeoPoint);
+            picturesParseObject.put(fileName ,photoFile);
+            picturesParseObject.put("specy",filenameIntent);
 
-            } else if (isCanak) {
-                pictures.setLocation(parseGeoPoint);
-                pictures.setPhotoFileCanak(photoFile);
-                pictures.setSpecyName(filenameIntent);
-
-
-
-            }
-
-            pictures.saveInBackground(new SaveCallback() {
+            picturesParseObject.saveInBackground(new SaveCallback() {
 
                 @Override
                 public void done(ParseException e) {

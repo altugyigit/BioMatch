@@ -172,9 +172,7 @@ public class TakePictureActivity extends ActionBarActivity {
         } else                                    //Dolmadıysa metodu tekrar çağırıyoruz.
             Log.d("LATLONError", latitude + " " + longtitude);
 
-
         return coordinates;
-
 
     }*/
 
@@ -445,6 +443,7 @@ public class TakePictureActivity extends ActionBarActivity {
         public void startUpload(String fileName) {
 
             try {
+
                 photoFile = new ParseFile(fileName, scaledData);
                 parseGeoPoint = new ParseGeoPoint(latitude, longtitude);
                 //ExifInterface exif = new ExifInterface()

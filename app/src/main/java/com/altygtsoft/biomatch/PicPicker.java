@@ -129,8 +129,7 @@ public class PicPicker extends ActionBarActivity {
                     Toast.makeText(getApplicationContext(), "Fotoğraflar Seçilmeli !", Toast.LENGTH_LONG).show();
 
                 }
-                else
-                {
+                else {
 
                     new AsyncUpload().execute("");
 
@@ -203,23 +202,34 @@ public class PicPicker extends ActionBarActivity {
 
         ParseObject picturesParseObject = ParseObject.create("Pictures");
 
-        bmTac = ((BitmapDrawable)imgSelectedTac.getDrawable()).getBitmap();
+        bmCanak = ((BitmapDrawable)imgSelectedCanak.getDrawable()).getBitmap();
+        ByteArrayOutputStream streamCanak = new ByteArrayOutputStream();
+        bmCanak.compress(Bitmap.CompressFormat.JPEG, 100, streamCanak);
+        byte[] byteArrayCanak = streamCanak.toByteArray();
+        parseFileCanak = new ParseFile("Canak", byteArrayCanak);
+        try {
+            parseFileCanak.save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        bmTac = ((BitmapDrawable) imgSelectedTac.getDrawable()).getBitmap();
         ByteArrayOutputStream streamTac = new ByteArrayOutputStream();
         bmTac.compress(Bitmap.CompressFormat.JPEG, 100, streamTac);
         byte[] byteArrayTac = streamTac.toByteArray();
         parseFileTac = new ParseFile("Tac", byteArrayTac);
+        try {
+            parseFileTac.save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-        bmCanak = ((BitmapDrawable)imgSelectedCanak.getDrawable()).getBitmap();
-        ByteArrayOutputStream streamCanak = new ByteArrayOutputStream();
-        bmTac.compress(Bitmap.CompressFormat.JPEG, 100, streamCanak);
-        byte[] byteArrayCanak = streamCanak.toByteArray();
-        parseFileCanak = new ParseFile("Canak", byteArrayCanak);
+        picturesParseObject.put("CanakYaprak",parseFileCanak);
+        picturesParseObject.put("TacYaprak", parseFileTac);
 
         parseGeoPoint = new ParseGeoPoint(latitude, longtitude);
 
         picturesParseObject.put("location",parseGeoPoint);
-        picturesParseObject.put("TacYaprak", parseFileTac);
-        picturesParseObject.put("CanakYaprak",parseFileCanak);
 
         picturesParseObject.saveInBackground(new SaveCallback() {
 
