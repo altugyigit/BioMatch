@@ -203,7 +203,7 @@ public class PicPicker extends ActionBarActivity {
         ByteArrayOutputStream streamCanak = new ByteArrayOutputStream();
         bmCanak.compress(Bitmap.CompressFormat.JPEG, 100, streamCanak);
         byte[] byteArrayCanak = streamCanak.toByteArray();
-        parseFileCanak = new ParseFile("Canak", byteArrayCanak);
+        parseFileCanak = new ParseFile("CanakYaprak", byteArrayCanak);
         try {
             parseFileCanak.save();
         } catch (ParseException e) {
@@ -214,7 +214,7 @@ public class PicPicker extends ActionBarActivity {
         ByteArrayOutputStream streamTac = new ByteArrayOutputStream();
         bmTac.compress(Bitmap.CompressFormat.JPEG, 100, streamTac);
         byte[] byteArrayTac = streamTac.toByteArray();
-        parseFileTac = new ParseFile("Tac", byteArrayTac);
+        parseFileTac = new ParseFile("TacYaprak", byteArrayTac);
         try {
             parseFileTac.save();
         } catch (ParseException e) {
