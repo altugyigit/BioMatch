@@ -341,7 +341,6 @@ public class TakePictureTrainOnline extends ActionBarActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                Toast.makeText(TakePictureTrainOnline.this.getApplicationContext(), "İKİNCİYE GELDİM", Toast.LENGTH_LONG).show();
                 try {
                     if (isTac) {
 
