@@ -20,15 +20,14 @@ import com.parse.ParseUser;
 
 import org.w3c.dom.Text;
 
-
 public class CobanActivity extends ActionBarActivity {
 
     public TextView txtWelcome;
     public TextView txtUserName;
     public Button takePicCoban;
-    public RadioButton radioOffline;
-    public RadioButton radioOnline;
     public Button btnLogOut;
+    public Button btnuploadOffline;
+    public Button btnSec;
     public GPSConnectionClass gpsConnectionClass;
     public GetLatLon getLatLon;
 
@@ -40,9 +39,6 @@ public class CobanActivity extends ActionBarActivity {
         gpsConnectionClass = new GPSConnectionClass(CobanActivity.this);
         startCast();
         verifyGPS();
-
-
-
     }
 
     void verifyGPS()
@@ -67,10 +63,10 @@ public class CobanActivity extends ActionBarActivity {
             actionBar.show();
         }
 
+        btnSec = (Button)findViewById(R.id.btnSec);
+        btnuploadOffline = (Button)findViewById(R.id.btnUploadOffline);
         txtWelcome = (TextView)findViewById(R.id.txtWelcome);
         takePicCoban = (Button)findViewById(R.id.takePictureCoban);
-        radioOffline = (RadioButton)findViewById(R.id.yerelkayitButton);
-        radioOnline = (RadioButton)findViewById(R.id.cicikayitButton);
         btnLogOut = (Button)findViewById(R.id.btnLogOut);
         //Kullanıcı adını ekrana yaz.
         txtUserName = (TextView)findViewById(R.id.txtCobanUserName);
@@ -78,15 +74,26 @@ public class CobanActivity extends ActionBarActivity {
         takePicCoban.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(CobanActivity.this.getApplicationContext(), TakePictureActivity.class);
+                intent.putExtra("from", "picture");
+                startActivity(intent);
+            }
+        });
+        btnuploadOffline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-                if (radioOnline.isChecked()) {
-                    Intent intent = new Intent(CobanActivity.this.getApplicationContext(), TakePictureActivity.class);
-                    intent.putExtra("from","picture");
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(CobanActivity.this.getApplicationContext(), TakePictureOfflineActivity.class);
-                    startActivity(intent);
-                }
+                Intent intent = new Intent(CobanActivity.this.getApplicationContext(), TakePictureOfflineActivity.class);
+                startActivity(intent);
+
+            }
+        });
+        btnSec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(CobanActivity.this.getApplicationContext(), PicPicker.class);
+                startActivity(intent);
 
             }
         });

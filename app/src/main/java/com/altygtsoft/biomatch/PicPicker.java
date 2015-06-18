@@ -150,7 +150,7 @@ public class PicPicker extends ActionBarActivity {
     }
     @Override
     public void onDestroy() {
-        pdialog.dismiss();
+        if(pdialog!=null)pdialog.dismiss();
         //SERVERA OBJECTID AT.
         Thread thread = new Thread() {
 
@@ -192,9 +192,6 @@ public class PicPicker extends ActionBarActivity {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-
-
-
         }
     }
 

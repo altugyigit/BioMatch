@@ -64,5 +64,7 @@
     <string name="selectTac">Taç Yaprak Seç</string>
     <string name="selectTacYap">Taç Yaprak</string>
     <string name="selectCanak">Çanak Yaprak</string>
+    <string name="offlinecek">ÇEVRİMDIŞI ÇEK</string>
+    <string name="sec">ÇEVRİMDIŞI YÜKLE</string>
 
 </resources>
