@@ -3,6 +3,8 @@ package com.altygtsoft.biomatch;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -221,14 +223,14 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
                 if(isTac)
                 {
                     try {
-
+                        String flag = "T";
                         pictureCache.setByteArrayTac(scaledData);
                         isTac = false;
                         isCanak = true;
                         Toast.makeText(getApplicationContext(), "Taç yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
                         String currentTimeStamp = getCurrentTimeStamp();
                         fileName = "TacYaprak";
-                        String absolutePath = makeDir(rotatedScaledImage);
+                        String absolutePath = makeDir(rotatedScaledImage, flag);
                         new AsyncSave().execute(absolutePath);
                     }
                     catch (Exception e){
@@ -239,14 +241,14 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
                 else if(isCanak)
                 {
 
-
+                    String flag = "C";
                     pictureCache.setByteArrayCanak(scaledData);
                     isCanak = false;
                     isYaprak = true;
                     Toast.makeText(getApplicationContext(), "Çanak yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
                     String currentTimeStamp = getCurrentTimeStamp();
                     fileName = "CanakYaprak";
-                    String absolutePath = makeDir(rotatedScaledImage);
+                    String absolutePath = makeDir(rotatedScaledImage, flag);
                     new AsyncSave().execute(absolutePath);
                 }
                 /*else if(isYaprak)
@@ -281,15 +283,16 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
         alertDialog.show();
     }
 
-    public String makeDir(Bitmap bmp){
+    public String makeDir(Bitmap bmp, String flag){
 
         File dir = new File(Environment.getExternalStorageDirectory().toString(), "BioMatch");
+
         if (dir.exists()){
-            String absolutePath = savePhotoLocal(bmp, dir.toString());
+            String absolutePath = savePhotoLocal(bmp, dir.toString(), flag);
             return absolutePath;
         }
         else if(dir.mkdir()){
-            String absolutePath = savePhotoLocal(bmp, dir.toString());
+            String absolutePath = savePhotoLocal(bmp, dir.toString(), flag);
             Log.d("DIRECTORY", "DIRECTORY CREATED");
             return absolutePath;
         }
@@ -299,21 +302,23 @@ public class TakePictureOfflineActivity extends ActionBarActivity {
         return null;
     }
 
-    public String savePhotoLocal(Bitmap bmp, String dir){
+    public String savePhotoLocal(Bitmap bmp, String dir, String flag){
 
         try {
                 String path = getCurrentTimeStamp();
-                File photo = new File(dir,path + ".jpg");
+                File photo = new File(dir,flag+"_"+path + ".jpg");
 
                 FileOutputStream fos = new FileOutputStream(photo.getPath());
 
                 bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-
+            MediaStore.Images.Media.insertImage(getContentResolver(), photo.getAbsolutePath(), photo.getName(), photo.getName());
                 fos.flush();
                 fos.close();
-                //MediaStore.Images.Media.insertImage(getContentResolver(), photo.getAbsolutePath(), photo.getName(), photo.getName());
 
-                return photo.getAbsolutePath();
+
+
+
+            return photo.getAbsolutePath();
 
         }
 
