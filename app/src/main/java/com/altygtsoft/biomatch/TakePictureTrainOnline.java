@@ -369,7 +369,7 @@ public class TakePictureTrainOnline extends ActionBarActivity {
                     matrix, true);
 
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            rotatedScaledPlantImage.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            rotatedScaledPlantImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
 
             scaledData = bos.toByteArray();
         }
@@ -387,29 +387,30 @@ public class TakePictureTrainOnline extends ActionBarActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                if (isTac) {
+                try {
+                    if (isTac) {
 
-                    pictureCache.setByteArrayTac(scaledData);
-                    isTac = false;
-                    isCanak = true;
-                    Toast.makeText(getApplicationContext(), "Taç yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
-                    //String currentTimeStamp = getCurrentTimeStamp();
-                    fileName = "TacYaprak";
+                        pictureCache.setByteArrayTac(scaledData);
+                        isTac = false;
+                        isCanak = true;
+                        Toast.makeText(getApplicationContext(), "Taç yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
+                        //String currentTimeStamp = getCurrentTimeStamp();
+                        fileName = "TacYaprak";
 
-                    new AsyncUpload().execute(fileName);
+                        new AsyncUpload().execute(fileName);
 
-                } else if (isCanak) {
+                    } else if (isCanak) {
 
-                    pictureCache.setByteArrayCanak(scaledData);
-                    isCanak = false;
-                    isYaprak = true;
-                    Toast.makeText(getApplicationContext(), "Çanak yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
-                    //String currentTimeStamp = getCurrentTimeStamp();
-                    fileName = "CanakYaprak";
+                        pictureCache.setByteArrayCanak(scaledData);
+                        isCanak = false;
+                        isYaprak = true;
+                        Toast.makeText(getApplicationContext(), "Çanak yaprak görüntüsü alındı.", Toast.LENGTH_LONG).show();
+                        //String currentTimeStamp = getCurrentTimeStamp();
+                        fileName = "CanakYaprak";
 
-                    new AsyncUpload().execute(fileName);
+                        new AsyncUpload().execute(fileName);
 
-                } /*else if (isYaprak) {
+                    } /*else if (isYaprak) {
 
                     String plantTag = "A_Y";
                     pictureCache.setByteArrayYaprak(scaledData);
@@ -421,11 +422,16 @@ public class TakePictureTrainOnline extends ActionBarActivity {
                     new AsyncUpload().execute(fileName);
                 }*/
 
-                if (!isTac && !isCanak) {
+                    if (!isTac && !isCanak) {
 
-                    finish();
+                        finish();
+                    }
+
                 }
-
+                catch (Exception e){
+                    e.printStackTrace();
+                    Log.d("ERROR IF", e.getMessage());
+                }
             }
 
 
@@ -453,7 +459,7 @@ public class TakePictureTrainOnline extends ActionBarActivity {
             } else if (isCanak) {
                 pictures.setLocation(parseGeoPoint);
                 pictures.setPhotoFileCanak(photoFile);
-                pictures.setSpecyName(filenameIntent);
+
 
 
             }
