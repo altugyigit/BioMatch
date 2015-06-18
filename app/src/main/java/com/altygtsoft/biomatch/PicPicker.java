@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -175,7 +176,19 @@ public class PicPicker extends ActionBarActivity {
 
             try {
 
+
+
                 Uri imageeURI = data.getData();
+                try {
+                    ExifInterface exifInterface = new ExifInterface(imageeURI.getEncodedPath());
+                    latitude = Double.valueOf(exifInterface.getAttribute(exifInterface.TAG_MAKE));
+                    longtitude = Double.valueOf(exifInterface.getAttribute(exifInterface.TAG_MODEL));
+                    Log.d("lat lon",exifInterface.getAttribute(exifInterface.TAG_MAKE)+" "+exifInterface.getAttribute(exifInterface.TAG_MODEL));
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+
                 InputStream imageStream = getContentResolver().openInputStream(imageeURI);
 
                 Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
@@ -183,6 +196,7 @@ public class PicPicker extends ActionBarActivity {
                 if(imgTac)
                 {
                     imgSelectedTac.setImageBitmap(selectedImage);
+
                     imgTac = false;
                 }
                 else
@@ -194,6 +208,7 @@ public class PicPicker extends ActionBarActivity {
             }
         }
     }
+
 
     public void startUpload() {
 
@@ -223,6 +238,7 @@ public class PicPicker extends ActionBarActivity {
 
         picturesParseObject.put("CanakYaprak",parseFileCanak);
         picturesParseObject.put("TacYaprak", parseFileTac);
+
 
         parseGeoPoint = new ParseGeoPoint(latitude, longtitude);
 
