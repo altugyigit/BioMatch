@@ -147,7 +147,7 @@ public class PicPicker extends ActionBarActivity {
                 + "/BioMatch/";
         Uri uri = Uri.parse(path);
         intent.setDataAndType(uri, "image/jpeg");
-        startActivity(Intent.createChooser(intent, "Klasör Aç"));
+        startActivityForResult(Intent.createChooser(intent, "Klasör Aç"), 1);
     }
     @Override
     public void onDestroy() {

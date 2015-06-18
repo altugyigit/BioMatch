@@ -79,31 +79,38 @@
         </activity>
         <activity
             android:name=".WelcomeActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_welcome" >
         </activity>
         <activity
             android:name=".PreviousAnalyzeActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_previous_analyze" >
         </activity>
         <activity
             android:name=".TypesActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_types" >
         </activity>
         <activity
             android:name=".MapActivty"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_map_activty" >
         </activity>
         <activity
             android:name=".TakePictureActivity"
+
             android:label="@string/title_activity_take_pic3"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".PicPicker"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_pic_picker" >
         </activity>
         <activity
             android:name=".CobanActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_coban" >
         </activity>
         <activity
@@ -113,26 +120,32 @@
         </activity>
         <activity
             android:name=".MapPicPickerActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_map_pic_picker" >
         </activity>
         <activity
             android:name=".SignUpActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_sign_up" >
         </activity>
         <activity
             android:name=".Bellek_Activity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_bellek_" >
         </activity>
         <activity
             android:name=".LocationActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_location" >
         </activity>
         <activity
             android:name=".TakePictureTrainOnline"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_take_picture_train_online" >
         </activity>
         <activity
             android:name=".DialogActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_dialog" >
         </activity>
     </application>

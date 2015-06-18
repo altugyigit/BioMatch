@@ -410,7 +410,7 @@ public class TakePictureTrainOnline extends ActionBarActivity {
 
                         new AsyncUpload().execute(fileName);
 
-                    } /*else if (isYaprak) {
+                    } else if (isYaprak) {
 
                     String plantTag = "A_Y";
                     pictureCache.setByteArrayYaprak(scaledData);
@@ -420,9 +420,9 @@ public class TakePictureTrainOnline extends ActionBarActivity {
                     fileName = "AgacYapragi";
 
                     new AsyncUpload().execute(fileName);
-                }*/
+                }
 
-                    if (!isTac && !isCanak) {
+                    if (!isTac && !isCanak &&!isYaprak) {
 
                         finish();
                     }
@@ -456,9 +456,11 @@ public class TakePictureTrainOnline extends ActionBarActivity {
                 pictures.setLocation(parseGeoPoint);
                 pictures.setPhotoFileTac(photoFile);
                 pictures.setSpecyName(filenameIntent);
+
             } else if (isCanak) {
                 pictures.setLocation(parseGeoPoint);
                 pictures.setPhotoFileCanak(photoFile);
+                pictures.setSpecyName(filenameIntent);
 
 
 
@@ -545,7 +547,7 @@ public class TakePictureTrainOnline extends ActionBarActivity {
 
     @Override
     public void onDestroy() {
-        pdialog.dismiss();
+
         //SERVERA OBJECTID AT.
         Thread thread = new Thread() {
 
@@ -557,7 +559,7 @@ public class TakePictureTrainOnline extends ActionBarActivity {
             }
         };
         thread.start();
-
+        pdialog.dismiss();
         super.onDestroy();
     }
 
