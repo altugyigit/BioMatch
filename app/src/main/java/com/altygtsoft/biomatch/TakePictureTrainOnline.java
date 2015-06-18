@@ -323,7 +323,7 @@ public class TakePictureTrainOnline extends ActionBarActivity {
                     matrix, true);
 
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            rotatedScaledPlantImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
+            rotatedScaledPlantImage.compress(Bitmap.CompressFormat.JPEG, 100, bos);
 
             scaledData = bos.toByteArray();
         }
