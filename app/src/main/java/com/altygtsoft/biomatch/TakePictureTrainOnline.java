@@ -68,8 +68,6 @@ import com.altygtsoft.biomatch.Devices;
 
 public class TakePictureTrainOnline extends ActionBarActivity {
 
-
-    public static String lastId = "start";
     public static Camera camera;
     public static final int pictureHeight = 480;
     public static final int pictureWidth = 640;
@@ -397,53 +395,29 @@ public class TakePictureTrainOnline extends ActionBarActivity {
             parseGeoPoint = new ParseGeoPoint(latitude, longtitude);
             //ExifInterface exif = new ExifInterface()
             picturesParseObject.put("location", parseGeoPoint);
-            picturesParseObject.put(fileName ,photoFile);
-            picturesParseObject.put("specy",filenameIntent);
+            picturesParseObject.put(fileName, photoFile);
+            picturesParseObject.put("specy", filenameIntent);
 
             picturesParseObject.saveInBackground(new SaveCallback() {
 
                 @Override
                 public void done(ParseException e) {
-                    if(e == null){
-                        Toast.makeText(getApplicationContext(),"Buluta yükleme başarılı. " , Toast.LENGTH_LONG).show();
-                        //SON KAYDI GETIR.
-                        if(lastId.equals("start"))
-                        {
-                            ParseQuery<ParseObject> query = ParseQuery.getQuery("Pictures");
-                            query.whereExists("location");
-                            query.orderByDescending("createdAt");
+                    if (e == null) {
+                        Toast.makeText(getApplicationContext(), "Buluta yükleme başarılı. ", Toast.LENGTH_LONG).show();
 
-                            query.findInBackground(new FindCallback<ParseObject>() {
-                                @Override
-                                public void done(List<ParseObject> list, ParseException e) {
+                    if (pdialog != null) {
+                        pdialog.dismiss();//Eğer işlem başarılı ise asenkron sınıfta yaratılan progressbar ı kapat.
 
-                                    List<ParseObject> arrayList = new ArrayList<>(list);
-
-                                    lastId = arrayList.get(0).getObjectId();
-
-                                    Toast.makeText(getApplicationContext(), "Son ID =" + lastId, Toast.LENGTH_LONG).show();
-
-                                }
-                            });
-
-                        }
-
-                        if(pdialog != null)
-                        {
-                            pdialog.dismiss();//Eğer işlem başarılı ise asenkron sınıfta yaratılan progressbar ı kapat.
-
-                        }
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(),"Hata" +e.toString(),Toast.LENGTH_LONG).show();
                     }
                 }
-            });
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Hata" + e.toString(), Toast.LENGTH_LONG).show();
+                }
+            }});
 
-        }
-        catch (Exception ex)
-        {
-            Toast.makeText(getApplicationContext(),"Bağlantı Hatası !",Toast.LENGTH_LONG).show();
+        } catch (Exception ex){
+                Toast.makeText(getApplicationContext(), "Bağlantı Hatası !", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -482,18 +456,7 @@ public class TakePictureTrainOnline extends ActionBarActivity {
     @Override
     public void onDestroy() {
 
-        //SERVERA OBJECTID AT.
-        Thread thread = new Thread() {
-
-            @Override
-            public void run() {
-                RabbitMQConn rabbitMQConn = new RabbitMQConn();
-
-                rabbitMQConn.rabbitMQSend(lastId);
-            }
-        };
-        thread.start();
-        pdialog.dismiss();
+        if(pdialog!=null)pdialog.dismiss();
         super.onDestroy();
     }
 

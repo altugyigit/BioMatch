@@ -11,25 +11,6 @@
         android:layout_height="wrap_content"
         android:padding="10dp">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.1"
-            android:id="@+id/twType"
-            android:textSize="22sp"
-            android:hint="@string/twArama"
-            android:gravity="center"
-            android:textColor="#000"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.3"
-            android:id="@+id/btnSearch"
-            android:textSize="18sp"
-            android:text="@string/btnAra"
-            android:gravity="center"
-            android:background="#ff474c4c"
-            android:textColor="#000"/>
 
     </LinearLayout>
     <LinearLayout

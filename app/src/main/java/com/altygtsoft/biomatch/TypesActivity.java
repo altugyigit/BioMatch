@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -63,6 +64,7 @@ public class TypesActivity extends ActionBarActivity {
 
             }
         });
+
 
 
 
