@@ -57,14 +57,14 @@ public class Bellek_Activity extends ActionBarActivity {
                 @Override
                 public void onClick(View view) {
 
-                    Intent i = new Intent(Bellek_Activity.this, LocationActivity.class);
+                    Intent i = new Intent(Bellek_Activity.this, LocationActivity2.class);
 
 
                     if (isSelectedPath) {
                         i.putExtra("path", filePath);
                     }
 
-                    i.setClass(getApplicationContext(), LocationActivity.class);
+                    i.setClass(getApplicationContext(), LocationActivity2.class);
                     startActivity(i);
                     Toast.makeText(getApplicationContext(), "PATH =" + filePath, Toast.LENGTH_LONG).show();
 

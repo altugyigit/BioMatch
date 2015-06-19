@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 public class MapActivty extends ActionBarActivity {
 
-    //Button bellek;
+    Button bellek;
     Button haritayaGit;
 
     @Override
@@ -38,16 +38,17 @@ public class MapActivty extends ActionBarActivity {
 
             actionBar.show();
         }
-        //bellek=(Button)findViewById(R.id.bellek);
-        haritayaGit=(Button)findViewById(R.id.haritayaGit);
-        /*bellek.setOnClickListener(new View.OnClickListener() {
+        bellek=(Button)findViewById(R.id.BellektenGetir);
+        bellek.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MapActivty.this,Bellek_Activity.class);
                 startActivity(i);
 
             }
-        });*/
+        });
+        haritayaGit=(Button)findViewById(R.id.haritayaGit);
+
         haritayaGit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

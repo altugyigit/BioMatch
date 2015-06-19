@@ -66,5 +66,7 @@
     <string name="selectCanak">Çanak Yaprak</string>
     <string name="offlinecek">ÇEVRİMDIŞI ÇEK</string>
     <string name="sec">ÇEVRİMDIŞI YÜKLE</string>
+    <string name="title_activity_location_activity2">LocationActivity2</string>
+
 
 </resources>
