@@ -36,15 +36,6 @@ public class LocationActivity2 extends ActionBarActivity {
         locationClass2 = new LocationClass2(map);
         bellekac=new Bellek_Activity();
 
-
-        //setmaptype da kullanabileceðimiz map türlerini belirliyoruz.
-        /*map türleri;
-
-    MapTypeId.ROADMAP Yollar haritasý
-    MapTypeId.SATELLITE uydu görüntüsü
-    MapTypeId.HYBRID uydu+yollar
-    MapTypeId.TERRAIN cogarafik harita(yükseltilere göre renklendirme idi yanlýs hatýrlamýyorsam
-        */
         Bas=(Button)findViewById(R.id.getir);
         locationClass2.setFilePath(getIntent().getStringExtra("path"));
 
