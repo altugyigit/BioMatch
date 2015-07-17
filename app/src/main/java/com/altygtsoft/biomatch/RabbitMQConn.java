@@ -16,7 +16,7 @@ import java.util.concurrent.TimeoutException;
 
 public class RabbitMQConn {
 
-    private final static String QUEUE_NAME = "objand";
+    private final static String QUEUE_NAME = "obj";
 
     public void rabbitMQSend(String message)
     {
