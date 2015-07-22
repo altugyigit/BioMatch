@@ -1,6 +1,7 @@
 package com.altygtsoft.biomatch;
 
 import com.parse.ParseClassName;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 /**
@@ -16,7 +17,13 @@ public class Species extends ParseObject {
     {
 
     }
+    public ParseFile getPhotoFile() {
+        return getParseFile("photo");
+    }
 
+    public void setPhotoFile(ParseFile file) {
+        put("photo", file);
+    }
     public String getName_id() {
 
         return getObjectId();

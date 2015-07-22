@@ -12,7 +12,8 @@ public class CustomPictures extends ParseObject
     {
 
     }
-
+    public ParseObject getPhotoFileCanak(){return getParseObject("CanakYaprak");}
+    public ParseObject getPhotoFileTac(){return getParseObject("TacYaprak");}
     public void setPhotoFile(ParseFile file) {
         put("picture", file);
     }

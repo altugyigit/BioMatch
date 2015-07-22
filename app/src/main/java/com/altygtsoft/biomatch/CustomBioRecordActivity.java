@@ -28,7 +28,7 @@ import com.altygtsoft.biomatch.GPSTracker;
 import com.altygtsoft.biomatch.PictureCache;
 import com.altygtsoft.biomatch.Pictures;
 import com.altygtsoft.biomatch.R;
-import com.altygtsoft.biomatch.RabbitMQConn;
+//import com.altygtsoft.biomatch.RabbitMQConn;
 import com.google.android.gms.location.LocationRequest;
 import com.parse.FindCallback;
 import com.parse.ParseException;

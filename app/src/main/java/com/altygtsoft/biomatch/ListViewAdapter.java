@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ListViewAdapter extends BaseAdapter {
 
-    private Context context;
+   private Context context;
     private List<ParseObject> speciesObjectList;
 
     public ListViewAdapter(Context context, List<ParseObject> speciesObjectList)

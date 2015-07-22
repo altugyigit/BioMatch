@@ -39,5 +39,6 @@ dependencies {
     compile files('libs/junit.jar')
     compile files('libs/rabbitmq-client-tests.jar')
     compile files('libs/rabbitmq-client.jar')
+    compile files('libs/universal-image-loader-1.8.0-with-sources.jar')
     compile 'com.squareup.picasso:picasso:2.3.1'
 }

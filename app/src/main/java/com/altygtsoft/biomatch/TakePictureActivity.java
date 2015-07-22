@@ -563,7 +563,7 @@ public class TakePictureActivity extends ActionBarActivity {
             public void run() {
                 RabbitMQConn rabbitMQConn = new RabbitMQConn();
 
-                rabbitMQConn.rabbitMQSend(lastId);
+               rabbitMQConn.rabbitMQSend(lastId);
             }
         };
         thread.start();

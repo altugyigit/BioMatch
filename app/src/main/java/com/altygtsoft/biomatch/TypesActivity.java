@@ -58,9 +58,9 @@ public class TypesActivity extends ActionBarActivity {
 
                 speciesObjectList = new ArrayList<>(list);
 
-                ListViewAdapter lwAdapter = new ListViewAdapter(TypesActivity.this, speciesObjectList);
+           //     ListViewAdapter lwAdapter = new ListViewAdapter(TypesActivity.this, speciesObjectList);
 
-                lwSpecies.setAdapter(lwAdapter);
+            //    lwSpecies.setAdapter(lwAdapter);
 
             }
         });
