@@ -34,6 +34,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <!--
          The following two permissions are not required to use
          Google Maps Android API v2, but are recommended.
@@ -79,39 +80,38 @@
         </activity>
         <activity
             android:name=".WelcomeActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_welcome" >
+            android:label="@string/title_activity_welcome"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".PreviousAnalyzeActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_previous_analyze" >
+            android:label="@string/title_activity_previous_analyze"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".TypesActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_types" >
+            android:label="@string/title_activity_types"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".MapActivty"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_map_activty" >
+            android:label="@string/title_activity_map_activty"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".TakePictureActivity"
-
             android:label="@string/title_activity_take_pic3"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".PicPicker"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_pic_picker" >
+            android:label="@string/title_activity_pic_picker"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".CobanActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_coban" >
+            android:label="@string/title_activity_coban"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".TakePictureOfflineActivity"
@@ -120,33 +120,37 @@
         </activity>
         <activity
             android:name=".MapPicPickerActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_map_pic_picker" >
+            android:label="@string/title_activity_map_pic_picker"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".SignUpActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_sign_up" >
+            android:label="@string/title_activity_sign_up"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".Bellek_Activity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_bellek_" >
+            android:label="@string/title_activity_bellek_"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".LocationActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_location" >
+            android:label="@string/title_activity_location"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".TakePictureTrainOnline"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_take_picture_train_online" >
+            android:label="@string/title_activity_take_picture_train_online"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".DialogActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_dialog" >
+            android:label="@string/title_activity_dialog"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".LocationActivity2"
+            android:label="@string/title_activity_location_activity2" >
         </activity>
     </application>
 
