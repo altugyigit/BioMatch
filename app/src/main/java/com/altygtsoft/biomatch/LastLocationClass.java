@@ -21,6 +21,7 @@ import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,16 +39,21 @@ public class LastLocationClass {
     public static List<ParseObject> latLonObject;
     public List<Double> latArray;
     public List<Double> lonArray;
-
+    public int iobid=0;
    // public List<String> TacURL;
     //public List<String> CanakURL;
    public List<String> tacURL=null;
-
+  /*public LastLocationClass ()
+  {
+      getLatLon();
+  }*/
     public LastLocationClass(Context context, GoogleMap googleMap)
     {
         this.context = context;
         this.googleMap = googleMap;
         getLatLon();
+        //Toast.makeText();
+
     }
 
     public void getLatLon() {
@@ -86,15 +92,15 @@ public class LastLocationClass {
                     googleMap.animateCamera(update);
                 }
 
-                Toast.makeText(LastLocationClass.this.context, "" + tacURL.get(1), Toast.LENGTH_LONG).show();
+                Toast.makeText(LastLocationClass.this.context, "", Toast.LENGTH_LONG).show();
             }
 
         });
     }
-  /*  public String getObjectId(int i) {
+    public String getObjectId(int i) {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Pictures");
-        query.whereExists("location");
+        query.whereExists("position");
 
 
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -117,18 +123,35 @@ public class LastLocationClass {
 
                     latArray.add(tempGeoPoint.getLatitude());
                     lonArray.add(tempGeoPoint.getLongitude());
+                }
+            }
+        });
+            return tacURL.get(i);
+    }
+    public int karsilastir(final LatLng latlng){
+       ParseQuery<ParseObject> query = ParseQuery.getQuery("Pictures");
+        query.whereExists("position");
 
+
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                latLonObject = new ArrayList<>(list);
+                int size = latLonObject.size();
+
+
+                for (int j = 0; j < size; j++) {
+                    ParseObject tempObj = latLonObject.get(j);
+                    ParseGeoPoint tempGeoPoint = tempObj.getParseGeoPoint("location");
+
+                    if (tempGeoPoint.getLatitude() == latlng.latitude && tempGeoPoint.getLongitude() == latlng.longitude) {
+                         iobid= tempObj.getInt("position");
+
+                    }
 
                 }
-
-
             }
-
         });
-
-        //Intent intent=new Intent(this,LocationActivity.class);
-        //intent.putExtra("obid", tacURL.get(i));
-
-            return tacURL.get(i);
-    }*/
+        return iobid;
+    }
 }

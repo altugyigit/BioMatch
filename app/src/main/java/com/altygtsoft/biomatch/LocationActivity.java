@@ -135,7 +135,7 @@ public class LocationActivity extends ActionBarActivity  {
     //LocationClass locationClass;
     Context context;
 
-    LastLocationClass lastLocationClass;
+    LastLocationClass lastLocationClass ;
 
 
 
@@ -156,7 +156,7 @@ public class LocationActivity extends ActionBarActivity  {
 
 
 
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Pictures");
+     /*   ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Pictures");
 
                   // Locate the objectId from the class
 
@@ -203,7 +203,7 @@ public class LocationActivity extends ActionBarActivity  {
                                   });
                               }
                           });
-
+*/
 
                   Bas = (Button) findViewById(R.id.getir);
 
@@ -247,8 +247,12 @@ public class LocationActivity extends ActionBarActivity  {
                               "Pictures");
                       LatLng ll = marker.getPosition();
 
+                      String ty = lastLocationClass.getObjectId(lastLocationClass.karsilastir(ll));
+
+                      Toast.makeText(getApplicationContext(),ty,Toast.LENGTH_LONG).show();
                       // Locate the objectId from the class
-                      query.getInBackground("0H0U8NbW4l",
+                      //"0H0U8NbW4l"
+                      query.getInBackground(ty,
                               new GetCallback<ParseObject>() {
 
                                   public void done(ParseObject object,
@@ -268,7 +272,7 @@ public class LocationActivity extends ActionBarActivity  {
                                               // Update your progress spinner here. percentDone will be between 0 and 100.
                                           }
                                       });
-                                      Toast.makeText(getApplicationContext(), "", Toast.LENGTH_LONG).show();
+                                //      Toast.makeText(getApplicationContext(), "", Toast.LENGTH_LONG).show();
 
                                       fileObject.getDataInBackground(new GetDataCallback() {
 
