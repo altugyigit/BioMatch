@@ -148,7 +148,6 @@ public class LastLocationClass {
                          iobid= tempObj.getInt("position");
 
                     }
-
                 }
             }
         });
