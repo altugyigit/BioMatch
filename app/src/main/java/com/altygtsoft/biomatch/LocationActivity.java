@@ -128,6 +128,7 @@ public class LocationActivity extends ActionBarActivity  {
 
     HashMap<String, String> resultp = new HashMap<String, String>();
     ImageView image;
+    ImageView image2;
     ProgressDialog pd;
 
     public CustomPictures cp;
@@ -149,61 +150,7 @@ public class LocationActivity extends ActionBarActivity  {
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
-        // Get the intent from ListViewAdapter
 
-
-        // Load image into the ImageView
-
-
-
-     /*   ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Pictures");
-
-                  // Locate the objectId from the class
-
-       // Toast.makeText(getApplicationContext(),lastLocationClass.tacURL.get(1),Toast.LENGTH_LONG).show();
-                  query.getInBackground("0H0U8NbW4l",
-                          new GetCallback<ParseObject>() {
-
-                              public void done(ParseObject object,
-                                               ParseException e) {
-                                  // TODO Auto-generated method stub
-
-                                  // Locate the column named "ImageName" and set
-                                  // the string
-                                  ParseFile fileObject = (ParseFile) object.get("TacYaprak");
-
-
-                                  fileObject.getDataInBackground(new GetDataCallback() {
-
-                                      public void done(byte[] data,
-                                                       ParseException e) {
-                                          if (e == null) {
-                                              Log.d("test",
-                                                      "We've got data in data.");
-                                              // Decode the Byte[] into
-                                              // Bitmap
-                                              Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-
-                                              // Get the ImageView from
-                                              // main.xml
-                                              image = (ImageView) findViewById(R.id.image);
-
-                                              // Set the Bitmap into the
-                                              // ImageView
-                                              image.setImageBitmap(bmp);
-
-                                              // Close progress dialog
-
-
-                                          } else {
-                                              Log.d("test",
-                                                      "There was a problem downloading the data.");
-                                          }
-                                      }
-                                  });
-                              }
-                          });
-*/
 
                   Bas = (Button) findViewById(R.id.getir);
 
@@ -262,7 +209,7 @@ public class LocationActivity extends ActionBarActivity  {
                                       // Locate the column named "ImageName" and set
                                       // the string
                                       final ParseFile fileObject = (ParseFile) object.get("TacYaprak");
-
+                                      final ParseFile fileObject2 = (ParseFile) object.get("CanakYaprak");
                                       fileObject.saveInBackground(new SaveCallback() {
                                           public void done(ParseException e) {
                                               // Handle success or failure here ...
@@ -292,6 +239,34 @@ public class LocationActivity extends ActionBarActivity  {
                                                   // Set the Bitmap into the
                                                   // ImageView
                                                   image.setImageBitmap(bmp);
+
+                                                  // Close progress dialog
+
+
+                                              } else {
+                                                  Log.d("test",
+                                                          "There was a problem downloading the data.");
+                                              }
+                                          }
+                                      });
+                                      fileObject2.getDataInBackground(new GetDataCallback() {
+
+                                          public void done(byte[] data,
+                                                           ParseException e) {
+                                              if (e == null) {
+                                                  Log.d("test",
+                                                          "We've got data in data.");
+                                                  // Decode the Byte[] into
+                                                  // Bitmap
+                                                  Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+
+                                                  // Get the ImageView from
+                                                  // main.xml
+                                                  image2 = (ImageView) view.findViewById(R.id.leafimage2);
+
+                                                  // Set the Bitmap into the
+                                                  // ImageView
+                                                  image2.setImageBitmap(bmp);
 
                                                   // Close progress dialog
 
