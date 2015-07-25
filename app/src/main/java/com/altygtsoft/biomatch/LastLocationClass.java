@@ -2,6 +2,7 @@ package com.altygtsoft.biomatch;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -10,6 +11,8 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -88,6 +91,12 @@ public class LastLocationClass {
 
                     String fotoGoster = Html.fromHtml("<p><img src='" + tac + "'></p>").toString();
                     googleMap.addMarker(new MarkerOptions().position(LOCATION_EDIRNE).title("\nENLEM : " + tempGeoPoint.getLatitude() + "\nBOYLAM : " + tempGeoPoint.getLongitude() + fotoGoster));
+                    Circle circle = googleMap.addCircle(new CircleOptions()
+                                    .center(LOCATION_EDIRNE)
+                                    .radius(16)
+                                    .strokeColor(Color.argb(40, 240, 237, 111))
+                                    .fillColor(Color.argb(90, 240, 237, 111))
+                    );
                     update = CameraUpdateFactory.newLatLngZoom(LOCATION_EDIRNE, 16);
                     googleMap.animateCamera(update);
                 }
